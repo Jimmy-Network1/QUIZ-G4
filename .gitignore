@@ -1,0 +1,11 @@
+node_modules
+
+.env
+.env.production
+.env.development
+/server/dist
+eas.json
+.vscode
+gradle.properties
+network_security_config.xml
+.DS_Store
