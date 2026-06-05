@@ -1,3 +1,4 @@
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {render, fireEvent} from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
@@ -13,7 +14,7 @@ describe('GoBackArrow', () => {
   test('renders correctly', () => {
     const {getByTestId} = render(<GoBackArrow />);
 
-    expect(getByTestId).toBeTruthy;
+    expect(getByTestId('go-back-arrow')).toBeTruthy();
   });
 
   test('calls navigation.goBack when pressed', () => {
@@ -24,6 +25,6 @@ describe('GoBackArrow', () => {
     const {getByTestId} = render(<GoBackArrow />);
 
     fireEvent.press(getByTestId('go-back-arrow'));
-    expect(goBackMock).toHaveBeenCalled;
+    expect(goBackMock).toHaveBeenCalled();
   });
 });

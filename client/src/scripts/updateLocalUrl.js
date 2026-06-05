@@ -37,7 +37,7 @@ if (fs.existsSync(envFilePath)) {
 
 // Set the LOCAL_API_URL with the new IP address
 const port = 5000; // The port number you want to use
-envConfig['LOCAL_API_URL'] = `http://${systemIP}:${port}`;
+envConfig.LOCAL_API_URL = `http://${systemIP}:${port}`;
 
 // Serialize the updated .env configuration
 const updatedEnvContent = Object.entries(envConfig)
@@ -47,4 +47,4 @@ const updatedEnvContent = Object.entries(envConfig)
 // Write the updated content back to the .env file (create if it doesn't exist)
 fs.writeFileSync(envFilePath, updatedEnvContent, {encoding: 'utf8'});
 
-console.log(`LOCAL_API_URL has been set to ${envConfig['LOCAL_API_URL']}`);
+console.log(`LOCAL_API_URL has been set to ${envConfig.LOCAL_API_URL}`);

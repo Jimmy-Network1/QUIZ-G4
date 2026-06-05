@@ -1,4 +1,5 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+import React from 'react';
 import {ButtonComponent} from '../common';
 import {AuthenticatedScreens, RootStackParamList} from '../../types/navigation';
 import {StyleSheet} from 'react-native';

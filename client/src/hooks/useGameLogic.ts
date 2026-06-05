@@ -98,9 +98,13 @@ export default function useGameLogic(questions: QuestionInterface[] | null) {
 
   useEffect(() => {
     // Check if the game has ended (e.g., all questions answered)
-    if (questions && currentQuestionIndex >= questions.length && questions.length > 0) {
+    if (
+      questions &&
+      currentQuestionIndex >= questions.length &&
+      questions.length > 0
+    ) {
       setGameEnded(true);
-      socket.emit('game_over', { userId, score: playerScore });
+      socket.emit('game_over', {userId, score: playerScore});
     }
   }, [currentQuestionIndex, questions, userId, playerScore]);
 

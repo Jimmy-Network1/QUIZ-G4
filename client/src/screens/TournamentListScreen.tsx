@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import {LobbyBg} from '../assets/images';
 import {colorList} from '../constants/colors';
 import mainAxiosClient from '../api/axiosClients';
@@ -28,19 +35,25 @@ export default function TournamentListScreen(): JSX.Element {
   const renderItem = ({item}: {item: any}) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate(AuthenticatedScreens.TournamentWaitingRoomScreen, {
-        tournamentId: item._id,
-        isCreator: false,
-      })}>
+      onPress={() =>
+        navigation.navigate(AuthenticatedScreens.TournamentWaitingRoomScreen, {
+          tournamentId: item._id,
+          isCreator: false,
+        })
+      }>
       <Text style={styles.cardTitle}>{item.name}</Text>
       <Text style={styles.cardSubtitle}>Host: {item.creator.userName}</Text>
-      <Text style={styles.cardInfo}>Participants: {item.participants.length}</Text>
+      <Text style={styles.cardInfo}>
+        Participants: {item.participants.length}
+      </Text>
     </TouchableOpacity>
   );
 
   return (
     <ImageBackground source={LobbyBg} style={styles.background}>
-      <LinearGradient colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0.5)']} style={styles.gradient}>
+      <LinearGradient
+        colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0.5)']}
+        style={styles.gradient}>
         <View style={styles.container}>
           <Text style={styles.title}>CHAMPIONSHIPS</Text>
           <FlatList
@@ -48,13 +61,19 @@ export default function TournamentListScreen(): JSX.Element {
             renderItem={renderItem}
             keyExtractor={item => item._id}
             contentContainerStyle={styles.list}
-            ListEmptyComponent={<Text style={styles.empty}>No active tournaments. Create one!</Text>}
+            ListEmptyComponent={
+              <Text style={styles.empty}>
+                No active tournaments. Create one!
+              </Text>
+            }
           />
           <ButtonComponent
             title="CREATE TOURNAMENT"
             onPress={() => {
-                // For simplicity, we create one directly here or go to a form
-                navigation.navigate(AuthenticatedScreens.CreateGameScreen, { isSinglePlayer: false });
+              // For simplicity, we create one directly here or go to a form
+              navigation.navigate(AuthenticatedScreens.CreateGameScreen, {
+                isSinglePlayer: false,
+              });
             }}
           />
         </View>

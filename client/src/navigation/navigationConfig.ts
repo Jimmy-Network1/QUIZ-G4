@@ -27,9 +27,18 @@ export const authenticatedScreens = [
   {name: AuthenticatedScreens.CreateGameScreen, component: CreateGameScreen},
   {name: AuthenticatedScreens.GameScreen, component: GameScreen},
   {name: AuthenticatedScreens.AccountScreen, component: AccountScreen},
-  {name: AuthenticatedScreens.TournamentListScreen, component: TournamentListScreen},
-  {name: AuthenticatedScreens.TournamentWaitingRoomScreen, component: TournamentWaitingRoomScreen},
-  {name: AuthenticatedScreens.TournamentBracketScreen, component: TournamentBracketScreen},
+  {
+    name: AuthenticatedScreens.TournamentListScreen,
+    component: TournamentListScreen,
+  },
+  {
+    name: AuthenticatedScreens.TournamentWaitingRoomScreen,
+    component: TournamentWaitingRoomScreen,
+  },
+  {
+    name: AuthenticatedScreens.TournamentBracketScreen,
+    component: TournamentBracketScreen,
+  },
 ];
 
 export const unauthenticatedScreens = [

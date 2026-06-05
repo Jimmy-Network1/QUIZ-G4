@@ -1,3 +1,4 @@
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {CreateNewGameButton} from '../lobby';
 import {colorList} from '../../constants/colors';

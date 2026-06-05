@@ -1,3 +1,4 @@
+import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {colorList} from '../../constants/colors';
 import {IRoom} from '../../../../shared/types/Room';

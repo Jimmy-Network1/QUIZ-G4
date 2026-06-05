@@ -23,8 +23,8 @@ export default function CreateGameScreen({
   const availableCategories = useFetchTriviaCategories();
 
   const {createRoom, startSinglePlayerGame} = useCreateGame(
-    aiTheme ? `AI: ${aiTheme}` : (selectedCategory?.name || ''),
-    aiTheme ? `ai_${aiTheme}` : (selectedCategory?.id || ''),
+    aiTheme ? `AI: ${aiTheme}` : selectedCategory?.name || '',
+    aiTheme ? `ai_${aiTheme}` : selectedCategory?.id || '',
     isSinglePlayer,
   );
 
@@ -52,7 +52,7 @@ export default function CreateGameScreen({
             categories={availableCategories}
             onCategorySelect={handleSelectCategory}
           />
-          
+
           <View style={styles.aiSection}>
             <Text style={styles.sectionTitle}>OR 2. ASK THE AI A THEME</Text>
             <TextInput
@@ -60,16 +60,16 @@ export default function CreateGameScreen({
               placeholder="Ex: Cameroonian History, Marvel Movies..."
               placeholderTextColor="#888"
               value={aiTheme}
-              onChangeText={(text) => {
-                  setAiTheme(text);
-                  setSelectedCategory(null);
+              onChangeText={text => {
+                setAiTheme(text);
+                setSelectedCategory(null);
               }}
             />
           </View>
 
           <ButtonComponent
             variant="bluish"
-            title={aiTheme ? "START AI BATTLE" : "START GAME"}
+            title={aiTheme ? 'START AI BATTLE' : 'START GAME'}
             onPress={isSinglePlayer ? startSinglePlayerGame : createRoom}
             disabled={!selectedCategory && !aiTheme}
           />

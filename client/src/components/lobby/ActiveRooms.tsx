@@ -1,3 +1,4 @@
+import React from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
 import {colorList} from '../../constants/colors';
 import {useJoinGame, useRoomListener} from '../../hooks';

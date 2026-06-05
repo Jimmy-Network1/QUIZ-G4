@@ -1,11 +1,21 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 import {View, Text, StyleSheet, ImageBackground, Animated} from 'react-native';
 import {LobbyBg} from '../assets/images';
 import {colorList} from '../constants/colors';
 import socket from '../services/SocketService';
 import {AuthContext} from '../store/authContext';
 import {ButtonComponent} from '../components';
-import {NavigationProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {AuthenticatedScreens, RootStackParamList} from '../types/navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import mainAxiosClient from '../api/axiosClients';
@@ -16,10 +26,23 @@ export default function TournamentWaitingRoomScreen(): JSX.Element {
   const {tournamentId, isCreator} = route.params;
   const {userId, userName} = useContext(AuthContext);
 
-  const [participants, setParticipants] = useState<any[]>([]);
+  const [_participants, setParticipants] = useState<any[]>([]);
   const [participantCount, setParticipantCount] = useState(0);
 
   const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  const fetchTournamentData = useCallback(async () => {
+    try {
+      const response = await mainAxiosClient.get('/tournaments/active');
+      const current = response.data.find((t: any) => t._id === tournamentId);
+      if (current) {
+        setParticipants(current.participants);
+        setParticipantCount(current.participants.length);
+      }
+    } catch (error) {
+      console.error('Error fetching tournament details:', error);
+    }
+  }, [tournamentId]);
 
   useEffect(() => {
     // Pulse animation logic
@@ -47,7 +70,12 @@ export default function TournamentWaitingRoomScreen(): JSX.Element {
     });
 
     socket.on('tournament_started', () => {
-      (navigation as any).replace(AuthenticatedScreens.TournamentBracketScreen, {tournamentId});
+      (navigation as any).replace(
+        AuthenticatedScreens.TournamentBracketScreen,
+        {
+          tournamentId,
+        },
+      );
     });
 
     fetchTournamentData();
@@ -57,20 +85,14 @@ export default function TournamentWaitingRoomScreen(): JSX.Element {
       socket.off('tournament_started');
       pulse.stop();
     };
-  }, [tournamentId, pulseAnim]);
-
-  const fetchTournamentData = async () => {
-    try {
-      const response = await mainAxiosClient.get(`/tournaments/active`);
-      const current = response.data.find((t: any) => t._id === tournamentId);
-      if (current) {
-        setParticipants(current.participants);
-        setParticipantCount(current.participants.length);
-      }
-    } catch (error) {
-      console.error('Error fetching tournament details:', error);
-    }
-  };
+  }, [
+    tournamentId,
+    pulseAnim,
+    userId,
+    userName,
+    navigation,
+    fetchTournamentData,
+  ]);
 
   const handleStart = async () => {
     try {
@@ -83,15 +105,13 @@ export default function TournamentWaitingRoomScreen(): JSX.Element {
 
   return (
     <ImageBackground source={LobbyBg} style={styles.background}>
-      <LinearGradient colors={['rgba(0,0,0,0.9)', 'rgba(0,0,0,0.6)']} style={styles.gradient}>
+      <LinearGradient
+        colors={['rgba(0,0,0,0.9)', 'rgba(0,0,0,0.6)']}
+        style={styles.gradient}>
         <View style={styles.container}>
           <Text style={styles.title}>ARENA LOBBY</Text>
-          <Animated.View 
-            style={[
-              styles.counterBox, 
-              { transform: [{ scale: pulseAnim }] }
-            ]}
-          >
+          <Animated.View
+            style={[styles.counterBox, {transform: [{scale: pulseAnim}]}]}>
             <Text style={styles.counterText}>{participantCount}</Text>
             <Text style={styles.counterLabel}>PLAYERS READY</Text>
           </Animated.View>
@@ -107,7 +127,9 @@ export default function TournamentWaitingRoomScreen(): JSX.Element {
                 disabled={participantCount < 2}
               />
             ) : (
-              <Text style={styles.footerInfo}>Waiting for host to start...</Text>
+              <Text style={styles.footerInfo}>
+                Waiting for host to start...
+              </Text>
             )}
             <ButtonComponent
               variant="default"
@@ -147,8 +169,18 @@ const styles = StyleSheet.create({
   },
   counterText: {fontSize: 60, fontWeight: 'bold', color: '#fff'},
   counterLabel: {fontSize: 12, color: colorList.neonPink, fontWeight: 'bold'},
-  sectionTitle: {color: '#fff', fontSize: 18, alignSelf: 'flex-start', marginBottom: 10},
+  sectionTitle: {
+    color: '#fff',
+    fontSize: 18,
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
   waitingText: {color: '#ccc', fontStyle: 'italic', marginTop: 20},
   footer: {width: '100%', marginTop: 'auto'},
-  footerInfo: {color: colorList.vibrantCyan, textAlign: 'center', marginBottom: 20, fontStyle: 'italic'},
+  footerInfo: {
+    color: colorList.vibrantCyan,
+    textAlign: 'center',
+    marginBottom: 20,
+    fontStyle: 'italic',
+  },
 });

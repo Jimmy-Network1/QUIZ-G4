@@ -1,3 +1,4 @@
+import React from 'react';
 import {Pressable, StyleSheet, ViewStyle} from 'react-native';
 import {colorList} from '../../constants/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';

@@ -30,7 +30,10 @@ export type RootStackParamList = {
   [AuthenticatedScreens.CreateGameScreen]: {isSinglePlayer: boolean};
   [AuthenticatedScreens.AccountScreen]: undefined;
   [AuthenticatedScreens.TournamentListScreen]: undefined;
-  [AuthenticatedScreens.TournamentWaitingRoomScreen]: {tournamentId: string; isCreator: boolean};
+  [AuthenticatedScreens.TournamentWaitingRoomScreen]: {
+    tournamentId: string;
+    isCreator: boolean;
+  };
   [AuthenticatedScreens.TournamentBracketScreen]: {tournamentId: string};
   [UnauthenticatedScreens.LoginScreen]: undefined;
   [UnauthenticatedScreens.RegisterScreen]: undefined;
