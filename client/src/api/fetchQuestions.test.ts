@@ -1,7 +1,17 @@
 import axios from 'axios';
 import {fetchQuestionsFromAPI} from './fetchQuestions';
 
-jest.mock('axios');
+jest.mock('axios', () => ({
+  get: jest.fn(),
+  create: jest.fn(() => ({
+    interceptors: {
+      request: {use: jest.fn(), eject: jest.fn()},
+      response: {use: jest.fn(), eject: jest.fn()},
+    },
+    get: jest.fn(),
+    post: jest.fn(),
+  })),
+}));
 
 describe('fetchQuestionsFromAPI', () => {
   test('should fetch questions', async () => {
