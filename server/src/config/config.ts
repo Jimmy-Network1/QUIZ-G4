@@ -1,18 +1,13 @@
 import dotenv from "dotenv";
 
-// Determine which .env file to load based on NODE_ENV
-const envFile =
-  process.env.NODE_ENV === "production"
-    ? "/home/ubuntu/.env.production"
-    : "../.env.development";
-
-// Load the .env file
-dotenv.config({ path: envFile });
+// Load the .env file if it exists (useful for local development)
+dotenv.config();
 
 // Export environment variables
 export const MONGO_URL =
   process.env.MONGO_URL || "mongodb://localhost:27017/mydatabase";
 export const JWT_SECRET = process.env.JWT_SECRET || "your-default-jwt-secret";
+export const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 export const LOCALHOST_URL = "http://localhost";
 
 // Add validation here if needed

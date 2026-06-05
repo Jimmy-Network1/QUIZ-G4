@@ -28,7 +28,7 @@ export const register = async (req: Request, res: Response) => {
 
     const newUser = await UserService.createUser({ userName, email, password });
 
-    const token = UserService.generateToken(newUser);
+    const token = UserService.generateToken(newUser as any);
 
     return res.status(201).json({
       status: "ok",
@@ -58,14 +58,14 @@ export const loginUser = async (req: Request, res: Response) => {
         .json({ status: "error", message: "User not found" });
     }
 
-    const isValidPassword = await UserService.validatePassword(password, user);
+    const isValidPassword = await UserService.validatePassword(password, user as any);
     if (!isValidPassword) {
       return res
         .status(401)
         .json({ status: "error", message: "Invalid password" });
     }
 
-    const token = UserService.generateToken(user);
+    const token = UserService.generateToken(user as any);
 
     return res.json({
       status: "ok",

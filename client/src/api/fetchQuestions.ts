@@ -1,10 +1,25 @@
 import axios from 'axios';
 import {QuestionInterface} from '../types/questions';
+import mainAxiosClient from './axiosClients';
 
 export async function fetchQuestionsFromAPI(
   categoryId: string,
   amount = 10,
 ): Promise<QuestionInterface[] | null> {
+  if (categoryId.startsWith('ai_')) {
+    const theme = categoryId.replace('ai_', '');
+    try {
+      const response = await mainAxiosClient.post('/ai/generate', {
+        theme,
+        count: amount,
+      });
+      return response.data;
+    } catch (err) {
+      console.error('Failed to fetch AI questions: ', err);
+      return null;
+    }
+  }
+
   try {
     const url = `https://opentdb.com/api.php?amount=${amount}&category=${categoryId}`;
     const response = await axios.get(url);

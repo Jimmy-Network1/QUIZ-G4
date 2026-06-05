@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState, useContext, useEffect} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Input from '../components/common/Input';
 import ButtonComponent from '../components/common/ButtonComponent';
 import {LoginScreenBg} from '../assets/images';
@@ -9,14 +9,26 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useLogin} from '../hooks';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList, UnauthenticatedScreens} from '../types/navigation';
+import {AuthContext} from '../store/authContext';
+import {setGlobalServerMode} from '../config';
 
 export default function LoginScreen(): JSX.Element {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const {serverMode, setServerMode} = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const {loginHandler, isLoading} = useLogin(email, password);
+
+  useEffect(() => {
+    setGlobalServerMode(serverMode);
+  }, [serverMode]);
+
+  const toggleServerMode = () => {
+    const newMode = serverMode === 'online' ? 'local' : 'online';
+    setServerMode(newMode);
+  };
 
   const registerText = (
     <Text
@@ -39,6 +51,14 @@ export default function LoginScreen(): JSX.Element {
           style={styles.linearGradient}
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}>
+          <TouchableOpacity
+            onPress={toggleServerMode}
+            style={styles.serverToggle}>
+            <Text style={styles.serverToggleText}>
+              Mode: {serverMode === 'online' ? '🌐 Online' : '🏠 Local (Wi-Fi)'}
+            </Text>
+          </TouchableOpacity>
+
           <Input
             placeholder="Email"
             style={styles.input}
@@ -121,6 +141,17 @@ const styles = StyleSheet.create({
   registerText: {color: '#fff', textAlign: 'center'},
   hereText: {
     color: colorList.neonPink,
+    fontWeight: 'bold',
+  },
+  serverToggle: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  serverToggleText: {
+    color: '#fff',
     fontWeight: 'bold',
   },
 });

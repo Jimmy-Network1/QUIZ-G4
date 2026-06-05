@@ -2,9 +2,23 @@ import {IRoom} from '../../../shared/types/Room';
 import mainAxiosClient from '../api/axiosClients';
 import {socketUrl} from '../config';
 import {SocketEvents} from '../types/SocketEvents';
-import io from 'socket.io-client';
+import io, {Socket} from 'socket.io-client';
 
-const socket = io(socketUrl);
+let socket: Socket = io(socketUrl(), {
+  autoConnect: false, // Don't connect immediately, wait for manual connection if needed
+});
+
+export const updateSocketConnection = () => {
+  if (socket) {
+    socket.disconnect();
+  }
+  socket = io(socketUrl());
+  return socket;
+};
+
+// Initialize connection
+socket.connect();
+
 export default socket;
 
 export async function fetchActiveRooms(): Promise<IRoom[]> {

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ImageBackground, StyleSheet, View} from 'react-native';
+import {ImageBackground, StyleSheet, View, Text, TextInput} from 'react-native';
 import {useFetchTriviaCategories, useCreateGame} from '../hooks';
 import {LobbyBg} from '../assets/images';
 import {LinearGradient} from 'react-native-linear-gradient';
@@ -18,17 +18,19 @@ export default function CreateGameScreen({
   const {isSinglePlayer} = route.params;
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryInterface | null>(null);
+  const [aiTheme, setAiTheme] = useState('');
 
   const availableCategories = useFetchTriviaCategories();
 
   const {createRoom, startSinglePlayerGame} = useCreateGame(
-    selectedCategory?.name || '',
-    selectedCategory?.id || '',
+    aiTheme ? `AI: ${aiTheme}` : (selectedCategory?.name || ''),
+    aiTheme ? `ai_${aiTheme}` : (selectedCategory?.id || ''),
     isSinglePlayer,
   );
 
   const handleSelectCategory = (category: CategoryInterface) => {
     setSelectedCategory(category);
+    setAiTheme(''); // Clear AI theme if a category is selected
   };
 
   return (
@@ -45,16 +47,31 @@ export default function CreateGameScreen({
         start={{x: 0, y: 0}}
         end={{x: 0, y: 1}}>
         <View style={styles.container}>
+          <Text style={styles.sectionTitle}>1. CHOOSE CATEGORY</Text>
           <CategoriesList
             categories={availableCategories}
             onCategorySelect={handleSelectCategory}
           />
+          
+          <View style={styles.aiSection}>
+            <Text style={styles.sectionTitle}>OR 2. ASK THE AI A THEME</Text>
+            <TextInput
+              style={styles.aiInput}
+              placeholder="Ex: Cameroonian History, Marvel Movies..."
+              placeholderTextColor="#888"
+              value={aiTheme}
+              onChangeText={(text) => {
+                  setAiTheme(text);
+                  setSelectedCategory(null);
+              }}
+            />
+          </View>
 
           <ButtonComponent
             variant="bluish"
-            title="Start Game"
+            title={aiTheme ? "START AI BATTLE" : "START GAME"}
             onPress={isSinglePlayer ? startSinglePlayerGame : createRoom}
-            disabled={!selectedCategory}
+            disabled={!selectedCategory && !aiTheme}
           />
         </View>
       </LinearGradient>
@@ -73,6 +90,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.4)',
+    paddingTop: 40,
+  },
+  sectionTitle: {
+    color: colorList.vibrantCyan,
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 20,
+    marginBottom: 10,
+    textShadowColor: colorList.vibrantCyan,
+    textShadowRadius: 5,
+  },
+  aiSection: {
+    padding: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    margin: 10,
+    borderRadius: 15,
+    borderColor: colorList.brightPurple,
+    borderWidth: 1,
+  },
+  aiInput: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 10,
+    padding: 15,
+    color: '#fff',
+    fontSize: 16,
+    borderColor: 'rgba(255,255,255,0.2)',
+    borderWidth: 1,
   },
   title: {
     textAlign: 'center',

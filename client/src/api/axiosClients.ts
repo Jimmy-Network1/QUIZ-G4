@@ -3,8 +3,12 @@ import {apiUrl} from '../config';
 
 // the main api's url
 const mainAxiosClient = axios.create({
-  baseURL: apiUrl,
   timeout: 10000,
+});
+
+mainAxiosClient.interceptors.request.use(config => {
+  config.baseURL = apiUrl();
+  return config;
 });
 
 mainAxiosClient.interceptors.response.use(
@@ -16,7 +20,7 @@ mainAxiosClient.interceptors.response.use(
   },
 );
 
-function formatErrorMessage(error) {
+function formatErrorMessage(error: any) {
   if (error.response) {
     const {status, statusText, config, data} = error.response;
     return `

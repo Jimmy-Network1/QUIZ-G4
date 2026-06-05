@@ -12,7 +12,7 @@ const GameContext = createContext<GameContextType>({
   triggerResetTimer: () => {},
 });
 
-export const GameProvider = ({children}) => {
+export const GameProvider = ({children}: {children: React.ReactNode}) => {
   const [resetTimerKey, setResetTimerKey] = useState(0);
 
   const triggerResetTimer = () => {

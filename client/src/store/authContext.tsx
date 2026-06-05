@@ -5,6 +5,7 @@ type AuthContextType = {
   email: string;
   userName: string;
   userId: string;
+  serverMode: 'online' | 'local';
   isAuthenticated: boolean;
   authenticate: (
     token: string,
@@ -12,6 +13,7 @@ type AuthContextType = {
     userName: string,
     userId: string,
   ) => void;
+  setServerMode: (mode: 'online' | 'local') => void;
   logout: () => void;
 };
 
@@ -20,8 +22,10 @@ export const AuthContext = createContext<AuthContextType>({
   email: '',
   userName: '',
   userId: '',
+  serverMode: 'online',
   isAuthenticated: false,
   authenticate: () => {},
+  setServerMode: () => {},
   logout: () => {},
 });
 
@@ -34,6 +38,7 @@ function AuthContextProvider({children}: AuthContextProviderProps) {
   const [authEmail, setAuthEmail] = useState<string>('');
   const [authUserName, setAuthUserName] = useState<string>('');
   const [authUserId, setAuthUserId] = useState<string>('');
+  const [serverMode, setServerMode] = useState<'online' | 'local'>('online');
 
   function authenticate(
     token: string,
@@ -59,8 +64,10 @@ function AuthContextProvider({children}: AuthContextProviderProps) {
     email: authEmail,
     userName: authUserName,
     userId: authUserId,
+    serverMode: serverMode,
     isAuthenticated: !!authToken,
     authenticate: authenticate,
+    setServerMode: setServerMode,
     logout: logout,
   };
 

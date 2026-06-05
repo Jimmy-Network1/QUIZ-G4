@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: quiz-g4-backend
+    env: node
+    plan: free
+    buildCommand: cd server && npm install && npm run build
+    startCommand: cd server && npm start
+    envVars:
+      - key: GEMINI_API_KEY
+        value: "INSERT_YOUR_GEMINI_API_KEY_HERE"
+      - key: MONGO_URL
+        value: mongodb+srv://quiz_admin:quiz_password_123@quiz-cluster.vojwkz4.mongodb.net/?retryWrites=true&w=majority
+      - key: JWT_SECRET
+        value: quiz_secret_key_2026_g4
+      - key: NODE_ENV
+        value: production

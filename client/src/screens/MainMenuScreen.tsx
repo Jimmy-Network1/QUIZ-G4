@@ -41,6 +41,13 @@ export default function MainMenuScreen(): JSX.Element {
             }
           />
           <ButtonComponent
+            title="CHAMPIONSHIP"
+            style={{...styles.button, ...styles.championshipButton}}
+            onPress={() =>
+              navigation.navigate(AuthenticatedScreens.TournamentListScreen)
+            }
+          />
+          <ButtonComponent
             title="My Account"
             style={styles.button}
             onPress={() => {
@@ -80,5 +87,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 10,
     borderRadius: 20,
+  },
+  championshipButton: {
+    borderColor: colorList.vibrantCyan,
+    shadowColor: colorList.vibrantCyan,
+    marginTop: 10,
   },
 });

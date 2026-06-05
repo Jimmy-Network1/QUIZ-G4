@@ -38,7 +38,7 @@ export default function SplashScreen(): JSX.Element {
       }).start(() => {
         const nextScreen = authCtx.isAuthenticated
           ? AuthenticatedScreens.MainMenuScreen
-          : UnauthenticatedScreens.LoginScreen;
+          : UnauthenticatedScreens.ConnectionSelectionScreen;
         navigation.replace(nextScreen);
       });
     }, 3000);

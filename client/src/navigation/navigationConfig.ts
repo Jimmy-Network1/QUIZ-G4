@@ -7,6 +7,10 @@ import {
   GameScreen,
   AccountScreen,
   SplashScreen,
+  ConnectionSelectionScreen,
+  TournamentListScreen,
+  TournamentWaitingRoomScreen,
+  TournamentBracketScreen,
 } from '../screens';
 import {
   AuthenticatedScreens,
@@ -23,9 +27,16 @@ export const authenticatedScreens = [
   {name: AuthenticatedScreens.CreateGameScreen, component: CreateGameScreen},
   {name: AuthenticatedScreens.GameScreen, component: GameScreen},
   {name: AuthenticatedScreens.AccountScreen, component: AccountScreen},
+  {name: AuthenticatedScreens.TournamentListScreen, component: TournamentListScreen},
+  {name: AuthenticatedScreens.TournamentWaitingRoomScreen, component: TournamentWaitingRoomScreen},
+  {name: AuthenticatedScreens.TournamentBracketScreen, component: TournamentBracketScreen},
 ];
 
 export const unauthenticatedScreens = [
+  {
+    name: UnauthenticatedScreens.ConnectionSelectionScreen,
+    component: ConnectionSelectionScreen,
+  },
   {name: UnauthenticatedScreens.LoginScreen, component: LoginScreen},
   {name: UnauthenticatedScreens.RegisterScreen, component: RegisterScreen},
 ];

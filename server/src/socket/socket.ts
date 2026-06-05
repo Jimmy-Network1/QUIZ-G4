@@ -5,6 +5,7 @@ import { registerGameplayHandlers } from "./handlers/gameplayHandlers";
 import { registerQuestionHandlers } from "./handlers/questionHandlers";
 import { registerRoomHandlers } from "./handlers/roomHandlers";
 import { registerUserHandlers } from "./handlers/userHandlers";
+import { registerTournamentHandlers } from "./handlers/tournamentHandlers";
 
 export const initializeSocket = (server: HttpServer) => {
   const io = new SocketServer(server, {
@@ -23,5 +24,6 @@ export const initializeSocket = (server: HttpServer) => {
     registerQuestionHandlers(socket);
     registerRoomHandlers(socket);
     registerUserHandlers(socket);
+    registerTournamentHandlers(socket);
   });
 };
