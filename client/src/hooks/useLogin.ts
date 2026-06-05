@@ -27,11 +27,11 @@ export default function useLogin(email: string, password: string) {
       const data = await AuthService.login(email, password);
 
       if (data.status === 'ok') {
-        const {token, email, userName, userId} = data.data;
-        authCtx.authenticate(token, email, userName, userId);
+        const {token, email: userEmail, userName, userId} = data.data;
+        authCtx.authenticate(token, userEmail, userName, userId);
 
         const keychainData = {token, userName, userId};
-        await KeychainService.setCredentials(email, keychainData);
+        await KeychainService.setCredentials(userEmail, keychainData);
         navigation.replace(AuthenticatedScreens.MainMenuScreen);
       } else {
         Alert.alert('Login Failed', 'Invalid Credentials');

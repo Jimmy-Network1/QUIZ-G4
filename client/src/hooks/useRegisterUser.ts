@@ -32,10 +32,20 @@ export default function useRegisterUser(
       const data = await AuthService.registerUser(userName, email, password);
 
       if (data.status === 'ok') {
-        const {token, email, userName, userId} = data;
-        authCtx.authenticate(token, email, userName, userId);
+        const {
+          token,
+          email: registeredEmail,
+          userName: registeredUserName,
+          userId,
+        } = data;
+        authCtx.authenticate(
+          token,
+          registeredEmail,
+          registeredUserName,
+          userId,
+        );
 
-        const keychainData = {token, userName, userId};
+        const keychainData = {token, userName: registeredUserName, userId};
 
         await KeychainService.setCredentials(token, keychainData);
         navigation.replace(AuthenticatedScreens.MainMenuScreen);
