@@ -4519,7 +4519,12 @@ iconv-lite@^0.6.2:
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
 
-ieee754@^1.1.13, ieee754@^1.2.1:
+ieee754@^1.1.13:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz"
+  integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
+
+ieee754@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
@@ -7022,12 +7027,12 @@ react-is@^18.2.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-native-bluetooth-classic@^1.73.0-rc.17:
-  version "1.73.0-rc.17"
-  resolved "https://registry.npmjs.org/react-native-bluetooth-classic/-/react-native-bluetooth-classic-1.73.0-rc.17.tgz"
-  integrity sha512-/6jlnDZj3CbMZuCwc6YHTxk6gXiocxGkEDT01wFUGOuBxaNDSUq5rSYh8jm988l2QXGuEhr7WScRBce8t+IJFg==
+react-native-bluetooth-classic@^1.60.0-rc.31:
+  version "1.60.0-rc.31"
+  resolved "https://registry.npmjs.org/react-native-bluetooth-classic/-/react-native-bluetooth-classic-1.60.0-rc.31.tgz"
+  integrity sha512-YOj5e9mo/1rQZ0o/8BKenCJjfWZlhXwwY/8eVyrwzzweVpeCW+pfpMVCv6PE1/D5hBq9zPkkPFMhfZkXhZUouA==
   dependencies:
-    buffer "^6.0.3"
+    buffer "^5.4.3"
 
 react-native-config@^1.5.1:
   version "1.5.1"

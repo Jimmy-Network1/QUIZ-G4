@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Alert,
 } from 'react-native';
 import Input from '../components/common/Input';
 import {ButtonComponent} from '../components/common';
@@ -23,6 +24,7 @@ export default function RegisterScreen(): JSX.Element {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [userName, setUserName] = useState('');
 
   const {registerHandler, isLoading} = useRegisterUser(
@@ -31,6 +33,18 @@ export default function RegisterScreen(): JSX.Element {
     password,
   );
 
+  const handleRegister = () => {
+    if (!userName || !email || !password || !confirmPassword) {
+      Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Erreur', 'Les mots de passe ne correspondent pas.');
+      return;
+    }
+    registerHandler();
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -38,7 +52,7 @@ export default function RegisterScreen(): JSX.Element {
         style={styles.backgroundImage}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
+          colors={['rgba(11, 2, 53, 0.7)', colorList.darkBackgroundBlue]}
           style={styles.overlay}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -50,47 +64,64 @@ export default function RegisterScreen(): JSX.Element {
                 <Text style={styles.logoText}>
                   QUIZ<Text style={styles.logoAccent}>G4</Text>
                 </Text>
-                <Text style={styles.subtitle}>Rejoignez la compétition</Text>
+                <Text style={styles.subtitle}>
+                  Créez votre profil de Champion
+                </Text>
               </View>
 
               <View style={styles.formContainer}>
-                <Text style={styles.formTitle}>Inscription</Text>
+                <Text style={styles.formTitle}>INSCRIPTION</Text>
 
-                <View style={styles.inputWrapper}>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>PSEUDO</Text>
                   <Input
-                    placeholder="Nom d'utilisateur"
+                    placeholder="Ex: CyberNinja99"
                     style={styles.input}
                     textStyle={styles.inputText}
-                    placeholderTextColor="rgba(255, 255, 255, 0.6)"
+                    placeholderTextColor="rgba(255, 255, 255, 0.3)"
                     onChangeText={setUserName}
                   />
                 </View>
 
-                <View style={styles.inputWrapper}>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>EMAIL</Text>
                   <Input
-                    placeholder="Email"
+                    placeholder="votre@email.com"
                     style={styles.input}
                     textStyle={styles.inputText}
-                    placeholderTextColor="rgba(255, 255, 255, 0.6)"
+                    placeholderTextColor="rgba(255, 255, 255, 0.3)"
                     keyboardType="email-address"
                     onChangeText={setEmail}
                   />
                 </View>
 
-                <View style={styles.inputWrapper}>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>MOT DE PASSE</Text>
                   <Input
-                    placeholder="Mot de passe"
+                    placeholder="••••••••"
                     style={styles.input}
                     textStyle={styles.inputText}
-                    placeholderTextColor="rgba(255, 255, 255, 0.6)"
+                    placeholderTextColor="rgba(255, 255, 255, 0.3)"
                     secureTextEntry={true}
                     onChangeText={setPassword}
                   />
                 </View>
 
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>CONFIRMER MOT DE PASSE</Text>
+                  <Input
+                    placeholder="••••••••"
+                    style={styles.input}
+                    textStyle={styles.inputText}
+                    placeholderTextColor="rgba(255, 255, 255, 0.3)"
+                    secureTextEntry={true}
+                    onChangeText={setConfirmPassword}
+                  />
+                </View>
+
                 <ButtonComponent
-                  title="Créer mon compte"
-                  onPress={registerHandler}
+                  title="REJOINDRE L'ARÈNE"
+                  onPress={handleRegister}
                   style={styles.button}
                   isLoading={isLoading}
                 />
@@ -136,50 +167,66 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   logoText: {
-    fontSize: 60,
+    fontSize: 50,
     fontWeight: '900',
     color: colorList.white,
     letterSpacing: 2,
     textShadowColor: colorList.neonPink,
     textShadowOffset: {width: 0, height: 0},
-    textShadowRadius: 10,
+    textShadowRadius: 15,
   },
   logoAccent: {
-    color: colorList.neonPink,
+    color: colorList.vibrantCyan,
   },
   subtitle: {
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: colorList.softPink,
     fontSize: 16,
     marginTop: 5,
     letterSpacing: 1,
+    fontWeight: '600',
   },
   formContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 30,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: 20,
     padding: 25,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 2,
+    borderColor: 'rgba(0, 255, 255, 0.3)',
+    shadowColor: colorList.vibrantCyan,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.5,
+    shadowRadius: 20,
+    elevation: 10,
   },
   formTitle: {
     color: colorList.white,
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 24,
+    fontWeight: '900',
+    marginBottom: 25,
     textAlign: 'center',
+    letterSpacing: 2,
   },
-  inputWrapper: {
-    marginBottom: 10,
+  inputGroup: {
+    marginBottom: 15,
+  },
+  inputLabel: {
+    color: colorList.vibrantCyan,
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginLeft: 5,
+    marginBottom: -10,
+    letterSpacing: 1,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
     marginHorizontal: 0,
     width: '100%',
     color: colorList.white,
+    borderRadius: 10,
   },
   inputText: {
     fontSize: 16,
@@ -189,22 +236,25 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   button: {
-    marginTop: 30,
+    marginTop: 25,
     marginHorizontal: 0,
     height: 55,
+    backgroundColor: colorList.brightPurple,
+    borderColor: colorList.neonPink,
+    borderWidth: 2,
   },
   footerText: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: 25,
   },
   loginLabel: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.6)',
+    fontSize: 14,
   },
   loginLink: {
-    color: colorList.neonPink,
+    color: colorList.vibrantCyan,
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 14,
   },
 });
