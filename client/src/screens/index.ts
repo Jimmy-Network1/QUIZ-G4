@@ -9,6 +9,7 @@ export {default as MultiplayerLobbyScreen} from './MultiplayerLobbyScreen';
 export {default as RegisterScreen} from './RegisterScreen';
 export {default as SplashScreen} from './SplashScreen';
 export {default as ConnectionSelectionScreen} from './ConnectionSelectionScreen';
+export {default as LocalPseudoScreen} from './LocalPseudoScreen';
 export {default as TournamentListScreen} from './TournamentListScreen';
 export {default as TournamentWaitingRoomScreen} from './TournamentWaitingRoomScreen';
 export {default as TournamentBracketScreen} from './TournamentBracketScreen';

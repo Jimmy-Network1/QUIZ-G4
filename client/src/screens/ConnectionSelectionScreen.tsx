@@ -16,7 +16,11 @@ export default function ConnectionSelectionScreen(): JSX.Element {
   const handleSelectMode = (mode: 'online' | 'local') => {
     setServerMode(mode);
     setGlobalServerMode(mode);
-    navigation.navigate(UnauthenticatedScreens.LoginScreen);
+    if (mode === 'local') {
+      navigation.navigate(UnauthenticatedScreens.LocalPseudoScreen);
+    } else {
+      navigation.navigate(UnauthenticatedScreens.LoginScreen);
+    }
   };
 
   return (
@@ -28,28 +32,28 @@ export default function ConnectionSelectionScreen(): JSX.Element {
         <LinearGradient
           colors={['rgba(0,0,0,0.3)', colorList.darkBackgroundBlue]}
           style={styles.gradient}>
-          <Text style={styles.title}>CHOOSE YOUR ARENA</Text>
-          <Text style={styles.subtitle}>How do you want to connect?</Text>
+          <Text style={styles.title}>CHOISISSEZ VOTRE MODE</Text>
+          <Text style={styles.subtitle}>Comment voulez-vous jouer ?</Text>
 
           <View style={styles.buttonContainer}>
             <ButtonComponent
-              title="🌐 ONLINE MODE"
+              title="🌐 MODE EN LIGNE"
               onPress={() => handleSelectMode('online')}
               style={styles.onlineButton}
             />
             <Text style={styles.description}>
-              Play with anyone, anywhere via Internet (Render).
+              Jouez avec n'importe qui via Internet (Render).
             </Text>
 
             <View style={styles.spacer} />
 
             <ButtonComponent
-              title="🏠 LOCAL (WI-FI)"
+              title="🏠 MODE LOCAL"
               onPress={() => handleSelectMode('local')}
               style={styles.localButton}
             />
             <Text style={styles.description}>
-              Competition on the same Wi-Fi network or Hotspot.
+              Wi-Fi ou hotspot — sans compte, questions embarquées.
             </Text>
           </View>
         </LinearGradient>

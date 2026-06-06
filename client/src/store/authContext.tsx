@@ -6,6 +6,7 @@ type AuthContextType = {
   userName: string;
   userId: string;
   serverMode: 'online' | 'local';
+  isLocalSession: boolean;
   isAuthenticated: boolean;
   authenticate: (
     token: string,
@@ -13,6 +14,7 @@ type AuthContextType = {
     userName: string,
     userId: string,
   ) => void;
+  authenticateLocal: (pseudo: string) => void;
   setServerMode: (mode: 'online' | 'local') => void;
   logout: () => void;
 };
@@ -23,8 +25,10 @@ export const AuthContext = createContext<AuthContextType>({
   userName: '',
   userId: '',
   serverMode: 'online',
+  isLocalSession: false,
   isAuthenticated: false,
   authenticate: () => {},
+  authenticateLocal: () => {},
   setServerMode: () => {},
   logout: () => {},
 });
@@ -39,6 +43,7 @@ function AuthContextProvider({children}: AuthContextProviderProps) {
   const [authUserName, setAuthUserName] = useState<string>('');
   const [authUserId, setAuthUserId] = useState<string>('');
   const [serverMode, setServerMode] = useState<'online' | 'local'>('online');
+  const [isLocalSession, setIsLocalSession] = useState(false);
 
   function authenticate(
     token: string,
@@ -50,6 +55,15 @@ function AuthContextProvider({children}: AuthContextProviderProps) {
     setAuthEmail(email);
     setAuthUserName(userName);
     setAuthUserId(userId);
+    setIsLocalSession(false);
+  }
+
+  function authenticateLocal(pseudo: string) {
+    setAuthUserName(pseudo);
+    setAuthUserId(`local_${Date.now()}`);
+    setAuthToken('');
+    setAuthEmail('');
+    setIsLocalSession(true);
   }
 
   function logout() {
@@ -57,6 +71,7 @@ function AuthContextProvider({children}: AuthContextProviderProps) {
     setAuthEmail('');
     setAuthUserName('');
     setAuthUserId('');
+    setIsLocalSession(false);
   }
 
   const value = {
@@ -65,8 +80,10 @@ function AuthContextProvider({children}: AuthContextProviderProps) {
     userName: authUserName,
     userId: authUserId,
     serverMode: serverMode,
-    isAuthenticated: !!authToken,
+    isLocalSession: isLocalSession,
+    isAuthenticated: !!authToken || isLocalSession,
     authenticate: authenticate,
+    authenticateLocal: authenticateLocal,
     setServerMode: setServerMode,
     logout: logout,
   };

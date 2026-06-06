@@ -22,7 +22,7 @@ export default function useResetNavOnAuthChange() {
         {
           name: isAuthenticated
             ? AuthenticatedScreens.MainMenuScreen
-            : UnauthenticatedScreens.LoginScreen,
+            : UnauthenticatedScreens.ConnectionSelectionScreen,
         },
       ],
     });

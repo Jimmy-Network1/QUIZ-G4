@@ -1,4 +1,10 @@
-import {View, StyleSheet} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  ImageBackground,
+} from 'react-native';
 import React from 'react';
 import EndGameScreen from './EndGameScreen';
 import LoadingScreen from './LoadingScreen';
@@ -12,6 +18,8 @@ import {
 } from '../types/navigation';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {LoginScreenBg} from '../assets/images';
+import LinearGradient from 'react-native-linear-gradient';
 
 type Route = {
   params: GameScreenParams;
@@ -58,54 +66,120 @@ export default function GameScreen({route}: {route: Route}): JSX.Element {
   if (isWaitingForOpponent) {
     return (
       <LoadingScreen
-        text="Waiting for opponent to join the game..."
-        buttonText="Back"
+        text="En attente d'un adversaire..."
+        buttonText="Annuler"
       />
     );
   }
 
   if (questions) {
     return (
-      <View style={styles.container}>
-        <View style={styles.questionWrapper}>
-          <ScorePanel
-            playerScore={playerScore}
-            opponentScore={opponentScore}
-            isSinglePlayer={isSinglePlayer}
-          />
-          <TimeBar onTimeElapsed={handleTimeElapsed} />
+      <SafeAreaView style={styles.container}>
+        <ImageBackground source={LoginScreenBg} style={styles.backgroundImage}>
+          <LinearGradient
+            colors={['rgba(11, 2, 53, 0.8)', colorList.darkBackgroundBlue]}
+            style={styles.overlay}>
+            <View style={styles.gameHeader}>
+              <ScorePanel
+                playerScore={playerScore}
+                opponentScore={opponentScore}
+                isSinglePlayer={isSinglePlayer}
+              />
+              <View style={styles.timerWrapper}>
+                <TimeBar onTimeElapsed={handleTimeElapsed} />
+              </View>
+            </View>
 
-          <Question
-            questionObj={questions[currentQuestionIndex]}
-            onOptionPress={selected => handleOptionPress(selected)}
-            isAnswered={isAnswered}
-            answeredCorrect={answeredCorrect}
-            selectedAnswer={selectedAnswer}
-          />
+            <View style={styles.questionContainer}>
+              <View style={styles.progressContainer}>
+                <Text style={styles.progressText}>
+                  Question {currentQuestionIndex + 1} / {questions.length}
+                </Text>
+              </View>
 
-          <ButtonComponent
-            title="Back To Main Menu"
-            onPress={() =>
-              navigation.replace(AuthenticatedScreens.MainMenuScreen)
-            }
-          />
-        </View>
-      </View>
+              <View style={styles.glassCard}>
+                <Question
+                  questionObj={questions[currentQuestionIndex]}
+                  onOptionPress={selected => handleOptionPress(selected)}
+                  isAnswered={isAnswered}
+                  answeredCorrect={answeredCorrect}
+                  selectedAnswer={selectedAnswer}
+                />
+              </View>
+            </View>
+
+            <View style={styles.footer}>
+              <ButtonComponent
+                title="Quitter la partie"
+                variant="bluish"
+                onPress={() =>
+                  navigation.replace(AuthenticatedScreens.MainMenuScreen)
+                }
+                style={styles.quitButton}
+              />
+            </View>
+          </LinearGradient>
+        </ImageBackground>
+      </SafeAreaView>
     );
   }
 
-  return <LoadingScreen text="No questions loaded" buttonText="Back" />;
+  return (
+    <LoadingScreen text="Chargement des questions..." buttonText="Retour" />
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colorList.black,
+    backgroundColor: colorList.darkBackgroundBlue,
+  },
+  backgroundImage: {
+    flex: 1,
+  },
+  overlay: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  gameHeader: {
+    paddingVertical: 20,
+  },
+  timerWrapper: {
+    marginTop: 15,
+    height: 10,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  questionContainer: {
+    flex: 1,
     justifyContent: 'center',
   },
-  questionWrapper: {
-    flex: 1,
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
+  progressContainer: {
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  progressText: {
+    color: colorList.vibrantCyan,
+    fontWeight: 'bold',
+    fontSize: 14,
+    letterSpacing: 1,
+  },
+  glassCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 30,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    minHeight: 350,
+    justifyContent: 'center',
+  },
+  footer: {
+    paddingBottom: 30,
+  },
+  quitButton: {
+    marginHorizontal: 0,
+    height: 50,
+    opacity: 0.8,
   },
 });

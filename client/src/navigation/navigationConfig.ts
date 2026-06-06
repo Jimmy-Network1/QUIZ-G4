@@ -8,10 +8,16 @@ import {
   AccountScreen,
   SplashScreen,
   ConnectionSelectionScreen,
+  LocalPseudoScreen,
   TournamentListScreen,
   TournamentWaitingRoomScreen,
   TournamentBracketScreen,
 } from '../screens';
+import LocalWifiMenuScreen from '../screens/local/LocalWifiMenuScreen';
+import LocalWifiHostScreen from '../screens/local/LocalWifiHostScreen';
+import LocalWifiJoinScreen from '../screens/local/LocalWifiJoinScreen';
+import LocalGameScreen from '../screens/local/LocalGameScreen';
+import LocalBluetoothScreen from '../screens/local/LocalBluetoothScreen';
 import {
   AuthenticatedScreens,
   UnauthenticatedScreens,
@@ -39,12 +45,33 @@ export const authenticatedScreens = [
     name: AuthenticatedScreens.TournamentBracketScreen,
     component: TournamentBracketScreen,
   },
+  {
+    name: AuthenticatedScreens.LocalWifiMenuScreen,
+    component: LocalWifiMenuScreen,
+  },
+  {
+    name: AuthenticatedScreens.LocalWifiHostScreen,
+    component: LocalWifiHostScreen,
+  },
+  {
+    name: AuthenticatedScreens.LocalWifiJoinScreen,
+    component: LocalWifiJoinScreen,
+  },
+  {name: AuthenticatedScreens.LocalGameScreen, component: LocalGameScreen},
+  {
+    name: AuthenticatedScreens.LocalBluetoothScreen,
+    component: LocalBluetoothScreen,
+  },
 ];
 
 export const unauthenticatedScreens = [
   {
     name: UnauthenticatedScreens.ConnectionSelectionScreen,
     component: ConnectionSelectionScreen,
+  },
+  {
+    name: UnauthenticatedScreens.LocalPseudoScreen,
+    component: LocalPseudoScreen,
   },
   {name: UnauthenticatedScreens.LoginScreen, component: LoginScreen},
   {name: UnauthenticatedScreens.RegisterScreen, component: RegisterScreen},

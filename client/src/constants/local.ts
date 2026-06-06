@@ -1,0 +1,3 @@
+export const LOCAL_TCP_PORT = 9090;
+export const MAX_LOCAL_TOURNAMENT_PLAYERS = 8;
+export const LOCAL_QUESTIONS_PER_GAME = 10;

@@ -1,9 +1,17 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import Input from '../components/common/Input';
 import ButtonComponent from '../components/common/ButtonComponent';
 import {LoginScreenBg} from '../assets/images';
-import {ImageBackground} from 'react-native';
 import {colorList} from '../constants/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {useLogin} from '../hooks';
@@ -30,63 +38,88 @@ export default function LoginScreen(): JSX.Element {
     setServerMode(newMode);
   };
 
-  const registerText = (
-    <Text
-      style={styles.hereText}
-      onPress={() =>
-        navigation.navigate(UnauthenticatedScreens.RegisterScreen)
-      }>
-      here
-    </Text>
-  );
-
   return (
     <View style={styles.container}>
       <ImageBackground
         source={LoginScreenBg}
-        style={styles.globalView}
+        style={styles.backgroundImage}
         resizeMode="cover">
         <LinearGradient
-          colors={['transparent', colorList.darkBackgroundBlue]}
-          style={styles.linearGradient}
-          start={{x: 0, y: 0}}
-          end={{x: 0, y: 1}}>
-          <TouchableOpacity
-            onPress={toggleServerMode}
-            style={styles.serverToggle}>
-            <Text style={styles.serverToggleText}>
-              Mode: {serverMode === 'online' ? '🌐 Online' : '🏠 Local (Wi-Fi)'}
-            </Text>
-          </TouchableOpacity>
+          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
+          style={styles.overlay}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.keyboardView}>
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              showsVerticalScrollIndicator={false}>
+              <View style={styles.headerContainer}>
+                <Text style={styles.logoText}>
+                  QUIZ<Text style={styles.logoAccent}>G4</Text>
+                </Text>
+                <Text style={styles.subtitle}>
+                  S'affronter, Apprendre, Gagner
+                </Text>
+              </View>
 
-          <Input
-            placeholder="Email"
-            style={styles.input}
-            textStyle={styles.inputText}
-            placeholderTextColor={colorList.neonPink}
-            keyboardType="email-address"
-            onChangeText={setEmail}
-          />
-          <Input
-            placeholder="Password"
-            style={styles.input}
-            textStyle={styles.inputText}
-            placeholderTextColor={colorList.neonPink}
-            keyboardType="default"
-            secureTextEntry={true}
-            onChangeText={setPassword}
-          />
-          <ButtonComponent
-            title="Login"
-            textStyle={styles.inputText}
-            onPress={loginHandler}
-            style={styles.button}
-            isLoading={isLoading}
-          />
-          <View style={styles.footerText}>
-            <Text style={styles.registerText}>New user? Register </Text>
-            {registerText}
-          </View>
+              <View style={styles.formContainer}>
+                <Text style={styles.formTitle}>Connexion</Text>
+
+                <TouchableOpacity
+                  onPress={toggleServerMode}
+                  style={styles.serverToggle}>
+                  <Text style={styles.serverToggleText}>
+                    Mode: {serverMode === 'online' ? '🌐 Cloud' : '🏠 Local'}
+                  </Text>
+                </TouchableOpacity>
+
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="Email"
+                    style={styles.input}
+                    textStyle={styles.inputText}
+                    placeholderTextColor="rgba(255, 255, 255, 0.6)"
+                    keyboardType="email-address"
+                    onChangeText={setEmail}
+                  />
+                </View>
+
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="Mot de passe"
+                    style={styles.input}
+                    textStyle={styles.inputText}
+                    placeholderTextColor="rgba(255, 255, 255, 0.6)"
+                    secureTextEntry={true}
+                    onChangeText={setPassword}
+                  />
+                </View>
+
+                <TouchableOpacity style={styles.forgotPassword}>
+                  <Text style={styles.forgotPasswordText}>
+                    Mot de passe oublié ?
+                  </Text>
+                </TouchableOpacity>
+
+                <ButtonComponent
+                  title="Se connecter"
+                  onPress={loginHandler}
+                  style={styles.button}
+                  isLoading={isLoading}
+                />
+
+                <View style={styles.footerText}>
+                  <Text style={styles.registerLabel}>Nouveau ici ? </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate(UnauthenticatedScreens.RegisterScreen)
+                    }>
+                    <Text style={styles.registerLink}>Créer un compte</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </LinearGradient>
       </ImageBackground>
     </View>
@@ -94,64 +127,121 @@ export default function LoginScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  globalView: {
+  container: {
+    flex: 1,
+    backgroundColor: colorList.darkBackgroundBlue,
+  },
+  backgroundImage: {
     flex: 1,
     width: '100%',
-    height: '60%',
-    justifyContent: 'flex-end',
   },
-  linearGradient: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    height: '100%',
-    justifyContent: 'flex-end',
-    padding: 10,
+  overlay: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  keyboardView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingVertical: 50,
+  },
+  headerContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  logoText: {
+    fontSize: 60,
+    fontWeight: '900',
+    color: colorList.white,
+    letterSpacing: 2,
+    textShadowColor: colorList.neonPink,
+    textShadowOffset: {width: 0, height: 0},
+    textShadowRadius: 10,
+  },
+  logoAccent: {
+    color: colorList.neonPink,
+  },
+  subtitle: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 16,
+    marginTop: 5,
+    letterSpacing: 1,
+  },
+  formContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 30,
+    padding: 25,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    backdropFilter: 'blur(10px)', // Note: backdropFilter doesn't work in standard RN, but we use opacity for similar feel
+  },
+  formTitle: {
+    color: colorList.white,
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  inputWrapper: {
+    marginBottom: 10,
   },
   input: {
-    backgroundColor: colorList.white,
-    shadowColor: colorList.white,
-    shadowOpacity: 1,
-    shadowRadius: 20,
-    shadowOffset: {
-      height: 10,
-      width: 10,
-    },
-    elevation: 10,
-  },
-  container: {
-    backgroundColor: colorList.darkBackgroundBlue,
-    flex: 1,
-    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    marginHorizontal: 0,
+    width: '100%',
+    color: colorList.white,
   },
   inputText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '500',
+    color: colorList.white,
+    textAlign: 'left',
+    paddingLeft: 15,
   },
   button: {
-    marginTop: 50,
+    marginTop: 30,
+    marginHorizontal: 0,
+    height: 55,
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+  },
+  forgotPasswordText: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: 14,
   },
   footerText: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 25,
-    marginBottom: 20,
+    marginTop: 30,
   },
-  registerText: {color: '#fff', textAlign: 'center'},
-  hereText: {
+  registerLabel: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 16,
+  },
+  registerLink: {
     color: colorList.neonPink,
     fontWeight: 'bold',
+    fontSize: 16,
   },
   serverToggle: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
     alignSelf: 'center',
     marginBottom: 20,
   },
   serverToggleText: {
-    color: '#fff',
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });
