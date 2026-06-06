@@ -5,17 +5,15 @@ import {
   Text,
   View,
   ImageBackground,
+  SafeAreaView,
 } from 'react-native';
-import {GalaxyImage} from '../assets/images';
+import {LoginScreenBg} from '../assets/images';
 import {colorList} from '../constants/colors';
 import {ButtonComponent} from '../components/common';
 import {useNavigation} from '@react-navigation/native';
-import {
-  AuthenticatedScreens,
-  InitialScreens,
-  RootStackParamList,
-} from '../types/navigation';
+import {AuthenticatedScreens, RootStackParamList} from '../types/navigation';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface LoadingScreenProps {
   text: string;
@@ -24,52 +22,78 @@ interface LoadingScreenProps {
 
 type LoadingScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  InitialScreens.LoadingScreen
+  any
 >;
 
 export default function LoadingScreen({text, buttonText}: LoadingScreenProps) {
   const navigation = useNavigation<LoadingScreenNavigationProp>();
+
   return (
-    <ImageBackground source={GalaxyImage} style={styles.backgroundImage}>
-      <View style={styles.backgroundImageOverlay}>
-        <View style={[styles.container, styles.horizontal]}>
-          <Text style={styles.text}>{text}</Text>
-          <ActivityIndicator size="large" color={colorList.white} />
-        </View>
-        {buttonText && navigation && (
-          <ButtonComponent
-            title={buttonText}
-            onPress={() =>
-              navigation.replace(AuthenticatedScreens.MultiplayerLobbyScreen)
-            }
-          />
-        )}
-      </View>
-    </ImageBackground>
+    <SafeAreaView style={styles.container}>
+      <ImageBackground source={LoginScreenBg} style={styles.backgroundImage}>
+        <LinearGradient
+          colors={['rgba(11, 2, 53, 0.8)', colorList.darkBackgroundBlue]}
+          style={styles.overlay}>
+          <View style={styles.content}>
+            <View style={styles.glassCard}>
+              <ActivityIndicator size="large" color={colorList.vibrantCyan} />
+              <Text style={styles.text}>{text}</Text>
+            </View>
+
+            {buttonText && (
+              <ButtonComponent
+                title={buttonText}
+                variant="bluish"
+                onPress={() =>
+                  navigation.replace(AuthenticatedScreens.MainMenuScreen)
+                }
+                style={styles.button}
+              />
+            )}
+          </View>
+        </LinearGradient>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
-  backgroundImageOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  backgroundImage: {width: '100%', height: '100%'},
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 50,
+    backgroundColor: colorList.darkBackgroundBlue,
   },
-  horizontal: {
-    flexDirection: 'column',
-    padding: 10,
+  backgroundImage: {
+    flex: 1,
+  },
+  overlay: {
+    flex: 1,
+    paddingHorizontal: 30,
+    justifyContent: 'center',
+  },
+  content: {
+    alignItems: 'center',
+  },
+  glassCard: {
+    width: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 30,
+    padding: 40,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    marginBottom: 30,
   },
   text: {
     color: colorList.white,
-    marginBottom: 20,
-    fontSize: 30,
+    marginTop: 30,
+    fontSize: 18,
     textAlign: 'center',
-    textShadowColor: colorList.white,
-    textShadowRadius: 5,
+    fontWeight: '500',
+    lineHeight: 26,
+  },
+  button: {
+    width: '100%',
+    marginHorizontal: 0,
+    height: 55,
   },
 });
