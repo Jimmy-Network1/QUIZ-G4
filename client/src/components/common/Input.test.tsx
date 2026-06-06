@@ -12,7 +12,7 @@ describe('Input Component', () => {
   it('applies styles correctly', () => {
     const customStyle = {borderColor: 'blue'};
     const {getByTestId} = render(
-      <Input placeholder="Enter text" style={customStyle} />,
+      <Input placeholder="Enter text" textStyle={customStyle} />,
     );
     const textInput = getByTestId('text-input');
     expect(textInput.props.style).toContainEqual(customStyle);
