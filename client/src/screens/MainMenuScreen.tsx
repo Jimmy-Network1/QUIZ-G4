@@ -18,6 +18,8 @@ import {AuthenticatedScreens, RootStackParamList} from '../types/navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import {AuthContext} from '../store/authContext';
 import LocalP2PService from '../services/local/LocalP2PService';
+import {GlassCard} from '../components/common';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 
 export default function MainMenuScreen(): JSX.Element {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -47,23 +49,25 @@ export default function MainMenuScreen(): JSX.Element {
         style={styles.backgroundImage}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(11, 2, 53, 0.6)', colorList.darkBackgroundBlue]}
+          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
           style={styles.overlay}>
           <ScrollView contentContainerStyle={styles.scrollContent}>
-            <View style={styles.headerContainer}>
+            <Animated.View
+              entering={FadeInDown.duration(800)}
+              style={styles.headerContainer}>
               <Text style={styles.logoText}>
                 QUIZ<Text style={styles.logoAccent}>G4</Text>
               </Text>
               <Text style={styles.subtitle}>
                 {isLocal ? `LOCAL — ${userName}` : 'MENU PRINCIPAL'}
               </Text>
-            </View>
+            </Animated.View>
 
             <View style={styles.menuContainer}>
               {isLocal ? (
-                <View style={styles.section}>
+                <GlassCard delay={100} style={styles.section}>
                   <Text style={styles.sectionTitle}>
-                    Mode Local (hors-ligne)
+                    MODE LOCAL (HORS-LIGNE)
                   </Text>
                   <ButtonComponent
                     title="Wi-Fi — 1v1 ou Compétition"
@@ -84,11 +88,11 @@ export default function MainMenuScreen(): JSX.Element {
                       )
                     }
                   />
-                </View>
+                </GlassCard>
               ) : (
                 <>
-                  <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>En ligne</Text>
+                  <GlassCard delay={100} style={styles.section}>
+                    <Text style={styles.sectionTitle}>EN LIGNE</Text>
                     <ButtonComponent
                       title="Duel 1 contre 1"
                       style={styles.button}
@@ -108,10 +112,12 @@ export default function MainMenuScreen(): JSX.Element {
                         )
                       }
                     />
-                  </View>
+                  </GlassCard>
 
-                  <View style={[styles.section, styles.extraSection]}>
-                    <Text style={styles.sectionTitle}>Extras</Text>
+                  <GlassCard
+                    delay={200}
+                    style={[styles.section, styles.extraSection]}>
+                    <Text style={styles.sectionTitle}>EXTRAS</Text>
                     <ButtonComponent
                       title="Solo (Entraînement)"
                       style={styles.button}
@@ -132,21 +138,23 @@ export default function MainMenuScreen(): JSX.Element {
                         navigation.navigate(AuthenticatedScreens.AccountScreen)
                       }
                     />
-                  </View>
+                  </GlassCard>
                 </>
               )}
             </View>
           </ScrollView>
 
-          <View style={styles.footer}>
+          <Animated.View
+            entering={FadeInDown.delay(300).duration(800)}
+            style={styles.footer}>
             <ButtonComponent
-              title={isLocal ? 'Changer de mode' : 'Déconnexion'}
+              title={isLocal ? 'CHANGER DE MODE' : 'DÉCONNEXION'}
               variant="bluish"
               onPress={handleLogout}
               style={styles.logoutButton}
             />
             <Text style={styles.versionText}>v1.0.0 - Groupe 4 ICT202</Text>
-          </View>
+          </Animated.View>
         </LinearGradient>
       </ImageBackground>
     </SafeAreaView>
@@ -172,7 +180,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 40,
   },
   logoText: {
     fontSize: 50,
@@ -181,36 +189,32 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     textShadowColor: colorList.neonPink,
     textShadowOffset: {width: 0, height: 0},
-    textShadowRadius: 10,
+    textShadowRadius: 15,
   },
   logoAccent: {
-    color: colorList.neonPink,
+    color: colorList.vibrantCyan,
   },
   subtitle: {
-    color: colorList.vibrantCyan,
+    color: colorList.softPink,
     fontSize: 14,
-    fontWeight: 'bold',
-    letterSpacing: 4,
+    fontWeight: '800',
+    letterSpacing: 3,
     marginTop: -5,
   },
   menuContainer: {
-    gap: 30,
+    gap: 20,
   },
   section: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 25,
     padding: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   extraSection: {
     borderColor: 'rgba(0, 242, 255, 0.2)',
   },
   sectionTitle: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: colorList.applePlaceholder,
     fontSize: 12,
     fontWeight: 'bold',
-    textTransform: 'uppercase',
+    letterSpacing: 1.5,
     marginBottom: 10,
     marginLeft: 5,
   },
@@ -219,15 +223,10 @@ const styles = StyleSheet.create({
     height: 55,
     marginTop: 10,
   },
-  championshipButton: {
-    marginHorizontal: 0,
-    height: 60,
-    marginTop: 10,
-  },
   logoutButton: {
     marginHorizontal: 0,
-    height: 45,
-    marginBottom: 10,
+    height: 50,
+    marginBottom: 15,
   },
   footer: {
     paddingBottom: 20,

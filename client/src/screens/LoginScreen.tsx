@@ -9,8 +9,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import Input from '../components/common/Input';
-import ButtonComponent from '../components/common/ButtonComponent';
+import {Input, ButtonComponent, GlassCard} from '../components/common';
 import {LoginScreenBg} from '../assets/images';
 import {colorList} from '../constants/colors';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,6 +18,7 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList, UnauthenticatedScreens} from '../types/navigation';
 import {AuthContext} from '../store/authContext';
 import {setGlobalServerMode} from '../config';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 
 export default function LoginScreen(): JSX.Element {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -45,7 +45,7 @@ export default function LoginScreen(): JSX.Element {
         style={styles.backgroundImage}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(11, 2, 53, 0.7)', colorList.darkBackgroundBlue]}
+          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
           style={styles.overlay}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -53,16 +53,18 @@ export default function LoginScreen(): JSX.Element {
             <ScrollView
               contentContainerStyle={styles.scrollContent}
               showsVerticalScrollIndicator={false}>
-              <View style={styles.headerContainer}>
+              <Animated.View
+                entering={FadeInDown.duration(800)}
+                style={styles.headerContainer}>
                 <Text style={styles.logoText}>
                   QUIZ<Text style={styles.logoAccent}>G4</Text>
                 </Text>
                 <Text style={styles.subtitle}>
                   S'affronter, Apprendre, Gagner
                 </Text>
-              </View>
+              </Animated.View>
 
-              <View style={styles.formContainer}>
+              <GlassCard delay={200} style={styles.formContainer}>
                 <Text style={styles.formTitle}>CONNEXION</Text>
 
                 <TouchableOpacity
@@ -77,9 +79,6 @@ export default function LoginScreen(): JSX.Element {
                   <Text style={styles.inputLabel}>EMAIL</Text>
                   <Input
                     placeholder="votre@email.com"
-                    style={styles.input}
-                    textStyle={styles.inputText}
-                    placeholderTextColor="rgba(255, 255, 255, 0.3)"
                     keyboardType="email-address"
                     onChangeText={setEmail}
                   />
@@ -89,9 +88,6 @@ export default function LoginScreen(): JSX.Element {
                   <Text style={styles.inputLabel}>MOT DE PASSE</Text>
                   <Input
                     placeholder="••••••••"
-                    style={styles.input}
-                    textStyle={styles.inputText}
-                    placeholderTextColor="rgba(255, 255, 255, 0.3)"
                     secureTextEntry={true}
                     onChangeText={setPassword}
                   />
@@ -119,7 +115,7 @@ export default function LoginScreen(): JSX.Element {
                     <Text style={styles.registerLink}>Créer un compte</Text>
                   </TouchableOpacity>
                 </View>
-              </View>
+              </GlassCard>
             </ScrollView>
           </KeyboardAvoidingView>
         </LinearGradient>
@@ -173,16 +169,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   formContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    borderRadius: 20,
     padding: 25,
-    borderWidth: 2,
-    borderColor: 'rgba(0, 255, 255, 0.3)',
-    shadowColor: colorList.vibrantCyan,
-    shadowOffset: {width: 0, height: 0},
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
-    elevation: 10,
   },
   formTitle: {
     color: colorList.white,
@@ -210,37 +197,21 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     marginBottom: 15,
+    width: '100%',
   },
   inputLabel: {
     color: colorList.vibrantCyan,
     fontSize: 12,
     fontWeight: 'bold',
     marginLeft: 5,
-    marginBottom: -10,
     letterSpacing: 1,
-  },
-  input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    marginHorizontal: 0,
-    width: '100%',
-    color: colorList.white,
-    borderRadius: 10,
-  },
-  inputText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colorList.white,
-    textAlign: 'left',
-    paddingLeft: 15,
   },
   forgotPassword: {
     alignSelf: 'flex-end',
     marginTop: 5,
   },
   forgotPasswordText: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: colorList.applePlaceholder,
     fontSize: 12,
     fontStyle: 'italic',
   },

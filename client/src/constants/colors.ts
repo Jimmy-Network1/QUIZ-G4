@@ -12,4 +12,10 @@ export const colorList = {
   red: '#FF0000',
   green: '#00FF00',
   black: '#000000',
+  // Apple Glass UI Theme
+  appleGlassBg: 'rgba(255, 255, 255, 0.1)',
+  appleGlassBorder: 'rgba(255, 255, 255, 0.2)',
+  appleText: '#F5F5F7',
+  applePlaceholder: 'rgba(235, 235, 245, 0.5)',
+  appleAccent: '#0A84FF',
 };
