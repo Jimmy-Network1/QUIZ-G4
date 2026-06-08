@@ -48,6 +48,20 @@ export const generateQuestionsByAI = async (
     const contentParts: any[] = [];
 
     if (fileData) {
+    // Sécurité : si les données sont simulées (MOCK), on bascule en mode démo
+    if (fileData.data === 'MOCK_AUDIO_BASE64') {
+      console.log("🛠️ Données simulées détectées, retour du mode démo.");
+      return Array(count).fill(null).map((_, i) => ({
+        category: theme || "Démo Vocale",
+        type: "multiple",
+        difficulty: "medium",
+        question: `Question ${i + 1} (Mode Démo) : L'IA a bien reçu ton enregistrement vocal ! Quel est ton objectif ?`,
+        correct_answer: "Réussir mon cours",
+        incorrect_answers: ["Dormir", "Jouer", "Abandonner"],
+        all_answers: ["Réussir mon cours", "Dormir", "Jouer", "Abandonner"].sort(() => Math.random() - 0.5)
+      }));
+    }
+
     prompt += ` 
     CONTEXTE MULTIMODAL :
     Analyse attentivement le fichier fourni. 
@@ -75,8 +89,9 @@ export const generateQuestionsByAI = async (
     const text = response.text();
     const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
     return JSON.parse(cleanedText);
-  } catch (error) {
-    console.error("Error generating questions with AI:", error);
-    throw new Error("Failed to generate AI questions");
+  } catch (error: any) {
+    console.error("❌ ERREUR GEMINI PRÉCISE :", error);
+    // On renvoie l'erreur réelle pour comprendre (ex: API_KEY_INVALID)
+    throw new Error(`Gemini Error: ${error.message || "Unknown error"}`);
   }
 };
