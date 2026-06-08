@@ -24,6 +24,12 @@ app.use(logRequests);
 app.use(express.json());
 app.use(cors());
 
+// Log de traçabilité immédiat pour le debug
+app.use((req, _res, next) => {
+  console.log(`📡 REQUÊTE REÇUE: ${req.method} ${req.url} à ${new Date().toISOString()}`);
+  next();
+});
+
 // API Routes
 app.use("/api/users", userRoutes);
 app.use("/api/rooms", roomRoutes);
