@@ -8,7 +8,6 @@ export const registerConnectionHandlers = (socket: Socket) => {
 
   socket.on("disconnect", async () => {
     console.log("User disconnected:", socket.id);
-    const userId = "retrieve-user-id-based-on-socket.id";
-    await deleteRoom(userId);
+    // TODO: Implémenter une gestion propre de suppression de salle par socket.id si nécessaire
   });
 };
