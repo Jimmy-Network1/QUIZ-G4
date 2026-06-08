@@ -1,6 +1,6 @@
 import {API_URL, LOCAL_API_URL} from '@env';
 
-// Remplacez cette URL par votre URL Render réelle après le déploiement
+// URL de votre backend sur Render
 export const RENDER_URL = 'https://quiz-g4-backend.onrender.com'; 
 
 let currentServerMode: 'online' | 'local' = 'online';
@@ -11,10 +11,10 @@ export const setGlobalServerMode = (mode: 'online' | 'local') => {
 
 export const getBaseUrl = () => {
   if (currentServerMode === 'local') {
-    return LOCAL_API_URL;
+    return LOCAL_API_URL || 'http://localhost:5000';
   }
-  // En mode online, on peut basculer entre l'API_URL (.env) ou RENDER_URL
-  return API_URL || RENDER_URL;
+  // On utilise RENDER_URL en priorité, sinon l'API_URL du .env
+  return RENDER_URL || API_URL;
 };
 
 export const apiUrl = () => `${getBaseUrl()}/api`;

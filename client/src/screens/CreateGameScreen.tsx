@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import {useFetchTriviaCategories, useCreateGame} from '../hooks';
 import {LoginScreenBg} from '../assets/images';
@@ -24,6 +26,27 @@ import {launchCamera} from 'react-native-image-picker';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
+
+const requestPermissions = async () => {
+  if (Platform.OS === 'android') {
+    try {
+      const grants = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      ]);
+
+      return (
+        grants['android.permission.RECORD_AUDIO'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+        grants['android.permission.CAMERA'] === PermissionsAndroid.RESULTS.GRANTED
+      );
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  }
+  return true;
+};
 
 export default function CreateGameScreen({
   route,
@@ -47,11 +70,18 @@ export default function CreateGameScreen({
     fileData,
   );
 
-  const handleCapturePhoto = () => {
+  const handleCapturePhoto = async () => {
+    const hasPermission = await requestPermissions();
+    if (!hasPermission) {
+      showAlert({ title: 'Autorisation requise', message: 'L\'app a besoin de la caméra pour scanner.', type: 'warning' });
+      return;
+    }
+
     launchCamera({
       mediaType: 'photo',
       includeBase64: true,
       quality: 0.5,
+      saveToPhotos: false,
     }, (response) => {
       if (response.didCancel) return;
       if (response.errorCode) {
@@ -69,6 +99,12 @@ export default function CreateGameScreen({
   };
 
   const handleRecordAudio = async () => {
+    const hasPermission = await requestPermissions();
+    if (!hasPermission) {
+      showAlert({ title: 'Autorisation requise', message: 'L\'app a besoin du micro pour t\'écouter.', type: 'warning' });
+      return;
+    }
+
     try {
       if (!isRecording) {
         // Commencer l'enregistrement
@@ -284,3 +320,4 @@ const styles = StyleSheet.create({
     height: 60,
   },
 });
+

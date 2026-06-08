@@ -54,7 +54,7 @@ export async function fetchQuestionsFromAPI(
         theme: theme || 'Analyse Multimodale',
         count: amount,
         fileData,
-      });
+      }, { timeout: 60000 }); // 60 secondes pour le réveil de Render
       if (response && response.data && response.data.length > 0) {
         return response.data;
       }
