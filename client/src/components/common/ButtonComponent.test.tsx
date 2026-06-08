@@ -50,14 +50,14 @@ describe('ButtonComponent', () => {
     );
 
     let buttonElement = getByText('Press Me').parent;
-    expect(buttonElement.parent).toHaveStyle({shadowColor: colorList.softPink});
+    expect(buttonElement.parent).toHaveStyle({shadowColor: '#FF2D55'});
 
     rerender(
       <ButtonComponent onPress={() => {}} title="Press Me" variant="bluish" />,
     );
     buttonElement = getByText('Press Me').parent;
     expect(buttonElement.parent).toHaveStyle({
-      shadowColor: colorList.electricBlue,
+      shadowColor: colorList.appleAccent,
     });
   });
 });

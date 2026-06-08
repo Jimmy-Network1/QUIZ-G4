@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import React from 'react';
 import ParentCategoryButton from './ParentCategoryButton';
 
@@ -14,20 +14,19 @@ export default function ParentCategoriesList({
   onSelectCategory,
 }: ParentCategoriesListProps) {
   return (
-    <FlatList
-      data={parentCategories}
-      renderItem={({item}) => (
-        <ParentCategoryButton
-          item={item}
-          selectedCategory={selectedCategory}
-          onSelectCategory={onSelectCategory} // TODO: Replace this with redux
-        />
-      )}
-      keyExtractor={item => item}
+    <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.horizontalList}
-    />
+      contentContainerStyle={styles.horizontalList}>
+      {parentCategories.map(item => (
+        <ParentCategoryButton
+          key={item}
+          item={item}
+          selectedCategory={selectedCategory}
+          onSelectCategory={onSelectCategory}
+        />
+      ))}
+    </ScrollView>
   );
 }
 

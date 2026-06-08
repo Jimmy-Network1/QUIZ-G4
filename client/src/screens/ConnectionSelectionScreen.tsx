@@ -65,10 +65,12 @@ export default function ConnectionSelectionScreen(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colorList.darkBackgroundBlue,
   },
   image: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: colorList.darkBackgroundBlue,
   },
   gradient: {
     flex: 1,

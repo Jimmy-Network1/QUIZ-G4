@@ -61,7 +61,7 @@ export default function RegisterScreen(): JSX.Element {
               contentContainerStyle={styles.scrollContent}
               showsVerticalScrollIndicator={false}>
               <Animated.View
-                entering={FadeInDown.duration(800)}
+                entering={FadeInDown.duration(400)}
                 style={styles.headerContainer}>
                 <Text style={styles.logoText}>
                   QUIZ<Text style={styles.logoAccent}>G4</Text>
@@ -142,10 +142,11 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     width: '100%',
+    backgroundColor: colorList.darkBackgroundBlue,
   },
   overlay: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 22,
   },
   keyboardView: {
     flex: 1,
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 35,
   },
   logoText: {
     fontSize: 50,
@@ -175,29 +176,31 @@ const styles = StyleSheet.create({
     color: colorList.softPink,
     fontSize: 16,
     marginTop: 5,
-    letterSpacing: 1,
     fontWeight: '600',
+    letterSpacing: 1,
   },
   formContainer: {
-    padding: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
   },
   formTitle: {
     color: colorList.white,
     fontSize: 24,
     fontWeight: '900',
-    marginBottom: 25,
+    marginBottom: 20,
     textAlign: 'center',
     letterSpacing: 2,
   },
   inputGroup: {
-    marginBottom: 15,
+    marginBottom: 18,
     width: '100%',
   },
   inputLabel: {
     color: colorList.vibrantCyan,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 'bold',
-    marginLeft: 5,
+    marginLeft: 6,
+    marginBottom: 6,
     letterSpacing: 1,
   },
   button: {

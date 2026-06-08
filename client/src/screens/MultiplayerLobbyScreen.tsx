@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
+    backgroundColor: colorList.darkBackgroundBlue,
   },
   overlay: {
     flex: 1,

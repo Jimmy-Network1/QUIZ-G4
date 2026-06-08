@@ -4,6 +4,19 @@ import { GEMINI_API_KEY } from "../config/config";
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || "");
 
 export const generateQuestionsByAI = async (theme: string, count: number = 10) => {
+  if (!GEMINI_API_KEY) {
+    console.warn("GEMINI_API_KEY is missing. Returning mock questions.");
+    return Array(count).fill(null).map((_, i) => ({
+      category: theme,
+      type: "multiple",
+      difficulty: "medium",
+      question: `Question ${i + 1} générée (Mode Démo) : Quel est le sujet principal concernant "${theme}" ?`,
+      correct_answer: "Réponse correcte",
+      incorrect_answers: ["Réponse A", "Réponse B", "Réponse C"],
+      all_answers: ["Réponse correcte", "Réponse A", "Réponse B", "Réponse C"].sort(() => Math.random() - 0.5)
+    }));
+  }
+
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const prompt = `

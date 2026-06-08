@@ -33,6 +33,19 @@ class BluetoothService {
     }
   }
 
+  async checkAndEnableBluetooth() {
+    try {
+      const enabled = await BluetoothClassic.isBluetoothEnabled();
+      if (!enabled) {
+        return await BluetoothClassic.requestBluetoothEnabled();
+      }
+      return true;
+    } catch (err) {
+      console.error('Error enabling bluetooth', err);
+      return false;
+    }
+  }
+
   async listPairedDevices() {
     try {
       return await BluetoothClassic.getBondedDevices();

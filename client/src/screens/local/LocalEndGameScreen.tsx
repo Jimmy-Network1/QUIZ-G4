@@ -91,7 +91,7 @@ export default function LocalEndGameScreen({
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
-  bg: {flex: 1},
+  bg: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
   overlay: {
     flex: 1,
     paddingHorizontal: 24,

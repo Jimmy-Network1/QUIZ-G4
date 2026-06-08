@@ -9,7 +9,12 @@ import {
 } from 'react-native';
 import {LoginScreenBg} from '../../assets/images';
 import {colorList} from '../../constants/colors';
-import {ButtonComponent, GoBackArrow, Input} from '../../components';
+import {
+  ButtonComponent,
+  GoBackArrow,
+  Input,
+  GlassCard,
+} from '../../components/common';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -17,6 +22,7 @@ import {AuthenticatedScreens, RootStackParamList} from '../../types/navigation';
 import LocalP2PService from '../../services/local/LocalP2PService';
 import {AuthContext} from '../../store/authContext';
 import {LocalMessage} from '../../types/LocalP2P';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 
 type Route = {
   params: {gameMode: '1v1' | 'tournament'};
@@ -77,69 +83,100 @@ export default function LocalWifiJoinScreen({
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={LoginScreenBg}
         style={styles.bg}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(11, 2, 53, 0.7)', colorList.darkBackgroundBlue]}
+          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
           style={styles.overlay}>
-          <View style={styles.header}>
-            <GoBackArrow />
-            <Text style={styles.headerTitle}>Rejoindre</Text>
-            <View style={{width: 40}} />
-          </View>
+          <SafeAreaView style={styles.safeArea}>
+            <View style={styles.header}>
+              <GoBackArrow />
+              <Text style={styles.headerTitle}>REJOINDRE</Text>
+              <View style={{width: 40}} />
+            </View>
 
-          <Text style={styles.subtitle}>Même Wi-Fi ou hotspot du créateur</Text>
+            <Animated.View
+              entering={FadeInDown.duration(800)}
+              style={styles.content}>
+              <GlassCard delay={100} style={styles.glassContainer}>
+                <Text style={styles.subtitle}>
+                  Même Wi-Fi ou hotspot du créateur
+                </Text>
 
-          <Input
-            placeholder="IP de l'hôte (ex: 192.168.1.42)"
-            keyboardType="numeric"
-            onChangeText={setHostIp}
-            style={styles.input}
-          />
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>IP DE L'HÔTE</Text>
+                  <Input
+                    placeholder="Ex: 192.168.1.42"
+                    keyboardType="numeric"
+                    onChangeText={setHostIp}
+                    style={styles.input}
+                  />
+                </View>
 
-          <Text style={styles.status}>{status}</Text>
+                <Text style={styles.status}>{status}</Text>
 
-          <ButtonComponent
-            title={isConnecting ? 'Connexion...' : 'Rejoindre la partie'}
-            onPress={handleConnect}
-            style={styles.button}
-            disabled={isConnecting}
-          />
+                <ButtonComponent
+                  title={isConnecting ? 'CONNEXION...' : 'REJOINDRE LA PARTIE'}
+                  onPress={handleConnect}
+                  style={styles.button}
+                  disabled={isConnecting}
+                />
+              </GlassCard>
+            </Animated.View>
+          </SafeAreaView>
         </LinearGradient>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
-  bg: {flex: 1},
-  overlay: {flex: 1, paddingHorizontal: 20, justifyContent: 'center'},
+  bg: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
+  overlay: {flex: 1},
+  safeArea: {flex: 1, paddingHorizontal: 20, backgroundColor: 'transparent'},
   header: {
-    position: 'absolute',
-    top: 50,
-    left: 10,
-    right: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingVertical: 20,
+    marginTop: 20,
   },
-  headerTitle: {color: colorList.white, fontSize: 20, fontWeight: 'bold'},
+  headerTitle: {
+    color: colorList.white,
+    fontSize: 20,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+  content: {flex: 1, justifyContent: 'center', paddingBottom: 40},
+  glassContainer: {padding: 25},
   subtitle: {
-    color: '#ccc',
+    color: colorList.applePlaceholder,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: 30,
     fontSize: 14,
+    fontStyle: 'italic',
+  },
+  inputGroup: {marginBottom: 15, width: '100%'},
+  inputLabel: {
+    color: colorList.vibrantCyan,
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginLeft: 5,
+    letterSpacing: 1,
+    marginBottom: -10,
   },
   input: {marginHorizontal: 0},
   status: {
     color: colorList.vibrantCyan,
     textAlign: 'center',
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 25,
+    marginBottom: 15,
+    fontWeight: 'bold',
+    letterSpacing: 1,
   },
   button: {marginHorizontal: 0, height: 55},
 });

@@ -12,10 +12,14 @@ export const colorList = {
   red: '#FF0000',
   green: '#00FF00',
   black: '#000000',
-  // Apple Glass UI Theme
-  appleGlassBg: 'rgba(255, 255, 255, 0.1)',
-  appleGlassBorder: 'rgba(255, 255, 255, 0.2)',
-  appleText: '#F5F5F7',
-  applePlaceholder: 'rgba(235, 235, 245, 0.5)',
-  appleAccent: '#0A84FF',
+  // Apple Glass UI Theme - Clean & Light
+  appleGlassBg: 'rgba(255, 255, 255, 0.45)',
+  appleGlassBorder: 'rgba(255, 255, 255, 0.55)',
+  appleText: '#1D1D1F',
+  applePlaceholder: 'rgba(60, 60, 67, 0.6)',
+  appleAccent: '#007AFF',
+  appleCardShadow: 'rgba(0, 0, 0, 0.08)',
+  appleLightBg: '#F5F5F7',
+  appleGradientStart: 'rgba(240, 244, 255, 0.8)',
+  appleGradientEnd: 'rgba(249, 243, 255, 0.8)',
 };

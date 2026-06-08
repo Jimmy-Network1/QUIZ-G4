@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {LoginScreenBg} from '../../assets/images';
 import {colorList} from '../../constants/colors';
-import {ButtonComponent, GoBackArrow} from '../../components';
+import {ButtonComponent, GoBackArrow, GlassCard} from '../../components/common';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -22,6 +22,7 @@ import {
 import LocalP2PService from '../../services/local/LocalP2PService';
 import {AuthContext} from '../../store/authContext';
 import {MAX_LOCAL_TOURNAMENT_PLAYERS} from '../../constants/local';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 
 type Route = {
   params: {gameMode: '1v1' | 'tournament'};
@@ -79,126 +80,148 @@ export default function LocalWifiHostScreen({
   const canStart = players.length >= minPlayers;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={LoginScreenBg}
         style={styles.bg}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(11, 2, 53, 0.7)', colorList.darkBackgroundBlue]}
+          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
           style={styles.overlay}>
-          <View style={styles.header}>
-            <GoBackArrow />
-            <Text style={styles.headerTitle}>
-              {gameMode === '1v1' ? 'Hôte 1v1' : 'Hôte Compétition'}
-            </Text>
-            <View style={{width: 40}} />
-          </View>
+          <SafeAreaView style={styles.safeArea}>
+            <View style={styles.header}>
+              <GoBackArrow />
+              <Text style={styles.headerTitle}>
+                {gameMode === '1v1' ? 'HÔTE 1v1' : 'HÔTE COMPÉTITION'}
+              </Text>
+              <View style={{width: 40}} />
+            </View>
 
-          <ScrollView contentContainerStyle={styles.content}>
-            {!isHosting ? (
-              <>
-                <Text style={styles.label}>Catégorie (hors-ligne)</Text>
-                <View style={styles.categoryList}>
-                  {categories.map(cat => (
+            <ScrollView contentContainerStyle={styles.content}>
+              <Animated.View entering={FadeInDown.duration(400)}>
+                {!isHosting ? (
+                  <GlassCard delay={100} style={styles.glassContainer}>
+                    <Text style={styles.label}>CATÉGORIE (HORS-LIGNE)</Text>
+                    <View style={styles.categoryList}>
+                      {categories.map(cat => (
+                        <ButtonComponent
+                          key={cat.id}
+                          title={cat.name}
+                          variant={
+                            selectedCategory === cat.id ? 'default' : 'bluish'
+                          }
+                          onPress={() => setSelectedCategory(cat.id)}
+                          style={styles.categoryButton}
+                        />
+                      ))}
+                    </View>
                     <ButtonComponent
-                      key={cat.id}
-                      title={cat.name}
-                      variant={
-                        selectedCategory === cat.id ? 'default' : 'bluish'
-                      }
-                      onPress={() => setSelectedCategory(cat.id)}
-                      style={styles.categoryButton}
+                      title="DÉMARRER LE SALON"
+                      onPress={handleStartHost}
+                      style={styles.actionButton}
                     />
-                  ))}
-                </View>
-                <ButtonComponent
-                  title="Démarrer le salon"
-                  onPress={handleStartHost}
-                  style={styles.actionButton}
-                />
-              </>
-            ) : (
-              <>
-                <Text style={styles.info}>
-                  Partagez votre IP Wi-Fi avec les autres joueurs.
-                  {'\n'}Routeur ou hotspot : même réseau requis.
-                </Text>
-                <Text style={styles.port}>Port : 9090</Text>
-
-                <Text style={styles.label}>
-                  Joueurs ({players.length}/{maxPlayers})
-                </Text>
-                <View style={styles.glassCard}>
-                  {players.map(p => (
-                    <Text key={p.id} style={styles.playerText}>
-                      • {p.pseudo}
-                      {p.id === userId ? ' (vous)' : ''}
+                  </GlassCard>
+                ) : (
+                  <GlassCard delay={100} style={styles.glassContainer}>
+                    <Text style={styles.info}>
+                      Partagez votre IP Wi-Fi avec les autres joueurs.
+                      {'\n'}Routeur ou hotspot : même réseau requis.
                     </Text>
-                  ))}
-                </View>
+                    <Text style={styles.port}>Port : 9090</Text>
 
-                {error ? <Text style={styles.error}>{error}</Text> : null}
+                    <Text style={styles.label}>
+                      JOUEURS ({players.length}/{maxPlayers})
+                    </Text>
+                    <View style={styles.playersList}>
+                      {players.map(p => (
+                        <Text key={p.id} style={styles.playerText}>
+                          • {p.pseudo}
+                          {p.id === userId ? ' (vous)' : ''}
+                        </Text>
+                      ))}
+                    </View>
 
-                <ButtonComponent
-                  title={
-                    canStart
-                      ? 'Lancer la partie'
-                      : `En attente (${minPlayers} joueurs min.)`
-                  }
-                  onPress={handleStartGame}
-                  style={styles.actionButton}
-                  disabled={!canStart}
-                />
-              </>
-            )}
-          </ScrollView>
+                    {error ? <Text style={styles.error}>{error}</Text> : null}
+
+                    <ButtonComponent
+                      title={
+                        canStart
+                          ? 'LANCER LA PARTIE'
+                          : `EN ATTENTE (${minPlayers} joueurs min.)`
+                      }
+                      onPress={handleStartGame}
+                      style={styles.actionButton}
+                      disabled={!canStart}
+                    />
+                  </GlassCard>
+                )}
+              </Animated.View>
+            </ScrollView>
+          </SafeAreaView>
         </LinearGradient>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
-  bg: {flex: 1},
-  overlay: {flex: 1, paddingHorizontal: 20},
+  bg: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
+  overlay: {flex: 1},
+  safeArea: {flex: 1, paddingHorizontal: 20, backgroundColor: 'transparent'},
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 20,
+    marginTop: 20,
   },
-  headerTitle: {color: colorList.white, fontSize: 20, fontWeight: 'bold'},
-  content: {paddingBottom: 40},
+  headerTitle: {
+    color: colorList.white,
+    fontSize: 20,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+  content: {paddingBottom: 40, justifyContent: 'center', flexGrow: 1},
+  glassContainer: {padding: 20},
   label: {
-    color: colorList.vibrantCyan,
+    color: colorList.applePlaceholder,
+    fontSize: 12,
     fontWeight: 'bold',
-    marginBottom: 12,
-    marginTop: 10,
+    letterSpacing: 2,
+    marginBottom: 15,
+    textAlign: 'center',
   },
-  categoryList: {gap: 8},
-  categoryButton: {marginHorizontal: 0, height: 48},
-  actionButton: {marginTop: 24, marginHorizontal: 0, height: 55},
+  categoryList: {gap: 10},
+  categoryButton: {marginHorizontal: 0, height: 50},
+  actionButton: {marginTop: 25, marginHorizontal: 0, height: 55},
   info: {
-    color: '#ccc',
+    color: colorList.applePlaceholder,
     textAlign: 'center',
     marginVertical: 16,
     lineHeight: 22,
+    fontStyle: 'italic',
   },
   port: {
-    color: colorList.glowingYellow,
+    color: colorList.vibrantCyan,
     textAlign: 'center',
     fontWeight: 'bold',
     marginBottom: 20,
+    fontSize: 18,
+    letterSpacing: 2,
   },
-  glassCard: {
+  playersList: {
     backgroundColor: 'rgba(255,255,255,0.05)',
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.1)',
   },
-  playerText: {color: colorList.white, fontSize: 16, marginVertical: 4},
+  playerText: {
+    color: colorList.white,
+    fontSize: 16,
+    marginVertical: 4,
+    fontWeight: 'bold',
+  },
   error: {color: colorList.red, textAlign: 'center', marginTop: 12},
 });

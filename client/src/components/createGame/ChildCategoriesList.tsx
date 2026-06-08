@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {CategoryInterface} from '../../types/categories';
 import CategoryCard from './CategoryCard';
@@ -15,19 +15,16 @@ export default function ChildCategoriesList({
   onSelectCategory,
 }: ChildCategoriesListProps) {
   return (
-    <FlatList
-      data={categories}
-      renderItem={({item}) => (
+    <View style={styles.verticalList}>
+      {categories.map(item => (
         <CategoryCard
+          key={item.id.toString()}
           category={item}
           isSelected={selectedCategory?.id === item.id}
           onSelect={onSelectCategory}
         />
-      )}
-      keyExtractor={item => item.id.toString()}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.verticalList}
-    />
+      ))}
+    </View>
   );
 }
 

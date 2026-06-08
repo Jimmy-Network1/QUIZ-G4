@@ -6,6 +6,9 @@ export async function fetchQuestionsFromAPI(
   categoryId: string,
   amount = 10,
 ): Promise<QuestionInterface[] | null> {
+  if (!categoryId || typeof categoryId !== 'string') {
+    return null;
+  }
   if (categoryId.startsWith('ai_')) {
     const theme = categoryId.replace('ai_', '');
     try {
@@ -22,7 +25,7 @@ export async function fetchQuestionsFromAPI(
 
   try {
     const url = `https://opentdb.com/api.php?amount=${amount}&category=${categoryId}`;
-    const response = await axios.get(url);
+    const response = await axios.get(url, { timeout: 5000 });
     const code = response.data.response_code;
 
     if (code === 1 && amount > 1) {

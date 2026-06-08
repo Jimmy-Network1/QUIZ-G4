@@ -144,7 +144,7 @@ export default function TournamentWaitingRoomScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  background: {flex: 1},
+  background: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
   gradient: {flex: 1},
   container: {flex: 1, padding: 30, alignItems: 'center'},
   title: {

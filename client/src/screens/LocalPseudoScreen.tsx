@@ -80,8 +80,8 @@ export default function LocalPseudoScreen(): JSX.Element {
 export {LOCAL_PSEUDO_KEY};
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
-  image: {flex: 1},
+  container: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
+  image: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
   gradient: {
     flex: 1,
     padding: 20,

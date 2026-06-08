@@ -180,7 +180,7 @@ export default function LocalGameScreen({route}: {route: Route}): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
-  backgroundImage: {flex: 1},
+  backgroundImage: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
   overlay: {flex: 1, paddingHorizontal: 20},
   gameHeader: {paddingVertical: 20},
   timerWrapper: {

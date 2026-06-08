@@ -12,22 +12,76 @@ import {
 } from 'react-native';
 import {LoginScreenBg} from '../../assets/images';
 import {colorList} from '../../constants/colors';
-import {ButtonComponent, GoBackArrow} from '../../components';
+import {ButtonComponent, GoBackArrow, GlassCard} from '../../components/common';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {AuthenticatedScreens, RootStackParamList} from '../../types/navigation';
 import BluetoothService from '../../services/local/BluetoothService';
 import {BluetoothDevice} from 'react-native-bluetooth-classic';
 import {getOfflineQuestionsForGame} from '../../services/OfflineQuestionService';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 
 export default function LocalBluetoothScreen(): JSX.Element {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [devices, setDevices] = useState<BluetoothDevice[]>([]);
   const [isScanning, setIsScanning] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isBluetoothReady, setIsBluetoothReady] = useState(false);
+
+  const setupBluetooth = useCallback(async () => {
+    const hasPermission = await BluetoothService.requestPermissions();
+    if (!hasPermission) {
+      Alert.alert(
+        'Permissions requises',
+        'Le Bluetooth et la localisation sont nécessaires pour jouer en local.',
+      );
+      return;
+    }
+
+    const enabled = await BluetoothService.checkAndEnableBluetooth();
+    if (!enabled) {
+      Alert.alert(
+        'Bluetooth requis',
+        'Veuillez activer le Bluetooth pour jouer.',
+      );
+      return;
+    }
+
+    setIsBluetoothReady(true);
+  }, []);
+
+  useEffect(() => {
+    setupBluetooth();
+  }, [setupBluetooth]);
+
+  const scanDevices = useCallback(async () => {
+    if (!isBluetoothReady) {
+      return;
+    }
+    setIsScanning(true);
+    try {
+      const paired = await BluetoothService.listPairedDevices();
+      setDevices(paired || []);
+      const discovered = await BluetoothService.startDiscovery();
+      setDevices(prev => {
+        const all = [...prev, ...(discovered || [])];
+        return all.filter(
+          (v, i, a) => a.findIndex(t => t.address === v.address) === i,
+        );
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsScanning(false);
+    }
+  }, [isBluetoothReady]);
 
   // Listen for incoming connection requests (acting as Client/Receiver)
   useEffect(() => {
+    if (!isBluetoothReady) {
+      return;
+    }
+
     const listenForConnection = async () => {
       try {
         const device = await BluetoothService.acceptConnection();
@@ -51,45 +105,12 @@ export default function LocalBluetoothScreen(): JSX.Element {
     };
 
     listenForConnection();
+    scanDevices(); // auto start scan
+
     return () => {
       BluetoothService.disconnect();
     };
-  }, [navigation]);
-
-  const setupBluetooth = useCallback(async () => {
-    const hasPermission = await BluetoothService.requestPermissions();
-    if (!hasPermission) {
-      Alert.alert(
-        'Permissions requises',
-        'Le Bluetooth et la localisation sont nécessaires pour jouer en local.',
-      );
-      return;
-    }
-    scanDevices();
-  }, []);
-
-  useEffect(() => {
-    setupBluetooth();
-  }, [setupBluetooth]);
-
-  const scanDevices = async () => {
-    setIsScanning(true);
-    try {
-      const paired = await BluetoothService.listPairedDevices();
-      setDevices(paired);
-      const discovered = await BluetoothService.startDiscovery();
-      setDevices(prev => {
-        const all = [...prev, ...discovered];
-        return all.filter(
-          (v, i, a) => a.findIndex(t => t.address === v.address) === i,
-        );
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsScanning(false);
-    }
-  };
+  }, [navigation, isBluetoothReady, scanDevices]);
 
   const handleConnect = async (device: BluetoothDevice) => {
     setIsConnecting(true);
@@ -127,83 +148,97 @@ export default function LocalBluetoothScreen(): JSX.Element {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={LoginScreenBg}
         style={styles.bg}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(11, 2, 53, 0.7)', colorList.darkBackgroundBlue]}
+          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
           style={styles.overlay}>
-          <View style={styles.header}>
-            <GoBackArrow />
-            <Text style={styles.headerTitle}>Bluetooth 1v1</Text>
-            <View style={{width: 40}} />
-          </View>
+          <SafeAreaView style={styles.safeArea}>
+            <View style={styles.header}>
+              <GoBackArrow />
+              <Text style={styles.headerTitle}>BLUETOOTH 1v1</Text>
+              <View style={{width: 40}} />
+            </View>
 
-          <View style={styles.content}>
-            <Text style={styles.subtitle}>JOUEURS À PROXIMITÉ</Text>
+            <Animated.View
+                entering={FadeInDown.duration(400)}
+                style={styles.content}>
+              <GlassCard delay={100} style={styles.glassContainer}>
+                <Text style={styles.subtitle}>JOUEURS À PROXIMITÉ</Text>
 
-            {isScanning ? (
-              <ActivityIndicator
-                color={colorList.vibrantCyan}
-                size="large"
-                style={styles.loader}
+                {isScanning ? (
+                  <ActivityIndicator
+                    color={colorList.vibrantCyan}
+                    size="large"
+                    style={styles.loader}
+                  />
+                ) : (
+                  <FlatList
+                    data={devices}
+                    renderItem={renderDevice}
+                    keyExtractor={item => item.address}
+                    contentContainerStyle={styles.list}
+                    ListEmptyComponent={
+                      <Text style={styles.emptyText}>
+                        Aucun appareil trouvé. Vérifiez que le Bluetooth est
+                        activé sur l'autre téléphone.
+                      </Text>
+                    }
+                  />
+                )}
+              </GlassCard>
+            </Animated.View>
+
+            <Animated.View
+              entering={FadeInDown.delay(200).duration(800)}
+              style={styles.footer}>
+              <ButtonComponent
+                title="RECHERCHER À NOUVEAU"
+                onPress={scanDevices}
+                isLoading={isScanning}
+                disabled={isConnecting || !isBluetoothReady}
+                style={styles.button}
               />
-            ) : (
-              <FlatList
-                data={devices}
-                renderItem={renderDevice}
-                keyExtractor={item => item.address}
-                contentContainerStyle={styles.list}
-                ListEmptyComponent={
-                  <Text style={styles.emptyText}>
-                    Aucun appareil trouvé. Vérifiez que le Bluetooth est activé
-                    sur l'autre téléphone.
-                  </Text>
-                }
-              />
-            )}
-          </View>
-
-          <View style={styles.footer}>
-            <ButtonComponent
-              title="RECHERCHER À NOUVEAU"
-              onPress={scanDevices}
-              isLoading={isScanning}
-              disabled={isConnecting}
-            />
-            {isConnecting && (
-              <Text style={styles.connectingText}>Connexion en cours...</Text>
-            )}
-            <Text style={styles.waitingHint}>
-              En restant sur cet écran, vous êtes visible pour les autres.
-            </Text>
-          </View>
+              {isConnecting && (
+                <Text style={styles.connectingText}>Connexion en cours...</Text>
+              )}
+              <Text style={styles.waitingHint}>
+                En restant sur cet écran, vous êtes visible pour les autres.
+              </Text>
+            </Animated.View>
+          </SafeAreaView>
         </LinearGradient>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
-  bg: {flex: 1},
-  overlay: {flex: 1, paddingHorizontal: 20, paddingTop: 100},
+  bg: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
+  overlay: {flex: 1},
+  safeArea: {flex: 1, paddingHorizontal: 20, backgroundColor: 'transparent'},
   header: {
-    position: 'absolute',
-    top: 50,
-    left: 10,
-    right: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingVertical: 20,
+    marginTop: 20,
   },
-  headerTitle: {color: colorList.white, fontSize: 20, fontWeight: 'bold'},
-  content: {flex: 1},
+  headerTitle: {
+    color: colorList.white,
+    fontSize: 20,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+  content: {flex: 1, paddingBottom: 20},
+  glassContainer: {flex: 1, padding: 20},
   subtitle: {
-    color: colorList.vibrantCyan,
-    fontSize: 14,
+    color: colorList.applePlaceholder,
+    fontSize: 12,
     fontWeight: 'bold',
     letterSpacing: 2,
     marginBottom: 20,
@@ -217,28 +252,30 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: colorList.appleGlassBorder,
   },
   deviceName: {color: '#fff', fontSize: 18, fontWeight: 'bold'},
   deviceAddress: {color: 'rgba(255,255,255,0.5)', fontSize: 12, marginTop: 4},
   emptyText: {
-    color: '#ccc',
+    color: colorList.applePlaceholder,
     textAlign: 'center',
     marginTop: 50,
     fontStyle: 'italic',
+    lineHeight: 22,
   },
   footer: {paddingBottom: 30},
+  button: {marginHorizontal: 0, height: 55},
   connectingText: {
-    color: colorList.softPink,
+    color: colorList.vibrantCyan,
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 15,
     fontWeight: 'bold',
   },
   waitingHint: {
-    color: '#888',
+    color: colorList.applePlaceholder,
     fontSize: 11,
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 15,
     fontStyle: 'italic',
   },
 });

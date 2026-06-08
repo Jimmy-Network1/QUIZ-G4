@@ -45,7 +45,7 @@ export default function LoginScreen(): JSX.Element {
         style={styles.backgroundImage}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(11, 2, 53, 0.4)', colorList.darkBackgroundBlue]}
+          colors={[colorList.appleGradientStart, colorList.appleGradientEnd]}
           style={styles.overlay}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -65,7 +65,7 @@ export default function LoginScreen(): JSX.Element {
               </Animated.View>
 
               <GlassCard delay={200} style={styles.formContainer}>
-                <Text style={styles.formTitle}>CONNEXION</Text>
+                <Text style={styles.formTitle}>Connexion</Text>
 
                 <TouchableOpacity
                   onPress={toggleServerMode}
@@ -132,10 +132,11 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     width: '100%',
+    backgroundColor: colorList.darkBackgroundBlue,
   },
   overlay: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 22,
   },
   keyboardView: {
     flex: 1,
@@ -147,81 +148,76 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 35,
   },
   logoText: {
-    fontSize: 50,
-    fontWeight: '900',
-    color: colorList.white,
-    letterSpacing: 2,
-    textShadowColor: colorList.neonPink,
-    textShadowOffset: {width: 0, height: 0},
-    textShadowRadius: 15,
+    fontSize: 52,
+    fontWeight: '800',
+    color: '#1D1D1F',
+    letterSpacing: -1,
   },
   logoAccent: {
-    color: colorList.vibrantCyan,
+    color: colorList.appleAccent,
   },
   subtitle: {
-    color: colorList.softPink,
-    fontSize: 16,
-    marginTop: 5,
-    letterSpacing: 1,
-    fontWeight: '600',
+    color: '#6E6E73',
+    fontSize: 15,
+    marginTop: 8,
+    fontWeight: '500',
+    letterSpacing: 0.3,
   },
   formContainer: {
-    padding: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
   },
   formTitle: {
-    color: colorList.white,
+    color: '#1D1D1F',
     fontSize: 24,
-    fontWeight: '900',
-    marginBottom: 15,
+    fontWeight: '700',
+    marginBottom: 20,
     textAlign: 'center',
-    letterSpacing: 2,
   },
   serverToggle: {
-    backgroundColor: 'rgba(0, 255, 255, 0.1)',
+    backgroundColor: 'rgba(0, 122, 255, 0.08)',
     paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: colorList.vibrantCyan,
+    borderColor: 'rgba(0, 122, 255, 0.15)',
     alignSelf: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
   },
   serverToggleText: {
-    color: colorList.vibrantCyan,
+    color: colorList.appleAccent,
     fontSize: 12,
-    fontWeight: 'bold',
-    letterSpacing: 1,
+    fontWeight: '600',
+    letterSpacing: 0.5,
   },
   inputGroup: {
-    marginBottom: 15,
+    marginBottom: 18,
     width: '100%',
   },
   inputLabel: {
     color: colorList.vibrantCyan,
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginLeft: 5,
-    letterSpacing: 1,
+    fontSize: 11,
+    fontWeight: '600',
+    marginLeft: 6,
+    marginBottom: 6,
+    letterSpacing: 0.5,
   },
   forgotPassword: {
     alignSelf: 'flex-end',
-    marginTop: 5,
+    marginTop: 4,
   },
   forgotPasswordText: {
-    color: colorList.applePlaceholder,
-    fontSize: 12,
-    fontStyle: 'italic',
+    color: colorList.vibrantCyan,
+    fontSize: 13,
+    fontWeight: '500',
   },
   button: {
     marginTop: 25,
     marginHorizontal: 0,
-    height: 55,
-    backgroundColor: colorList.brightPurple,
-    borderColor: colorList.neonPink,
-    borderWidth: 2,
+    height: 52,
   },
   footerText: {
     flexDirection: 'row',
@@ -234,7 +230,7 @@ const styles = StyleSheet.create({
   },
   registerLink: {
     color: colorList.vibrantCyan,
-    fontWeight: 'bold',
+    fontWeight: '600',
     fontSize: 14,
   },
 });

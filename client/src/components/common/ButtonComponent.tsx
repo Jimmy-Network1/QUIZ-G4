@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   ViewStyle,
   TextStyle,
   ActivityIndicator,
+  Animated,
 } from 'react-native';
 import {colorList} from '../../constants/colors';
 import LinearGradient from 'react-native-linear-gradient';
@@ -29,32 +30,34 @@ export default function ButtonComponent({
   isLoading,
   variant = 'default',
 }: ButtonComponentProps) {
-  const [isPressed, setIsPressed] = useState(false);
+  const scaleValue = useRef(new Animated.Value(1)).current;
 
   const handlePressIn = () => {
-    setIsPressed(true);
+    Animated.spring(scaleValue, {
+      toValue: 0.96,
+      useNativeDriver: true,
+      tension: 100,
+      friction: 6,
+    }).start();
   };
 
   const handlePressOut = () => {
-    setIsPressed(false);
-  };
-
-  const getGradientStyle = () => {
-    if (disabled) {
-      return [styles.gradient, styles.disabled, style];
-    }
-    if (isPressed) {
-      return [styles.gradient, styles.pressed, style];
-    }
-    return variant === 'bluish'
-      ? [styles.bluishGradient, style]
-      : [styles.gradient, style];
+    Animated.spring(scaleValue, {
+      toValue: 1,
+      useNativeDriver: true,
+      tension: 100,
+      friction: 6,
+    }).start();
   };
 
   const gradientColors =
     variant === 'bluish'
-      ? [colorList.vibrantCyan, colorList.electricBlue]
-      : [colorList.neonPink, colorList.softPink];
+      ? [colorList.appleAccent, '#5AC8FA']
+      : ['#FF2D55', '#FF6B8B']; // Soft Apple Pink/Rose gradient
+
+  const shadowStyle = {
+    shadowColor: variant === 'bluish' ? colorList.appleAccent : '#FF2D55',
+  };
 
   const buttonTextStyle =
     variant === 'bluish'
@@ -66,58 +69,58 @@ export default function ButtonComponent({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={onPress}
-      disabled={disabled}>
-      <LinearGradient
-        colors={gradientColors}
-        style={[styles.buttonBase, getGradientStyle()]}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}>
-        {isLoading ? (
-          <ActivityIndicator
-            testID="activity-indicator"
-            size={'small'}
-            color={colorList.white}
-          />
-        ) : (
-          <Text style={buttonTextStyle}>{title}</Text>
-        )}
-      </LinearGradient>
+      disabled={disabled || isLoading}>
+      <Animated.View style={{transform: [{scale: scaleValue}]}}>
+        <LinearGradient
+          colors={gradientColors}
+          style={[
+            styles.buttonBase,
+            shadowStyle,
+            disabled && styles.disabled,
+            style,
+          ]}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}>
+          {isLoading ? (
+            <ActivityIndicator
+              testID="activity-indicator"
+              size={'small'}
+              color={colorList.white}
+            />
+          ) : (
+            <Text style={buttonTextStyle}>{title}</Text>
+          )}
+        </LinearGradient>
+      </Animated.View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   buttonBase: {
-    shadowRadius: 3,
-    elevation: 10,
-    borderRadius: 20,
-    height: 45,
+    borderRadius: 25,
+    height: 52,
     marginHorizontal: 35,
     justifyContent: 'center',
     marginTop: 20,
-    shadowOpacity: 1,
-  },
-  gradient: {
-    shadowColor: colorList.softPink,
-  },
-  bluishGradient: {
-    shadowColor: colorList.electricBlue,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 4,
   },
   disabled: {
     opacity: 0.5,
   },
-  pressed: {
-    opacity: 0.8,
-  },
   textBase: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
   buttonText: {
     color: colorList.white,
   },
   bluishButtonText: {
-    color: colorList.black,
+    color: colorList.white,
   },
 });

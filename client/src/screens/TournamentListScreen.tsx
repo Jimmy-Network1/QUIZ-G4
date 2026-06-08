@@ -83,7 +83,7 @@ export default function TournamentListScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  background: {flex: 1},
+  background: {flex: 1, backgroundColor: colorList.darkBackgroundBlue},
   gradient: {flex: 1},
   container: {flex: 1, padding: 20},
   title: {
