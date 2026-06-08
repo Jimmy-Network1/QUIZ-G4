@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ImageBackground,
   SafeAreaView,
-  Alert,
 } from 'react-native';
 import {LoginScreenBg} from '../../assets/images';
 import {colorList} from '../../constants/colors';
@@ -23,6 +22,7 @@ import LocalP2PService from '../../services/local/LocalP2PService';
 import {AuthContext} from '../../store/authContext';
 import {LocalMessage} from '../../types/LocalP2P';
 import Animated, {FadeInDown} from 'react-native-reanimated';
+import {useAlert} from '../../store/alertContext';
 
 type Route = {
   params: {gameMode: '1v1' | 'tournament'};
@@ -37,6 +37,7 @@ export default function LocalWifiJoinScreen({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {userId, userName} = useContext(AuthContext);
+  const {showAlert} = useAlert();
   const [hostIp, setHostIp] = useState('');
   const [isConnecting, setIsConnecting] = useState(false);
   const [status, setStatus] = useState("Entrez l'IP de l'hôte");
@@ -44,10 +45,11 @@ export default function LocalWifiJoinScreen({
   const handleConnect = async () => {
     const ip = hostIp.trim();
     if (!ip) {
-      Alert.alert(
-        'IP requise',
-        "Demandez l'IP Wi-Fi à la personne qui a créé la partie.",
-      );
+      showAlert({
+        title: 'IP manquante',
+        message: 'Demande l\'IP Wi-Fi à la personne qui a créé la partie pour la rejoindre !',
+        type: 'warning',
+      });
       return;
     }
 

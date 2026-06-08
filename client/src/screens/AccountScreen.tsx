@@ -62,7 +62,7 @@ export default function AccountScreen(): JSX.Element {
               <ButtonComponent
                 title="Supprimer le compte"
                 onPress={deleteAccount}
-                style={[styles.button, styles.deleteButton]}
+                style={{...styles.button, ...styles.deleteButton}}
               />
             </View>
           </View>

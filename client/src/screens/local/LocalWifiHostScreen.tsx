@@ -6,7 +6,6 @@ import {
   ImageBackground,
   SafeAreaView,
   ScrollView,
-  Alert,
 } from 'react-native';
 import {LoginScreenBg} from '../../assets/images';
 import {colorList} from '../../constants/colors';
@@ -23,6 +22,7 @@ import LocalP2PService from '../../services/local/LocalP2PService';
 import {AuthContext} from '../../store/authContext';
 import {MAX_LOCAL_TOURNAMENT_PLAYERS} from '../../constants/local';
 import Animated, {FadeInDown} from 'react-native-reanimated';
+import {useAlert} from '../../store/alertContext';
 
 type Route = {
   params: {gameMode: '1v1' | 'tournament'};
@@ -37,6 +37,7 @@ export default function LocalWifiHostScreen({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {userId, userName} = useContext(AuthContext);
+  const {showAlert} = useAlert();
   const categories = getOfflineCategories();
 
   const [selectedCategory, setSelectedCategory] = useState(
@@ -63,7 +64,11 @@ export default function LocalWifiHostScreen({
       await LocalP2PService.startHost(gameMode);
       setIsHosting(true);
     } catch (e) {
-      Alert.alert('Erreur', 'Impossible de démarrer le serveur local.');
+      showAlert({
+        title: 'Hébergement impossible',
+        message: 'L\'arène locale n\'a pas pu démarrer. Vérifie tes paramètres Wi-Fi.',
+        type: 'error',
+      });
     }
   };
 

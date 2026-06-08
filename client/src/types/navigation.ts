@@ -63,4 +63,5 @@ export type GameScreenParams = {
   categoryId: string;
   isHost: boolean;
   isSinglePlayer: boolean;
+  fileData?: { data: string; mimeType: string };
 };

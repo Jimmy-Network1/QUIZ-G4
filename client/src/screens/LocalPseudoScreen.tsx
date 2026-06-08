@@ -17,6 +17,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthenticatedScreens, RootStackParamList} from '../types/navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import {GoBackArrow} from '../components';
+import {useAlert} from '../store/alertContext';
 
 const LOCAL_PSEUDO_KEY = 'localPseudo';
 
@@ -24,12 +25,17 @@ export default function LocalPseudoScreen(): JSX.Element {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {authenticateLocal} = useContext(AuthContext);
+  const {showAlert} = useAlert();
   const [pseudo, setPseudo] = useState('');
 
   const handleContinue = async () => {
     const trimmed = pseudo.trim();
     if (trimmed.length < 2) {
-      Alert.alert('Pseudo invalide', 'Entrez au moins 2 caractères.');
+      showAlert({
+        title: 'Pseudo trop court',
+        message: 'Même les ninjas ont un nom ! Choisis un pseudo d\'au moins 2 lettres.',
+        type: 'warning',
+      });
       return;
     }
 

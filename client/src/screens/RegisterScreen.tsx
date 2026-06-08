@@ -18,9 +18,11 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList, UnauthenticatedScreens} from '../types/navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {FadeInDown} from 'react-native-reanimated';
+import {useAlert} from '../store/alertContext';
 
 export default function RegisterScreen(): JSX.Element {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const {showAlert} = useAlert();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,11 +37,19 @@ export default function RegisterScreen(): JSX.Element {
 
   const handleRegister = () => {
     if (!userName || !email || !password || !confirmPassword) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
+      showAlert({
+        title: 'Champs incomplets',
+        message: 'Hé champion ! Remplis tous les champs pour créer ton profil.',
+        type: 'warning',
+      });
       return;
     }
     if (password !== confirmPassword) {
-      Alert.alert('Erreur', 'Les mots de passe ne correspondent pas.');
+      showAlert({
+        title: 'Mots de passe différents',
+        message: 'Tes mots de passe ne se ressemblent pas. Vérifie bien !',
+        type: 'error',
+      });
       return;
     }
     registerHandler();

@@ -105,7 +105,7 @@ class BluetoothService {
         const message = await this.connectedDevice.read();
         if (message && this.onMessageReceived) {
           try {
-            const parsed = JSON.parse(message);
+            const parsed = JSON.parse(message.toString());
             this.onMessageReceived(parsed);
           } catch (e) {
             console.log('Raw message received:', message);

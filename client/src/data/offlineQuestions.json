@@ -1,602 +1,562 @@
 [
   {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "In &quot;Overwatch&quot;, Coalescence is the name for the ultimate of which hero?",
-    "correct_answer": "Moira",
-    "incorrect_answers": [
-      "Zenyatta",
-      "Torbjorn",
-      "Symmetra"
-    ]
-  },
-  {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "Who voices the infamous Citadel Station A.I known as S.H.O.D.A.N, in the System Shock games?",
-    "correct_answer": "Terri Brosius",
-    "incorrect_answers": [
-      " Jennifer Hale",
-      "Jenn Taylor",
-      "Lori Alan"
-    ]
-  },
-  {
-    "category": "Entertainment: Japanese Anime &amp; Manga",
+    "category": "Histoire",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Who was given the title &quot;Full Metal&quot; in the anime series &quot;Full Metal Alchemist&quot;?",
-    "correct_answer": "Edward Elric",
-    "incorrect_answers": [
-      "Alphonse Elric",
-      "Van Hohenheim",
-      "Izumi Curtis"
-    ]
+    "question": "Qui était le premier président du Cameroun ?",
+    "correct_answer": "Ahmadou Ahidjo",
+    "incorrect_answers": ["Paul Biya", "André-Marie Mbida", "John Ngu Foncha"]
   },
   {
-    "category": "Entertainment: Japanese Anime &amp; Manga",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "What year did &quot;Bishoujo Senshi Sailor Moon&quot; air in Japan?",
-    "correct_answer": "1992",
-    "incorrect_answers": [
-      "1989",
-      "1990",
-      "1994"
-    ]
-  },
-  {
-    "category": "Entertainment: Video Games",
+    "category": "Géographie",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Which of the following characters is NOT a female marriage candidate in the game Stardew Valley?",
-    "correct_answer": "Caroline",
-    "incorrect_answers": [
-      "Abigail",
-      "Haley",
-      "Leah"
-    ]
+    "question": "Quelle est la capitale politique du Cameroun ?",
+    "correct_answer": "Yaoundé",
+    "incorrect_answers": ["Douala", "Bafoussam", "Garoua"]
   },
   {
-    "category": "General Knowledge",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "Which language is NOT Indo-European?",
-    "correct_answer": "Hungarian",
-    "incorrect_answers": [
-      "Russian",
-      "Greek",
-      "Latvian"
-    ]
-  },
-  {
-    "category": "Entertainment: Television",
+    "category": "Géographie",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "In &quot;Breaking Bad&quot;, Walter White is a high school teacher diagnosed with which form of cancer?",
-    "correct_answer": "Lung Cancer",
-    "incorrect_answers": [
-      "Prostate Cancer",
-      "Brain Cancer",
-      "Testicular Cancer"
-    ]
+    "question": "Quel est le point culminant de l'Afrique de l'Ouest et Centrale, situé au Cameroun ?",
+    "correct_answer": "Le Mont Cameroun",
+    "incorrect_answers": ["Le Mont Kilimandjaro", "Le Mont Kenya", "Le Mont Oku"]
   },
   {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "Which one of these nations was added to Civilization V with the &quot;Gods &amp; Kings&quot; expansion?",
-    "correct_answer": "The Netherlands",
-    "incorrect_answers": [
-      "The Zulu",
-      "The Ottomans",
-      "The Kongo"
-    ]
-  },
-  {
-    "category": "Mythology",
+    "category": "Sports",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "What mytological creatures have women&#039;s faces and vultures&#039; bodies?",
-    "correct_answer": "Harpies",
-    "incorrect_answers": [
-      "Mermaids",
-      "Nymph",
-      "Lilith"
-    ]
+    "question": "Quel célèbre footballeur camerounais est surnommé 'Le Grand Milla' ?",
+    "correct_answer": "Roger Milla",
+    "incorrect_answers": ["Samuel Eto'o", "Rigobert Song", "Patrick Mboma"]
   },
   {
-    "category": "General Knowledge",
+    "category": "Sports",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "In the English language, what is the name of the &quot;&amp;&quot; character?",
-    "correct_answer": "Ampersand",
-    "incorrect_answers": [
-      "Eightslash",
-      "And Sign",
-      "Obelus "
-    ]
+    "question": "Combien de ballons d'or africains Samuel Eto'o a-t-il remportés ?",
+    "correct_answer": "4",
+    "incorrect_answers": ["2", "3", "5"]
   },
   {
-    "category": "Entertainment: Music",
+    "category": "Culture Générale",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quel fleuve est le plus long du monde ?",
+    "correct_answer": "Le Nil",
+    "incorrect_answers": ["L'Amazone", "Le Mississippi", "Le Yangtsé"]
+  },
+  {
+    "category": "Sciences",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "According to the American rapper Nelly, what should you do when its hot in here?",
-    "correct_answer": "Take off all your clothes",
-    "incorrect_answers": [
-      "Take a cool shower",
-      "Drink some water",
-      "Go skinny dipping"
-    ]
+    "question": "Quelle planète est surnommée la planète rouge ?",
+    "correct_answer": "Mars",
+    "incorrect_answers": ["Vénus", "Jupiter", "Saturne"]
   },
   {
-    "category": "Entertainment: Music",
+    "category": "Sciences",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quel est l'élément chimique représenté par le symbole 'Au' ?",
+    "correct_answer": "Or",
+    "incorrect_answers": ["Argent", "Aluminium", "Cuivre"]
+  },
+  {
+    "category": "Histoire",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "En quelle année a eu lieu la Révolution française ?",
+    "correct_answer": "1789",
+    "incorrect_answers": ["1776", "1793", "1804"]
+  },
+  {
+    "category": "Arts et Littérature",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Which of the following songs was not originally released by Sir Elton John? ",
-    "correct_answer": "You&#039;ll Be In My Heart",
-    "incorrect_answers": [
-      "Crocodile Rock",
-      "Candle in the Wind",
-      "I Don&#039;t Wanna Go On With You Like That"
-    ]
+    "question": "Qui a peint la Joconde ?",
+    "correct_answer": "Léonard de Vinci",
+    "incorrect_answers": ["Pablo Picasso", "Vincent van Gogh", "Claude Monet"]
   },
   {
-    "category": "History",
+    "category": "Géographie",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quel pays a la plus grande population au monde ?",
+    "correct_answer": "L'Inde",
+    "incorrect_answers": ["La Chine", "Les États-Unis", "L'Indonésie"]
+  },
+  {
+    "category": "Cinéma",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "Which British monarch was also known as &quot;William of Orange&quot;?",
-    "correct_answer": "William III",
-    "incorrect_answers": [
-      "William I",
-      "William II",
-      "William IV"
-    ]
+    "question": "Quel film a remporté l'Oscar du meilleur film en 2020 ?",
+    "correct_answer": "Parasite",
+    "incorrect_answers": ["1917", "Joker", "Once Upon a Time in Hollywood"]
   },
   {
-    "category": "Entertainment: Film",
+    "category": "Musique",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Qui est surnommé le 'Roi de la Pop' ?",
+    "correct_answer": "Michael Jackson",
+    "incorrect_answers": ["Elvis Presley", "Prince", "Justin Timberlake"]
+  },
+  {
+    "category": "Histoire",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "En quelle année le Cameroun a-t-il accédé à l'indépendance ?",
+    "correct_answer": "1960",
+    "incorrect_answers": ["1958", "1961", "1972"]
+  },
+  {
+    "category": "Géographie",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "What is the correct phrase for the Latin saying &quot;Romanes Eunt Domus&quot; in Monty Python&#039;s Life of Brian?",
-    "correct_answer": "Romani Ite Domum",
-    "incorrect_answers": [
-      "Romans Go Home",
-      "Roxani Ite Domum",
-      "Tomate Ite Domum"
-    ]
+    "question": "Quelle est la capitale du Japon ?",
+    "correct_answer": "Tokyo",
+    "incorrect_answers": ["Kyoto", "Osaka", "Nagoya"]
   },
   {
-    "category": "History",
+    "category": "Sciences",
     "type": "multiple",
-    "difficulty": "hard",
-    "question": "In addition to his career as an astrologer and &quot;prophet&quot;, Nostradamus published a 1555 treatise that included a section on what?",
-    "correct_answer": "Making jams and jellies",
-    "incorrect_answers": [
-      "Teaching parrots to talk",
-      "Cheating at card games",
-      "Digging graves"
-    ]
-  },
-  {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "What is the full name of the protagonist from the SNES game Clock Tower?",
-    "correct_answer": "Jennifer Simpson",
-    "incorrect_answers": [
-      "Jennifer Barrows",
-      "Jennifer Cartwright",
-      "Jennifer Maxwell"
-    ]
-  },
-  {
-    "category": "Entertainment: Japanese Anime &amp; Manga",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "In the first episode of Yu-Gi-Oh: Duel Monsters, what book is Seto Kaiba seen reading at Domino High School?",
-    "correct_answer": "Thus Spoke Zarathustra",
-    "incorrect_answers": [
-      "Beyond Good and Evil",
-      "The Republic",
-      "Meditations"
-    ]
-  },
-  {
-    "category": "Science: Computers",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "Which of the following computer components can be built using only NAND gates?",
-    "correct_answer": "ALU",
-    "incorrect_answers": [
-      "CPU",
-      "RAM",
-      "Register"
-    ]
-  },
-  {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "In the 2014 Pokemon VGC Finals, which Pokemon was famous for bringing the winner to victory?",
-    "correct_answer": "Pachirisu",
-    "incorrect_answers": [
-      "Garchomp",
-      "Lapras",
-      "Primal Groudon"
-    ]
+    "difficulty": "easy",
+    "question": "Quel est l'organe principal du système circulatoire ?",
+    "correct_answer": "Le cœur",
+    "incorrect_answers": ["Le foie", "Les poumons", "Le cerveau"]
   },
   {
     "category": "Sports",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "Which German sportswear company&#039;s logo is the &#039;Formstripe&#039;?",
-    "correct_answer": "Puma",
-    "incorrect_answers": [
-      "Nike",
-      "Adidas",
-      "Reebok"
-    ]
+    "question": "Quel pays a remporté la Coupe du Monde de football en 2022 ?",
+    "correct_answer": "L'Argentine",
+    "incorrect_answers": ["La France", "Le Brésil", "Le Maroc"]
   },
   {
-    "category": "Entertainment: Music",
+    "category": "Culture Générale",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Combien de couleurs y a-t-il dans un arc-en-ciel ?",
+    "correct_answer": "7",
+    "incorrect_answers": ["6", "8", "5"]
+  },
+  {
+    "category": "Informatique",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Que signifie l'acronyme 'WWW' ?",
+    "correct_answer": "World Wide Web",
+    "incorrect_answers": ["World Wide Wave", "Web Wide World", "Wide World Web"]
+  },
+  {
+    "category": "Histoire",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "Which of these Queen songs were sampled for the baseline in Vanilla &quot;Ice&#039;s Ice Ice Baby?&quot;",
-    "correct_answer": "Under Pressure",
-    "incorrect_answers": [
-      "Don&#039;t Stop Me Now",
-      "Brighton Rock",
-      "Lazing On A Sunday Afternoon"
-    ]
+    "question": "Qui était le chef de l'UPC (Union des Populations du Cameroun) assassiné en 1958 ?",
+    "correct_answer": "Ruben Um Nyobè",
+    "incorrect_answers": ["Ernest Ouandié", "Félix-Roland Moumié", "Ahmadou Ahidjo"]
   },
   {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "What is the name of your team in Star Wars: Republic Commando?",
-    "correct_answer": "Delta Squad",
-    "incorrect_answers": [
-      "The Commandos",
-      "Bravo Six",
-      "Vader&#039;s Fist"
-    ]
-  },
-  {
-    "category": "Animals",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "What is the scientific name of the Budgerigar?",
-    "correct_answer": "Melopsittacus undulatus",
-    "incorrect_answers": [
-      "Nymphicus hollandicus",
-      "Pyrrhura molinae",
-      "Ara macao"
-    ]
-  },
-  {
-    "category": "Entertainment: Television",
+    "category": "Géographie",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Which Star Trek race advances itself through assimilation?",
-    "correct_answer": "Borg",
-    "incorrect_answers": [
-      "Vulcan",
-      "Betazoid",
-      "Klingon"
-    ]
+    "question": "Quel est le plus grand désert chaud du monde ?",
+    "correct_answer": "Le Sahara",
+    "incorrect_answers": ["Le Gobi", "Le Kalahari", "Le Namib"]
   },
   {
-    "category": "History",
+    "category": "Culture Générale",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Which one of these countries was NOT in the Central Powers during WWI?",
-    "correct_answer": "Spain",
-    "incorrect_answers": [
-      "Austria-Hungary",
-      "Turkey",
-      "Germany"
-    ]
+    "question": "Quel monument célèbre se trouve à Paris ?",
+    "correct_answer": "La Tour Eiffel",
+    "incorrect_answers": ["La Statue de la Liberté", "Big Ben", "Le Colisée"]
+  },
+  {
+    "category": "Sports",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Dans quel sport utilise-t-on un panier ?",
+    "correct_answer": "Le Basketball",
+    "incorrect_answers": ["Le Football", "Le Tennis", "Le Rugby"]
+  },
+  {
+    "category": "Sciences",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quelle est la vitesse de la lumière ?",
+    "correct_answer": "299 792 458 m/s",
+    "incorrect_answers": ["150 000 000 m/s", "340 m/s", "1 000 000 m/s"]
+  },
+  {
+    "category": "Cinéma",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Qui a réalisé le film 'Avatar' ?",
+    "correct_answer": "James Cameron",
+    "incorrect_answers": ["Steven Spielberg", "Christopher Nolan", "Quentin Tarantino"]
+  },
+  {
+    "category": "Géographie",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quel pays est surnommé 'l'Afrique en miniature' ?",
+    "correct_answer": "Le Cameroun",
+    "incorrect_answers": ["Le Nigeria", "Le Kenya", "Le Sénégal"]
+  },
+  {
+    "category": "Mythologie",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Qui est le dieu de la mer dans la mythologie grecque ?",
+    "correct_answer": "Poséidon",
+    "incorrect_answers": ["Zeus", "Hadès", "Arès"]
+  },
+  {
+    "category": "Histoire",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Qui a découvert l'Amérique en 1492 ?",
+    "correct_answer": "Christophe Colomb",
+    "incorrect_answers": ["Vasco de Gama", "Magellan", "Marco Polo"]
+  },
+  {
+    "category": "Culture Générale",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quelle est la monnaie utilisée au Cameroun ?",
+    "correct_answer": "Le Franc CFA",
+    "incorrect_answers": ["Le Dollar", "L'Euro", "Le Naira"]
+  },
+  {
+    "category": "Sciences",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quel est le gaz que les humains respirent pour survivre ?",
+    "correct_answer": "L'Oxygène",
+    "incorrect_answers": ["Le Dioxyde de carbone", "L'Azote", "L'Hydrogène"]
+  },
+  {
+    "category": "Jeux Vidéo",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quel est le nom du plombier célèbre de Nintendo ?",
+    "correct_answer": "Mario",
+    "incorrect_answers": ["Luigi", "Wario", "Link"]
+  },
+  {
+    "category": "Sports",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quelle ville a accueilli les Jeux Olympiques de 2024 ?",
+    "correct_answer": "Paris",
+    "incorrect_answers": ["Londres", "Tokyo", "Los Angeles"]
+  },
+  {
+    "category": "Géographie",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quel est le plus haut sommet du monde ?",
+    "correct_answer": "L'Everest",
+    "incorrect_answers": ["Le K2", "Le Mont Blanc", "Le Kilimandjaro"]
+  },
+  {
+    "category": "Informatique",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Qui est le co-fondateur de Microsoft ?",
+    "correct_answer": "Bill Gates",
+    "incorrect_answers": ["Steve Jobs", "Mark Zuckerberg", "Jeff Bezos"]
+  },
+  {
+    "category": "Arts et Littérature",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Qui a écrit 'Les Misérables' ?",
+    "correct_answer": "Victor Hugo",
+    "incorrect_answers": ["Émile Zola", "Gustave Flaubert", "Molière"]
+  },
+  {
+    "category": "Géographie",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quel est le plus grand pays du monde par sa superficie ?",
+    "correct_answer": "La Russie",
+    "incorrect_answers": ["Le Canada", "La Chine", "Les États-Unis"]
+  },
+  {
+    "category": "Sports",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Dans quel pays est né le football ?",
+    "correct_answer": "Angleterre",
+    "incorrect_answers": ["Brésil", "France", "Allemagne"]
+  },
+  {
+    "category": "Sciences",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Combien de dents un adulte possède-t-il normalement ?",
+    "correct_answer": "32",
+    "incorrect_answers": ["28", "30", "34"]
+  },
+  {
+    "category": "Cinéma",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Qui a réalisé le film 'Le Parrain' ?",
+    "correct_answer": "Francis Ford Coppola",
+    "incorrect_answers": ["Martin Scorsese", "Alfred Hitchcock", "Steven Spielberg"]
+  },
+  {
+    "category": "Musique",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "De quel pays vient le groupe ABBA ?",
+    "correct_answer": "Suède",
+    "incorrect_answers": ["Norvège", "Danemark", "Finlande"]
+  },
+  {
+    "category": "Histoire",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quel mur est tombé en 1989, marquant la fin de la Guerre Froide ?",
+    "correct_answer": "Le Mur de Berlin",
+    "incorrect_answers": ["La Grande Muraille de Chine", "Le Mur de Jérusalem", "Le Mur d'Adrien"]
+  },
+  {
+    "category": "Géographie",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Quelle est la capitale de la France ?",
+    "correct_answer": "Paris",
+    "incorrect_answers": ["Lyon", "Marseille", "Bordeaux"]
+  },
+  {
+    "category": "Culture Générale",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Combien d'heures y a-t-il dans une journée ?",
+    "correct_answer": "24",
+    "incorrect_answers": ["12", "48", "23"]
+  },
+  {
+    "category": "Sciences",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Qui a formulé la théorie de la relativité ?",
+    "correct_answer": "Albert Einstein",
+    "incorrect_answers": ["Isaac Newton", "Galilée", "Stephen Hawking"]
   },
   {
     "category": "Sports",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "Which of these jersey numbers has Shaquille O&#039;Neal never worn?",
-    "correct_answer": "35",
-    "incorrect_answers": [
-      "36",
-      "33",
-      "32"
-    ]
+    "question": "Quel est le nom du tournoi de tennis sur terre battue à Paris ?",
+    "correct_answer": "Roland-Garros",
+    "incorrect_answers": ["Wimbledon", "US Open", "Open d'Australie"]
   },
   {
-    "category": "Entertainment: Video Games",
+    "category": "Mythologie",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "Which of these is NOT a game under the Worms series?",
-    "correct_answer": "Major Malfunction",
-    "incorrect_answers": [
-      "Crazy Golf",
-      "Clan Wars",
-      "Ultimate Mayhem"
-    ]
+    "question": "Dans la mythologie égyptienne, qui est le dieu du soleil ?",
+    "correct_answer": "Râ",
+    "incorrect_answers": ["Osiris", "Anubis", "Horus"]
   },
   {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "In the Super Mario Bros. series, what game is the  &quot;Carrot&quot; power-up from?",
-    "correct_answer": "Super Mario Land 2: The 6 Golden Coins",
-    "incorrect_answers": [
-      "Super Mario World",
-      "Super Mario Land",
-      "Super Mario 3D Land"
-    ]
-  },
-  {
-    "category": "History",
+    "category": "Géographie",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Who was among those killed in the 2010 Smolensk, Russia plane crash tragedy?",
-    "correct_answer": "The Polish President",
-    "incorrect_answers": [
-      "Pope John Paul II",
-      "Bang-Ding Ow",
-      "Albert Putin"
-    ]
+    "question": "Quel canal relie l'Océan Atlantique à l'Océan Pacifique ?",
+    "correct_answer": "Le canal de Panama",
+    "incorrect_answers": ["Le canal de Suez", "Le canal de Corinthe", "Le canal de Kiel"]
   },
   {
-    "category": "Geography",
+    "category": "Informatique",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "What is the name of the capital of Turkey?",
-    "correct_answer": "Ankara",
-    "incorrect_answers": [
-      "Istanbul",
-      "Izmir",
-      "Bursa"
-    ]
+    "question": "Quel langage de programmation est souvent utilisé pour le développement d'applications Android ?",
+    "correct_answer": "Kotlin",
+    "incorrect_answers": ["Swift", "Python", "C#"]
   },
   {
-    "category": "Entertainment: Books",
+    "category": "Musique",
     "type": "multiple",
-    "difficulty": "hard",
-    "question": "Who wrote the novel &quot;Moby-Dick&quot;?",
-    "correct_answer": "Herman Melville",
-    "incorrect_answers": [
-      "William Golding",
-      "William Shakespeare",
-      "J. R. R. Tolkien"
-    ]
+    "difficulty": "medium",
+    "question": "De combien de musiciens se compose un quatuor ?",
+    "correct_answer": "4",
+    "incorrect_answers": ["3", "5", "6"]
   },
   {
-    "category": "Entertainment: Video Games",
+    "category": "Cameroun",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "In the game Battleblock Theater, what was the name of the voice actor who voiced the narrator?",
-    "correct_answer": "Will Stamper",
-    "incorrect_answers": [
-      "Steve Blum",
-      "Richard Epcar",
-      "Yuri Lowenthal"
-    ]
+    "question": "Quelle est la devise du Cameroun ?",
+    "correct_answer": "Paix - Travail - Patrie",
+    "incorrect_answers": ["Justice - Paix - Travail", "Unité - Travail - Progrès", "Liberté - Égalité - Fraternité"]
   },
   {
-    "category": "Entertainment: Video Games",
+    "category": "Informatique",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "In the Kingdom Heart series who provides the english voice for Master Eraqus?",
-    "correct_answer": "Mark Hamill",
-    "incorrect_answers": [
-      "Jason Dohring",
-      "Jesse McCartney",
-      "Haley Joel Osment"
-    ]
+    "question": "Quel est le cerveau d'un ordinateur ?",
+    "correct_answer": "Le Processeur (CPU)",
+    "incorrect_answers": ["La Mémoire Vive (RAM)", "Le Disque Dur", "La Carte Graphique"]
   },
   {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "In &quot;Call Of Duty: Zombies&quot;, which map features the &quot;Fly Trap&quot; easter egg?",
-    "correct_answer": "Der Riese",
-    "incorrect_answers": [
-      "Tranzit",
-      "Call Of The Dead",
-      "Shi No Numa"
-    ]
-  },
-  {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "In the National Pokedex what number is Porygon-Z?",
-    "correct_answer": "474",
-    "incorrect_answers": [
-      "376",
-      "432",
-      "589"
-    ]
-  },
-  {
-    "category": "Geography",
+    "category": "Informatique",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Where would you find the &quot;Spanish Steps&quot;?",
-    "correct_answer": "Rome, Italy",
-    "incorrect_answers": [
-      "Barcelona, Spain",
-      "Berlin, Germany",
-      "London, England"
-    ]
+    "question": "Quel système d'exploitation est développé par Apple ?",
+    "correct_answer": "macOS",
+    "incorrect_answers": ["Windows", "Linux", "Android"]
   },
   {
-    "category": "Geography",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "The historical city Timbuktu is located in which West African country?",
-    "correct_answer": "Mali",
-    "incorrect_answers": [
-      "Senegal",
-      "Niger",
-      "Burkina Faso"
-    ]
-  },
-  {
-    "category": "General Knowledge",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "Named after the mallow flower, mauve is a shade of what?",
-    "correct_answer": "Purple",
-    "incorrect_answers": [
-      "Red",
-      "Brown",
-      "Pink"
-    ]
-  },
-  {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "In the game &quot;The Sims&quot;, how many Simoleons does each family start with?",
-    "correct_answer": "20,000",
-    "incorrect_answers": [
-      "10,000",
-      "15,000",
-      "25,000"
-    ]
-  },
-  {
-    "category": "History",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "Which King of England was faced with the Peasants&#039; Revolt in 1381?",
-    "correct_answer": "Richard II",
-    "incorrect_answers": [
-      "Edward III",
-      "Edward II",
-      "Henry IV"
-    ]
-  },
-  {
-    "category": "Entertainment: Television",
+    "category": "Informatique",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Who played Agent Fox Mulder in the TV sci-fi drama &quot;The X-Files&quot;?",
-    "correct_answer": "David Duchovny",
-    "incorrect_answers": [
-      "Gillian Anderson",
-      "Robert Patrick",
-      "Mitch Pileggi"
-    ]
+    "question": "Quelle unité de mesure est égale à 1024 octets ?",
+    "correct_answer": "Le Kilooctet (Ko)",
+    "incorrect_answers": ["Le Mégaoctet (Mo)", "Le Gigaoctet (Go)", "Le Bit"]
   },
   {
-    "category": "Entertainment: Japanese Anime &amp; Manga",
+    "category": "Informatique",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "What year did &quot;Attack on Titan&quot; Season 2 begin airing?",
-    "correct_answer": "2017",
-    "incorrect_answers": [
-      "2018",
-      "2019",
-      "2020"
-    ]
+    "question": "Que signifie SQL ?",
+    "correct_answer": "Structured Query Language",
+    "incorrect_answers": ["Simple Question Language", "System Quick Link", "Storage Query Logic"]
   },
   {
-    "category": "Entertainment: Cartoon &amp; Animations",
+    "category": "Développement Mobile",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "Who voiced Finn in Adventure Time?",
-    "correct_answer": "Jeremy Shada",
-    "incorrect_answers": [
-      "Nolan North",
-      "John DiMaggio",
-      "Tom Kenny"
-    ]
+    "question": "Quel framework permet de créer des apps iOS et Android avec une seule base de code JS ?",
+    "correct_answer": "React Native",
+    "incorrect_answers": ["SwiftUI", "Android Studio", "Xamarin"]
   },
   {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "medium",
-    "question": "Which of the following games in the Anno series introduced the &quot;Eco Balance&quot; gameplay mechanic?",
-    "correct_answer": "Anno 2070",
-    "incorrect_answers": [
-      "Anno 1404",
-      "Anno 2205",
-      " Anno 1701"
-    ]
-  },
-  {
-    "category": "Entertainment: Video Games",
+    "category": "Développement Mobile",
     "type": "multiple",
     "difficulty": "hard",
-    "question": "How many people can you recruit in the game Suikoden in a single playthrough?",
-    "correct_answer": "107",
-    "incorrect_answers": [
-      "108",
-      "93",
-      "96"
-    ]
+    "question": "Dans React Native, quel composant est l'équivalent d'une <div> HTML ?",
+    "correct_answer": "<View>",
+    "incorrect_answers": ["<Text>", "<Div>", "<Container>"]
   },
   {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "hard",
-    "question": "In the Super Mario Bros. Series, what is Yoshi&#039;s scientific name?",
-    "correct_answer": "T. Yoshisaur Munchakoopas",
-    "incorrect_answers": [
-      "Yoshi",
-      "T. Yoshisotop Munchakoopas",
-      "Yossy"
-    ]
-  },
-  {
-    "category": "Entertainment: Music",
-    "type": "multiple",
-    "difficulty": "easy",
-    "question": "What is the best selling album of all time from 1976 to 2018?",
-    "correct_answer": "Thriller",
-    "incorrect_answers": [
-      "Back in Black",
-      "Abbey Road",
-      "The Dark Side of the Moon"
-    ]
-  },
-  {
-    "category": "General Knowledge",
+    "category": "Développement Mobile",
     "type": "multiple",
     "difficulty": "medium",
-    "question": "What year was Apple Inc. founded?",
-    "correct_answer": "1976",
-    "incorrect_answers": [
-      "1978",
-      "1980",
-      "1974"
-    ]
+    "question": "Quel langage est officiellement recommandé par Google pour le développement Android natif ?",
+    "correct_answer": "Kotlin",
+    "incorrect_answers": ["Java", "C++", "Python"]
   },
   {
-    "category": "Entertainment: Film",
+    "category": "Développement Mobile",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "In the 2012 film, &quot;The Lorax&quot;, who is the antagonist?",
-    "correct_answer": "Aloysius O&#039;Hare",
-    "incorrect_answers": [
-      "Ted Wiggins",
-      "The Once-Ler",
-      "Grammy Norma"
-    ]
+    "question": "Sur quelle plateforme télécharge-t-on des applications Android ?",
+    "correct_answer": "Google Play Store",
+    "incorrect_answers": ["App Store", "Microsoft Store", "Amazon Store"]
   },
   {
-    "category": "Entertainment: Japanese Anime &amp; Manga",
+    "category": "Développement Mobile",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Que signifie APK ?",
+    "correct_answer": "Android Package",
+    "incorrect_answers": ["Application Private Key", "Android Program Kit", "App Process Kernel"]
+  },
+  {
+    "category": "Développement Mobile",
+    "type": "multiple",
+    "difficulty": "hard",
+    "question": "Quel outil permet de gérer les dépendances dans un projet React Native ?",
+    "correct_answer": "npm ou yarn",
+    "incorrect_answers": ["Gradle", "CocoaPods", "Pip"]
+  },
+  {
+    "category": "Informatique",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quelle est la fonction principale d'un pare-feu (firewall) ?",
+    "correct_answer": "Sécuriser le réseau",
+    "incorrect_answers": ["Refroidir l'ordinateur", "Accélérer internet", "Stocker des données"]
+  },
+  {
+    "category": "Développement Mobile",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Dans le cycle de vie d'une app Android, quelle méthode est appelée au démarrage ?",
+    "correct_answer": "onCreate()",
+    "incorrect_answers": ["onStart()", "onResume()", "onInit()"]
+  },
+  {
+    "category": "Informatique",
     "type": "multiple",
     "difficulty": "easy",
-    "question": "Which of the following originated as a manga?",
-    "correct_answer": "Akira",
-    "incorrect_answers": [
-      "Cowboy Bebop",
-      "High School DxD",
-      "Gurren Lagann"
-    ]
+    "question": "Quel est le raccourci clavier pour copier du texte ?",
+    "correct_answer": "Ctrl + C",
+    "incorrect_answers": ["Ctrl + V", "Ctrl + X", "Ctrl + Z"]
+  },
+  {
+    "category": "Développement Mobile",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quel outil Apple est nécessaire pour compiler une app iOS ?",
+    "correct_answer": "Xcode",
+    "incorrect_answers": ["Visual Studio", "Android Studio", "Eclipse"]
+  },
+  {
+    "category": "Informatique",
+    "type": "multiple",
+    "difficulty": "hard",
+    "question": "Quel protocole est utilisé pour transférer des fichiers sur internet ?",
+    "correct_answer": "FTP",
+    "incorrect_answers": ["HTTP", "SMTP", "SSH"]
+  },
+  {
+    "category": "Développement Mobile",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Que signifie le 'Responsive Design' pour une application ?",
+    "correct_answer": "L'adaptation à la taille de l'écran",
+    "incorrect_answers": ["La vitesse de réponse de l'IA", "La couleur des boutons", "Le mode hors-ligne"]
+  },
+  {
+    "category": "Informatique",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quel est le langage de base du Web ?",
+    "correct_answer": "HTML",
+    "incorrect_answers": ["PHP", "Python", "Ruby"]
+  },
+  {
+    "category": "Développement Mobile",
+    "type": "multiple",
+    "difficulty": "hard",
+    "question": "Quel service permet d'envoyer des notifications push sur Android ?",
+    "correct_answer": "Firebase (FCM)",
+    "incorrect_answers": ["Google Drive", "iCloud", "Azure"]
+  },
+  {
+    "category": "Informatique",
+    "type": "multiple",
+    "difficulty": "easy",
+    "question": "Qu'est-ce qu'un bug ?",
+    "correct_answer": "Une erreur informatique",
+    "incorrect_answers": ["Un virus", "Un matériel cassé", "Un nouveau logiciel"]
+  },
+  {
+    "category": "Développement Mobile",
+    "type": "multiple",
+    "difficulty": "medium",
+    "question": "Quel est l'avantage principal de Flutter ?",
+    "correct_answer": "Le développement multiplateforme rapide",
+    "incorrect_answers": ["Il ne nécessite pas de code", "Il est plus vieux qu'Android", "Il ne fonctionne que sur iOS"]
   }
 ]

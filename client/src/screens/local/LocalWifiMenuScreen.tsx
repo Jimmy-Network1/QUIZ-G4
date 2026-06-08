@@ -67,7 +67,7 @@ export default function LocalWifiMenuScreen(): JSX.Element {
 
               <GlassCard
                 delay={200}
-                style={[styles.glassContainer, {marginTop: 20}]}>
+                style={{...styles.glassContainer, marginTop: 20}}>
                 <Text style={styles.sectionLabel}>REJOINDRE</Text>
                 <ButtonComponent
                   title="Rejoindre une partie 1v1"

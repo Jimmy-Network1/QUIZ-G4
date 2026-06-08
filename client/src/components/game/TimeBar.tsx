@@ -16,7 +16,7 @@ export default function TimeBar({onTimeElapsed}: TimeBarProps) {
     overlayWidthAnim.setValue(0); // Reset the animation
     Animated.timing(overlayWidthAnim, {
       toValue: 100,
-      duration: 10000, // 10 seconds
+      duration: 15000, // 15 seconds
       useNativeDriver: false,
     }).start(({finished}) => {
       if (finished) {

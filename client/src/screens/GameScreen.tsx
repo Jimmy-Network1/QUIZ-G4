@@ -17,25 +17,19 @@ import {
   RootStackParamList,
 } from '../types/navigation';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoginScreenBg} from '../assets/images';
 import LinearGradient from 'react-native-linear-gradient';
 
-type Route = {
-  params: GameScreenParams;
-};
-
-type GameScreenNavigationProp = NativeStackNavigationProp<
+type Props = NativeStackScreenProps<
   RootStackParamList,
   AuthenticatedScreens.GameScreen
 >;
 
-export default function GameScreen({route}: {route: Route}): JSX.Element {
-  const navigation = useNavigation<GameScreenNavigationProp>();
+export default function GameScreen({route, navigation}: Props): JSX.Element {
+  const {categoryId, isHost, isSinglePlayer, fileData} = route.params;
 
-  const {categoryId, isHost, isSinglePlayer} = route.params;
-
-  const {questions, setQuestions} = useQuestions(categoryId, isHost);
+  const {questions, setQuestions} = useQuestions(categoryId, isHost, fileData);
 
   const {
     gameEnded,

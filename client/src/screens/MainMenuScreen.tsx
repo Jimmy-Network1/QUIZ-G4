@@ -116,7 +116,7 @@ export default function MainMenuScreen(): JSX.Element {
 
                   <GlassCard
                     delay={200}
-                    style={[styles.section, styles.extraSection]}>
+                    style={{...styles.section, ...styles.extraSection}}>
                     <Text style={styles.sectionTitle}>EXTRAS</Text>
                     <ButtonComponent
                       title="Solo (Entraînement)"

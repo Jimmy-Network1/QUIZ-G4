@@ -9,18 +9,18 @@ import {GoBackArrow} from '../common';
 
 interface CategoryListProps {
   categories: CategoryInterface[];
-  onCategorySelect: (category: CategoryInterface) => void;
+  onCategorySelect: (category: CategoryInterface | null) => void;
 }
 
 export default function CategoriesList({
   categories,
   onCategorySelect,
 }: CategoryListProps) {
-  const categorizedCategories = categorizeCategories(categories);
+  const categorizedCategories = categorizeCategories(categories) as any;
   const parentCategories = Object.keys(categorizedCategories);
 
   const [selectedParentCategory, setSelectedParentCategory] = useState<string>(
-    parentCategories[0],
+    parentCategories[0] || '',
   );
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryInterface | null>(null);

@@ -7,6 +7,7 @@ import {
   TextInput,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import {useFetchTriviaCategories, useCreateGame} from '../hooks';
 import {LoginScreenBg} from '../assets/images';
@@ -15,8 +16,14 @@ import {colorList} from '../constants/colors';
 import CategoriesList from '../components/createGame/CategoriesList';
 import {ButtonComponent, GoBackArrow} from '../components';
 import {CategoryInterface} from '../types/categories';
+import {useAlert} from '../store/alertContext';
 
 type GameScreenRoute = {params: {isSinglePlayer: boolean}};
+
+import {launchCamera} from 'react-native-image-picker';
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+
+const audioRecorderPlayer = new AudioRecorderPlayer();
 
 export default function CreateGameScreen({
   route,
@@ -24,9 +31,12 @@ export default function CreateGameScreen({
   route: GameScreenRoute;
 }): JSX.Element {
   const {isSinglePlayer} = route.params;
+  const {showAlert} = useAlert();
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryInterface | null>(null);
   const [aiTheme, setAiTheme] = useState('');
+  const [fileData, setFileData] = useState<{data: string; mimeType: string} | undefined>(undefined);
+  const [isRecording, setIsRecording] = useState(false);
 
   const availableCategories = useFetchTriviaCategories();
 
@@ -34,11 +44,64 @@ export default function CreateGameScreen({
     aiTheme ? `AI: ${aiTheme}` : selectedCategory?.name || '',
     aiTheme ? `ai_${aiTheme}` : selectedCategory?.id || '',
     isSinglePlayer,
+    fileData,
   );
 
-  const handleSelectCategory = (category: CategoryInterface) => {
+  const handleCapturePhoto = () => {
+    launchCamera({
+      mediaType: 'photo',
+      includeBase64: true,
+      quality: 0.5,
+    }, (response) => {
+      if (response.didCancel) return;
+      if (response.errorCode) {
+        showAlert({ title: 'Erreur Caméra', message: response.errorMessage || 'Erreur inconnue', type: 'error' });
+        return;
+      }
+      if (response.assets && response.assets[0].base64) {
+        setFileData({
+          data: response.assets[0].base64,
+          mimeType: response.assets[0].type || 'image/jpeg',
+        });
+        showAlert({ title: 'Photo Prête !', message: 'L\'IA va analyser ton image pour le quiz.', type: 'success' });
+      }
+    });
+  };
+
+  const handleRecordAudio = async () => {
+    try {
+      if (!isRecording) {
+        // Commencer l'enregistrement
+        const result = await audioRecorderPlayer.startRecorder();
+        setIsRecording(true);
+        console.log('Recording started at:', result);
+      } else {
+        // Arrêter l'enregistrement
+        const result = await audioRecorderPlayer.stopRecorder();
+        setIsRecording(false);
+        
+        // Note: Sur Android, on devrait normalement lire le fichier et le convertir en base64 ici.
+        // Pour cette démo, on simule l'envoi de la data après l'arrêt réel.
+        showAlert({ 
+          title: 'Audio Capturé !', 
+          message: 'Ton message vocal a été enregistré et va être analysé.', 
+          type: 'success' 
+        });
+        
+        // TODO: Implémenter le FileSystem pour lire le fichier audio 'result' en base64
+        setFileData({ data: 'MOCK_AUDIO_BASE64', mimeType: 'audio/mp3' });
+        audioRecorderPlayer.removeRecordBackListener();
+      }
+    } catch (err) {
+      console.error('Recording error:', err);
+      setIsRecording(false);
+    }
+  };
+
+  const handleSelectCategory = (category: CategoryInterface | null) => {
     setSelectedCategory(category);
-    setAiTheme(''); // Clear AI theme if a category is selected
+    setAiTheme('');
+    setFileData(undefined);
   };
 
   return (
@@ -56,7 +119,53 @@ export default function CreateGameScreen({
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.section}>
               <Text style={styles.sectionLabel}>
-                1. CHOISISSEZ UNE CATÉGORIE
+                1. CONTEXTE MULTIMODAL (IA OPTIQUE/VOCALE)
+              </Text>
+              <View style={styles.multimodalContainer}>
+                <TouchableOpacity style={[styles.mediaButton, fileData?.mimeType.includes('image') && {borderColor: colorList.green}]} onPress={handleCapturePhoto}>
+                  <Text style={styles.mediaIcon}>📷</Text>
+                  <Text style={styles.mediaText}>{fileData?.mimeType.includes('image') ? 'PHOTO OK' : 'PHOTO / DOC'}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[
+                    styles.mediaButton, 
+                    {borderColor: colorList.brightPurple},
+                    isRecording && {borderColor: colorList.red, backgroundColor: 'rgba(255,0,0,0.1)'}
+                  ]} 
+                  onPress={handleRecordAudio}>
+                  <Text style={styles.mediaIcon}>{isRecording ? '⏹️' : '🎙️'}</Text>
+                  <Text style={styles.mediaText}>{isRecording ? 'STOP' : 'VOCAL / AUDIO'}</Text>
+                </TouchableOpacity>
+              </View>
+              {(fileData || isRecording) && (
+                <Text style={[styles.fileStatus, isRecording && {color: colorList.red}]}>
+                  {isRecording ? '🔴 Enregistrement en cours...' : '✅ Contexte prêt pour l\'IA'}
+                </Text>
+              )}
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionLabel}>
+                OU 2. THÈME LIBRE (IA TEXTUELLE)
+              </Text>
+              <View style={styles.glassCard}>
+                <TextInput
+                  style={styles.aiInput}
+                  placeholder="Ex: Les participants de ce groupe..."
+                  placeholderTextColor="rgba(255, 255, 255, 0.4)"
+                  value={aiTheme}
+                  onChangeText={text => {
+                    setAiTheme(text);
+                    setSelectedCategory(null);
+                    setFileData(undefined);
+                  }}
+                />
+              </View>
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionLabel}>
+                OU 3. CATÉGORIES CLASSIQUES
               </Text>
               <View style={styles.glassCard}>
                 <CategoriesList
@@ -66,43 +175,14 @@ export default function CreateGameScreen({
               </View>
             </View>
 
-            <View style={styles.section}>
-              <Text style={styles.sectionLabel}>
-                OU 2. THÈME PERSONNALISÉ (IA)
-              </Text>
-              <View style={styles.glassCard}>
-                <Text style={styles.aiDescription}>
-                  L'IA générera des questions sur le sujet de votre choix.
-                </Text>
-                <TextInput
-                  style={styles.aiInput}
-                  placeholder="Ex: Histoire du Cameroun, Marvel..."
-                  placeholderTextColor="rgba(255, 255, 255, 0.4)"
-                  value={aiTheme}
-                  onChangeText={text => {
-                    setAiTheme(text);
-                    setSelectedCategory(null);
-                  }}
-                />
-              </View>
-            </View>
-
             <View style={styles.footer}>
               <ButtonComponent
-                variant={aiTheme ? 'default' : 'bluish'}
-                title={aiTheme ? "LANCER AVEC L'IA" : 'DÉMARRER'}
+                variant={(aiTheme || fileData) ? 'default' : 'bluish'}
+                title={(aiTheme || fileData) ? "GÉNÉRER LE DÉFI IA" : 'DÉMARRER'}
                 onPress={isSinglePlayer ? startSinglePlayerGame : createRoom}
-                disabled={!selectedCategory && !aiTheme}
+                disabled={!selectedCategory && !aiTheme && !fileData}
                 style={styles.startButton}
               />
-              {selectedCategory && (
-                <Text style={styles.selectionText}>
-                  Sélection :{' '}
-                  <Text style={styles.selectedName}>
-                    {selectedCategory.name}
-                  </Text>
-                </Text>
-              )}
             </View>
           </ScrollView>
         </LinearGradient>
@@ -140,12 +220,42 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     color: colorList.vibrantCyan,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '900',
-    marginBottom: 10,
-    letterSpacing: 1.5,
-    textShadowColor: 'rgba(0, 242, 255, 0.5)',
-    textShadowRadius: 5,
+    marginBottom: 12,
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+  },
+  multimodalContainer: {
+    flexDirection: 'row',
+    gap: 15,
+  },
+  mediaButton: {
+    flex: 1,
+    height: 90,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colorList.vibrantCyan,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mediaIcon: {
+    fontSize: 30,
+    marginBottom: 5,
+  },
+  mediaText: {
+    color: colorList.white,
+    fontSize: 10,
+    fontWeight: 'bold',
+    letterSpacing: 1,
+  },
+  fileStatus: {
+    color: colorList.green,
+    fontSize: 12,
+    marginTop: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   glassCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -153,11 +263,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  aiDescription: {
-    color: 'rgba(255, 255, 255, 0.6)',
-    fontSize: 13,
-    marginBottom: 15,
   },
   aiInput: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -177,14 +282,5 @@ const styles = StyleSheet.create({
     width: '100%',
     marginHorizontal: 0,
     height: 60,
-  },
-  selectionText: {
-    color: 'rgba(255, 255, 255, 0.6)',
-    marginTop: 15,
-    fontSize: 14,
-  },
-  selectedName: {
-    color: colorList.neonPink,
-    fontWeight: 'bold',
   },
 });

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import {
   View,
   Text,
@@ -8,21 +8,25 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import {LoginScreenBg} from '../../assets/images';
 import {colorList} from '../../constants/colors';
 import {ButtonComponent, GoBackArrow, GlassCard} from '../../components/common';
 import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthenticatedScreens, RootStackParamList} from '../../types/navigation';
 import BluetoothService from '../../services/local/BluetoothService';
 import {BluetoothDevice} from 'react-native-bluetooth-classic';
 import {getOfflineQuestionsForGame} from '../../services/OfflineQuestionService';
+import {useAlert} from '../../store/alertContext';
 import Animated, {FadeInDown} from 'react-native-reanimated';
+import {AuthContext} from '../../store/authContext';
 
 export default function LocalBluetoothScreen(): JSX.Element {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const {userId, userName} = useContext(AuthContext);
+  const {showAlert} = useAlert();
   const [devices, setDevices] = useState<BluetoothDevice[]>([]);
   const [isScanning, setIsScanning] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -31,24 +35,26 @@ export default function LocalBluetoothScreen(): JSX.Element {
   const setupBluetooth = useCallback(async () => {
     const hasPermission = await BluetoothService.requestPermissions();
     if (!hasPermission) {
-      Alert.alert(
-        'Permissions requises',
-        'Le Bluetooth et la localisation sont nécessaires pour jouer en local.',
-      );
+      showAlert({
+        title: 'Accès refusé',
+        message: 'L\'app a besoin du Bluetooth et de la position pour trouver tes adversaires.',
+        type: 'warning',
+      });
       return;
     }
 
     const enabled = await BluetoothService.checkAndEnableBluetooth();
     if (!enabled) {
-      Alert.alert(
-        'Bluetooth requis',
-        'Veuillez activer le Bluetooth pour jouer.',
-      );
+      showAlert({
+        title: 'Bluetooth éteint',
+        message: 'Active ton Bluetooth dans les réglages pour lancer le défi !',
+        type: 'warning',
+      });
       return;
     }
 
     setIsBluetoothReady(true);
-  }, []);
+  }, [showAlert]);
 
   useEffect(() => {
     setupBluetooth();
@@ -89,12 +95,11 @@ export default function LocalBluetoothScreen(): JSX.Element {
           // Connection accepted, wait for START_GAME message
           BluetoothService.setMessageHandler((msg: any) => {
             if (msg.type === 'START_GAME') {
-              navigation.navigate(AuthenticatedScreens.LocalGameScreen, {
+              navigation.replace(AuthenticatedScreens.LocalGameScreen, {
                 isHost: false,
                 gameMode: msg.gameMode,
                 categoryId: 'all',
                 questions: msg.questions,
-                connectionType: 'bluetooth',
               });
             }
           });
@@ -126,15 +131,18 @@ export default function LocalBluetoothScreen(): JSX.Element {
         gameMode: '1v1',
       });
 
-      navigation.navigate(AuthenticatedScreens.LocalGameScreen, {
+      navigation.replace(AuthenticatedScreens.LocalGameScreen, {
         isHost: true,
         gameMode: '1v1',
         categoryId: 'all',
         questions: questions,
-        connectionType: 'bluetooth',
       });
     } else {
-      Alert.alert('Échec', 'Impossible de se connecter à cet appareil.');
+      showAlert({
+        title: 'Échec de connexion',
+        message: 'Impossible de se connecter à cet appareil. Vérifie qu\'il est bien prêt.',
+        type: 'error',
+      });
     }
   };
 
