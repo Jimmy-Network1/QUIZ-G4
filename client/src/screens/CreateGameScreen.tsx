@@ -22,7 +22,7 @@ import {useAlert} from '../store/alertContext';
 
 type GameScreenRoute = {params: {isSinglePlayer: boolean}};
 
-import {launchCamera} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
@@ -98,6 +98,27 @@ export default function CreateGameScreen({
     });
   };
 
+  const handlePickImage = () => {
+    launchImageLibrary({
+      mediaType: 'photo',
+      includeBase64: true,
+      quality: 0.5,
+    }, (response) => {
+      if (response.didCancel) return;
+      if (response.errorCode) {
+        showAlert({ title: 'Erreur Galerie', message: response.errorMessage || 'Erreur inconnue', type: 'error' });
+        return;
+      }
+      if (response.assets && response.assets[0].base64) {
+        setFileData({
+          data: response.assets[0].base64,
+          mimeType: response.assets[0].type || 'image/jpeg',
+        });
+        showAlert({ title: 'Image Importée !', message: 'L\'IA va analyser ce document pour ton quiz.', type: 'success' });
+      }
+    });
+  };
+
   const handleRecordAudio = async () => {
     const hasPermission = await requestPermissions();
     if (!hasPermission) {
@@ -160,7 +181,11 @@ export default function CreateGameScreen({
               <View style={styles.multimodalContainer}>
                 <TouchableOpacity style={[styles.mediaButton, fileData?.mimeType.includes('image') && {borderColor: colorList.green}]} onPress={handleCapturePhoto}>
                   <Text style={styles.mediaIcon}>📷</Text>
-                  <Text style={styles.mediaText}>{fileData?.mimeType.includes('image') ? 'PHOTO OK' : 'PHOTO / DOC'}</Text>
+                  <Text style={styles.mediaText}>CAMÉRA</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.mediaButton, {borderColor: colorList.electricBlue}]} onPress={handlePickImage}>
+                  <Text style={styles.mediaIcon}>🖼️</Text>
+                  <Text style={styles.mediaText}>GALERIE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   style={[
@@ -170,7 +195,7 @@ export default function CreateGameScreen({
                   ]} 
                   onPress={handleRecordAudio}>
                   <Text style={styles.mediaIcon}>{isRecording ? '⏹️' : '🎙️'}</Text>
-                  <Text style={styles.mediaText}>{isRecording ? 'STOP' : 'VOCAL / AUDIO'}</Text>
+                  <Text style={styles.mediaText}>{isRecording ? 'STOP' : 'VOCAL'}</Text>
                 </TouchableOpacity>
               </View>
               {(fileData || isRecording) && (
