@@ -9,14 +9,44 @@ import { JWT_SECRET } from "./config/config";
 import { logRequests } from "./middlewares/logger";
 import { errorHandler } from "./middlewares/errorHandler";
 import connectDB from "./config/db";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GEMINI_API_KEY } from "./config/config";
 
 // Check for JWT_SECRET
 if (!JWT_SECRET) {
   console.error("FATAL ERROR: JWT_SECRET is not defined.");
-  process.exit(1); // Exit if JWT_SECRET is not set
+  process.exit(1);
 }
 
+// Fonction de diagnostic pour lister les modèles disponibles
+const listGeminiModels = async () => {
+  if (!GEMINI_API_KEY) {
+    console.warn("⚠️ DIAGNOSTIC IA: Aucune clé GEMINI_API_KEY trouvée.");
+    return;
+  }
+  
+  try {
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    console.log("🔍 DIAGNOSTIC IA: Recherche des modèles disponibles sur votre compte...");
+    
+    // Note: Dans les versions récentes du SDK, on peut utiliser listModels()
+    // Si listModels n'est pas directement sur genAI, on teste les modèles classiques
+    const models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"];
+    for (const m of models) {
+      try {
+        const testModel = genAI.getGenerativeModel({ model: m });
+        console.log(`📡 Modèle testé : ${m} -> Configuré (en attente de test de contenu)`);
+      } catch (e) {
+        console.log(`❌ Modèle testé : ${m} -> Non supporté`);
+      }
+    }
+  } catch (err: any) {
+    console.error("❌ ERREUR LORS DU DIAGNOSTIC IA:", err.message);
+  }
+};
+
 connectDB();
+listGeminiModels();
 
 const app = express();
 

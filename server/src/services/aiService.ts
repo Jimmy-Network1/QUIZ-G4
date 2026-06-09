@@ -80,13 +80,13 @@ export const generateQuestionsByAI = async (
   prompt += ` Note : Si tu perçois des noms de participants dans le contexte, n'hésite pas à les intégrer avec humour ou défi dans certaines questions.`;
   contentParts.push(prompt);
 
-  console.log(`🧠 Tentative avec Clé: ${GEMINI_API_KEY.substring(0, 4)}***`);
+  console.log(`🧠 Requête IA reçue pour le thème: "${theme}" (Clé: ${GEMINI_API_KEY.substring(0, 4)}***)`);
 
   try {
-    // SOLUTION : Utilisation forcée de l'API v1 (Stable) et des noms de modèles exacts
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }, { apiVersion: 'v1' });
+    // Essai avec le nom court standard
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
-    console.log(`📡 Appel API Gemini (v1)...`);
+    console.log(`📡 Envoi à gemini-1.5-flash...`);
     const result = await model.generateContent(contentParts);
     const response = await result.response;
     const text = response.text();
@@ -94,20 +94,32 @@ export const generateQuestionsByAI = async (
     const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
     return JSON.parse(cleanedText);
   } catch (error: any) {
-    console.error("❌ ERREUR GEMINI (Flash):", error.message);
+    console.error("❌ ÉCHEC Flash 1.5:", error.message);
     
-    // Fallback ultime sur gemini-1.0-pro (Stable)
+    // Fallback sur le nom complet si le nom court échoue
     try {
-      console.log("🔄 Tentative de secours avec gemini-1.0-pro (v1)...");
-      const backupModel = genAI.getGenerativeModel({ model: "gemini-1.0-pro" }, { apiVersion: 'v1' });
-      const result = await backupModel.generateContent(prompt);
+      console.log("🔄 Tentative avec le nom complet models/gemini-1.5-flash...");
+      const backupModel = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
+      const result = await backupModel.generateContent(contentParts);
       const response = await result.response;
       const text = response.text();
       const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
       return JSON.parse(cleanedText);
-    } catch (backupError: any) {
-      console.error("❌ ÉCHEC CRITIQUE IA :", backupError.message);
-      throw new Error(`IA Error: ${backupError.message}`);
+    } catch (error2: any) {
+      console.error("❌ ÉCHEC Nom Complet:", error2.message);
+      
+      // Ultime secours : gemini-pro (v1.0)
+      try {
+        console.log("🆘 ULTIME SECOURS : gemini-pro...");
+        const proModel = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const result = await proModel.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+        return JSON.parse(cleanedText);
+      } catch (error3: any) {
+        throw new Error(`IA ÉCHEC TOTAL: ${error3.message}`);
+      }
     }
   }
 };
