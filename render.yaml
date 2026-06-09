@@ -6,7 +6,7 @@ services:
     buildCommand: cd server && npm install && npm run build
     startCommand: cd server && npm start
     envVars:
-      - key: GEMINI_API_KEY
+      - key: MISTRAL_API_KEY
         sync: false
       - key: MONGO_URL
         value: mongodb+srv://quiz_admin:quiz_password_123@quiz-cluster.vojwkz4.mongodb.net/?retryWrites=true&w=majority

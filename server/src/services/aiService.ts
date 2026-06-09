@@ -1,8 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GEMINI_API_KEY } from "../config/config";
-
-// Initialisation du SDK Google AI
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || "");
+import { MISTRAL_API_KEY } from "../config/config";
 
 export const generateQuestionsByAI = async (
   theme: string, 
@@ -10,116 +6,86 @@ export const generateQuestionsByAI = async (
   fileData?: { data: string; mimeType: string }
 ) => {
   // Mode Démo si pas de clé API
-  if (!GEMINI_API_KEY) {
-    console.warn("GEMINI_API_KEY is missing. Returning mock questions.");
-    return Array(count).fill(null).map((_, i) => ({
-      category: theme || "Analyse Multimodale",
-      type: "multiple",
-      difficulty: "medium",
-      question: `Question ${i + 1} (Mode Démo) : Basé sur l'entrée ${fileData ? 'multimodale' : 'textuelle'} "${theme}", quelle est la notion clé ?`,
-      correct_answer: "Réponse A",
-      incorrect_answers: ["Réponse B", "Réponse C", "Réponse D"],
-      all_answers: ["Réponse A", "Réponse B", "Réponse C", "Réponse D"].sort(() => Math.random() - 0.5)
-    }));
+  if (!MISTRAL_API_KEY) {
+    console.warn("MISTRAL_API_KEY is missing. Returning mock questions.");
+    return generateMockQuestions(theme, count);
   }
 
-  let prompt = `
-    Agis en tant qu'expert pédagogique et maître de jeu créatif. Génère ${count} questions de quiz complexes, dynamiques et variées.
+  // Avertissement Multimodal (Mistral standard est texte uniquement)
+  if (fileData) {
+    console.warn("⚠️ Mistral AI (Text Mode) ne supporte pas nativement l'audio/image dans cette version. Analyse basée sur le thème uniquement.");
+  }
+
+  const prompt = `
+    Agis en tant qu'expert pédagogique et maître de jeu créatif. Génère ${count} questions de quiz complexes, dynamiques et variées sur le thème : "${theme}".
     L'output MUST be in FRENCH.
     
-    CONSIGNE GÉNÉRALE :
-    - Ne te limite pas au milieu scolaire. Adapte-toi au contexte fourni (audio, image ou texte).
-    - Les questions doivent être stimulantes, basées sur l'analyse de détails, la déduction ou la culture générale liée au sujet.
-    - Évite les questions trop simples.
-    
-    STRUCTURE DE SORTIE (JSON UNIQUEMENT) :
+    STRUCTURE DE SORTIE (JSON UNIQUEMENT, pas de texte avant ou après) :
     [{
-      "category": "string",
+      "category": "${theme}",
       "type": "multiple",
-      "difficulty": "easy|medium|hard",
-      "question": "string",
-      "correct_answer": "string",
-      "incorrect_answers": ["string", "string", "string"],
-      "all_answers": ["string", "string", "string", "string"]
+      "difficulty": "medium",
+      "question": "la question ici",
+      "correct_answer": "la bonne réponse",
+      "incorrect_answers": ["fausse1", "fausse2", "fausse3"],
+      "all_answers": ["réponse1", "réponse2", "réponse3", "réponse4"]
     }]
+    
+    IMPORTANT : Mélange bien le tableau "all_answers".
   `;
 
-  const contentParts: any[] = [];
-
-  // Gestion des données simulées pour les tests
-  if (fileData && fileData.data === 'MOCK_AUDIO_BASE64') {
-    console.log("🛠️ Données simulées détectées, retour du mode démo.");
-    return Array(count).fill(null).map((_, i) => ({
-      category: theme || "Démo Vocale",
-      type: "multiple",
-      difficulty: "medium",
-      question: `Question ${i + 1} (Mode Démo) : L'IA a bien reçu ton enregistrement vocal ! Quel est ton objectif ?`,
-      correct_answer: "Réussir mon cours",
-      incorrect_answers: ["Dormir", "Jouer", "Abandonner"],
-      all_answers: ["Réussir mon cours", "Dormir", "Jouer", "Abandonner"].sort(() => Math.random() - 0.5)
-    }));
-  }
-
-  if (fileData) {
-    prompt += ` 
-    CONTEXTE MULTIMODAL :
-    Analyse attentivement le fichier fourni. 
-    - S'il s'agit d'une personne qui parle, base les questions sur son identité, ses propos, son ton ou les informations qu'elle partage.
-    - S'il s'agit d'une image, base les questions sur les éléments visuels, le texte écrit, les symboles ou les concepts suggérés par l'image.
-    - Sois précis et utilise des détails spécifiques au média.`;
-    contentParts.push({
-      inlineData: {
-        data: fileData.data,
-        mimeType: fileData.mimeType
-      }
-    });
-  } else {
-    prompt += ` Thème principal : "${theme}".`;
-  }
-
-  prompt += ` Note : Si tu perçois des noms de participants dans le contexte, n'hésite pas à les intégrer avec humour ou défi dans certaines questions.`;
-  contentParts.push(prompt);
-
-  console.log(`🧠 Requête IA reçue pour le thème: "${theme}" (Clé: ${GEMINI_API_KEY.substring(0, 4)}***)`);
+  console.log(`🧠 Requête Mistral AI reçue pour: "${theme}" (Clé: ${MISTRAL_API_KEY.substring(0, 4)}***)`);
 
   try {
-    // Essai avec le nom court standard
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
-    console.log(`📡 Envoi à gemini-1.5-flash...`);
-    const result = await model.generateContent(contentParts);
-    const response = await result.response;
-    const text = response.text();
-    
-    const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
-    return JSON.parse(cleanedText);
-  } catch (error: any) {
-    console.error("❌ ÉCHEC Flash 1.5:", error.message);
-    
-    // Fallback sur le nom complet si le nom court échoue
-    try {
-      console.log("🔄 Tentative avec le nom complet models/gemini-1.5-flash...");
-      const backupModel = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
-      const result = await backupModel.generateContent(contentParts);
-      const response = await result.response;
-      const text = response.text();
-      const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
-      return JSON.parse(cleanedText);
-    } catch (error2: any) {
-      console.error("❌ ÉCHEC Nom Complet:", error2.message);
-      
-      // Ultime secours : gemini-pro (v1.0)
-      try {
-        console.log("🆘 ULTIME SECOURS : gemini-pro...");
-        const proModel = genAI.getGenerativeModel({ model: "gemini-pro" });
-        const result = await proModel.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
-        const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
-        return JSON.parse(cleanedText);
-      } catch (error3: any) {
-        throw new Error(`IA ÉCHEC TOTAL: ${error3.message}`);
-      }
+    const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${MISTRAL_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "open-mistral-7b", // Modèle rapide et efficace
+        messages: [
+          { role: "user", content: prompt }
+        ],
+        response_format: { type: "json_object" }, // Force le format JSON si supporté
+        temperature: 0.7
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Mistral Error ${response.status}: ${JSON.stringify(errorData)}`);
     }
+
+    const result: any = await response.json();
+    const content = result.choices[0].message.content;
+    
+    // Nettoyage au cas où
+    const cleanedText = content.replace(/```json/g, "").replace(/```/g, "").trim();
+    
+    // Mistral peut parfois renvoyer un objet global au lieu d'un tableau direct
+    let parsed = JSON.parse(cleanedText);
+    if (!Array.isArray(parsed) && (parsed as any).questions) {
+        parsed = (parsed as any).questions;
+    }
+    
+    return parsed;
+
+  } catch (error: any) {
+    console.error("❌ ÉCHEC MISTRAL AI:", error.message);
+    return generateMockQuestions(theme, count);
   }
+};
+
+const generateMockQuestions = (theme: string, count: number) => {
+    return Array(count).fill(null).map((_, i) => ({
+        category: theme || "Secours Mistral",
+        type: "multiple",
+        difficulty: "medium",
+        question: `Question ${i + 1} (Mode Secours) : Basé sur "${theme}", quelle est la notion clé ?`,
+        correct_answer: "La persévérance",
+        incorrect_answers: ["La chance", "L'argent", "Le hasard"],
+        all_answers: ["La persévérance", "La chance", "L'argent", "Le hasard"].sort(() => Math.random() - 0.5)
+    }));
 };

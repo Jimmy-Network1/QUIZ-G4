@@ -7,7 +7,7 @@ dotenv.config();
 export const MONGO_URL =
   process.env.MONGO_URL || "mongodb://localhost:27017/mydatabase";
 export const JWT_SECRET = process.env.JWT_SECRET || "your-default-jwt-secret";
-export const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+export const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY || "";
 export const LOCALHOST_URL = "http://localhost";
 
 // Add validation here if needed
