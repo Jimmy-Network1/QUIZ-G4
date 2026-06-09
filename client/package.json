@@ -49,7 +49,7 @@
     "react-native-vector-icons": "^10.0.0",
     "react-native-view-shot": "^3.7.0",
     "socket.io-client": "^4.5.4",
-    "quiz-g4-wifi-manager": "file:./local_modules/quiz-g4-wifi-manager"
+    "@elsonkjimmy/quiz-g4-wifi-manager": "^1.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -28,6 +28,7 @@ type Route = {
     gameMode: '1v1' | 'tournament';
     categoryId: string;
     questions?: QuestionInterface[];
+    connectionType?: 'wifi' | 'bluetooth';
   };
 };
 
@@ -44,6 +45,7 @@ export default function LocalGameScreen({route}: {route: Route}): JSX.Element {
     gameMode,
     categoryId,
     questions: initialQuestions,
+    connectionType = 'wifi',
   } = route.params;
 
   const [questions, setQuestions] = useState<QuestionInterface[] | null>(
@@ -215,6 +217,4 @@ const styles = StyleSheet.create({
   },
   footer: {paddingBottom: 30},
   quitButton: {marginHorizontal: 0, height: 50, opacity: 0.8},
-});
-height: 50, opacity: 0.8},
 });

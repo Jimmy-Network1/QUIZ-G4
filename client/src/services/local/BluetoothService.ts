@@ -112,8 +112,8 @@ class BluetoothService {
         const message = await this.connectedDevice.read();
         if (message && this.onMessageReceived) {
           try {
-            // Suppression des retours à la ligne éventuels
-            const cleanMessage = message.toString().trim();
+            // Suppression des retours à la ligne éventuels et nettoyage des caractères non-imprimables
+            const cleanMessage = message.toString().replace(/[^\x20-\x7E]/g, '').trim();
             if (cleanMessage) {
               const parsed = JSON.parse(cleanMessage);
               this.onMessageReceived(parsed);

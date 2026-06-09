@@ -19,7 +19,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthenticatedScreens, RootStackParamList} from '../../types/navigation';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import WifiManager from 'quiz-g4-wifi-manager';
+import WifiManager from '@elsonkjimmy/quiz-g4-wifi-manager';
 
 type LocalWifiScanScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -82,7 +82,18 @@ export default function LocalWifiScanScreen({route}: Props): JSX.Element {
       // Pour Android, loadWifiList() renvoie la liste des réseaux détectés
       const wifiList = await WifiManager.loadWifiList();
       
-      const mappedNetworks: WifiNetwork[] = wifiList.map((net: any, index: number) => ({
+      // Filtrer les doublons de SSID (garder le signal le plus fort)
+      const uniqueNetworks = new Map<string, any>();
+      wifiList.forEach((net: any) => {
+        const ssid = net.SSID || 'Réseau masqué';
+        if (ssid === 'Réseau masqué' || !uniqueNetworks.has(ssid) || net.level > uniqueNetworks.get(ssid).level) {
+          uniqueNetworks.set(ssid, net);
+        }
+      });
+
+      const filteredList = Array.from(uniqueNetworks.values());
+
+      const mappedNetworks: WifiNetwork[] = filteredList.map((net: any, index: number) => ({
         id: index.toString(),
         ssid: net.SSID || 'Réseau masqué',
         strength: Math.max(1, Math.min(5, Math.ceil((net.level + 100) / 20))), // Convertit RSSI en 1-5
