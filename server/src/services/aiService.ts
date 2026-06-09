@@ -9,7 +9,6 @@ export const generateQuestionsByAI = async (
   fileData?: { data: string; mimeType: string }
 ) => {
   if (!GEMINI_API_KEY) {
-    // ... (mode démo inchangé pour le texte)
     console.warn("GEMINI_API_KEY is missing. Returning mock questions.");
     return Array(count).fill(null).map((_, i) => ({
       category: theme || "Analyse Multimodale",
@@ -21,8 +20,6 @@ export const generateQuestionsByAI = async (
       all_answers: ["Réponse A", "Réponse B", "Réponse C", "Réponse D"].sort(() => Math.random() - 0.5)
     }));
   }
-
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
   let prompt = `
     Agis en tant qu'expert pédagogique et maître de jeu créatif. Génère ${count} questions de quiz complexes, dynamiques et variées.
@@ -42,13 +39,12 @@ export const generateQuestionsByAI = async (
       "correct_answer": "string",
       "incorrect_answers": ["string", "string", "string"],
       "all_answers": ["string", "string", "string", "string"]
-    }
-    `;
+    }]
+  `;
 
-    const contentParts: any[] = [];
+  const contentParts: any[] = [];
 
-    if (fileData) {
-    // Sécurité : si les données sont simulées (MOCK), on bascule en mode démo
+  if (fileData) {
     if (fileData.data === 'MOCK_AUDIO_BASE64') {
       console.log("🛠️ Données simulées détectées, retour du mode démo.");
       return Array(count).fill(null).map((_, i) => ({
@@ -78,20 +74,32 @@ export const generateQuestionsByAI = async (
     prompt += ` Thème principal : "${theme}".`;
   }
 
-  // Ajout de dynamisme basé sur les participants (si l'info est un jour passée au serveur)
   prompt += ` Note : Si tu perçois des noms de participants dans le contexte, n'hésite pas à les intégrer avec humour ou défi dans certaines questions.`;
-
   contentParts.push(prompt);
 
-  try {
+  console.log(`🧠 Tentative de génération avec Gemini... (Clé: ${GEMINI_API_KEY.substring(0, 4)}***)`);
+
+  const tryGenerate = async (modelName: string) => {
+    console.log(`📡 Essai avec le modèle: ${modelName}`);
+    const model = genAI.getGenerativeModel({ model: modelName });
     const result = await model.generateContent(contentParts);
     const response = await result.response;
-    const text = response.text();
+    return response.text();
+  };
+
+  try {
+    let text = "";
+    try {
+      text = await tryGenerate("gemini-1.5-flash");
+    } catch (flashError: any) {
+      console.warn("⚠️ Flash 1.5 a échoué, tentative avec Pro 1.0...");
+      text = await tryGenerate("gemini-pro");
+    }
+    
     const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
     return JSON.parse(cleanedText);
   } catch (error: any) {
-    console.error("❌ ERREUR GEMINI PRÉCISE :", error);
-    // On renvoie l'erreur réelle pour comprendre (ex: API_KEY_INVALID)
+    console.error("❌ ÉCHEC TOTAL IA :", error);
     throw new Error(`Gemini Error: ${error.message || "Unknown error"}`);
   }
 };
