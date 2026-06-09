@@ -40,14 +40,16 @@ export async function createRoom(
     const roomId = await saveRoomInDatabase(category, userId, userName);
 
     if (roomId) {
+      // Envoyer l'objet complet pour que le lobby puisse l'afficher
       socket.emit(SocketEvents.CREATE_ROOM, {
+        _id: roomId,
         roomId: userId,
         userName,
         category,
       });
     }
 
-    return roomId; // TODO: the room id is not in use
+    return roomId;
   } catch (error) {
     console.error('Failed to create room');
   }

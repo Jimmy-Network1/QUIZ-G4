@@ -100,6 +100,7 @@ export default function LocalBluetoothScreen(): JSX.Element {
                 gameMode: msg.gameMode,
                 categoryId: 'all',
                 questions: msg.questions,
+                connectionType: 'bluetooth',
               });
             }
           });
@@ -136,6 +137,7 @@ export default function LocalBluetoothScreen(): JSX.Element {
         gameMode: '1v1',
         categoryId: 'all',
         questions: questions,
+        connectionType: 'bluetooth',
       });
     } else {
       showAlert({

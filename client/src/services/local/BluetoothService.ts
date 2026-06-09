@@ -66,7 +66,11 @@ class BluetoothService {
 
   async connectToDevice(device: BluetoothDevice) {
     try {
-      const connected = await device.connect();
+      // Options de connexion robustes pour Android
+      const connected = await device.connect({
+        connectorType: 'rfcomm',
+        secure: true,
+      });
       if (connected) {
         this.connectedDevice = device;
         this.startReading();
@@ -80,9 +84,11 @@ class BluetoothService {
 
   async acceptConnection() {
     try {
+      console.log('📡 Serveur Bluetooth en attente...');
       const device = await BluetoothClassic.accept({
         serviceName: 'KnowarQuiz',
-        serviceUuid: '00001101-0000-1000-8000-00805F9B34FB', // Standard SPP UUID
+        serviceUuid: '00001101-0000-1000-8000-00805F9B34FB', // SPP Standard
+        acceptTimeout: 30000, // Attendre 30 secondes
       });
       if (device) {
         this.connectedDevice = device;
@@ -90,7 +96,7 @@ class BluetoothService {
       }
       return device;
     } catch (err) {
-      console.error('Accept failed', err);
+      console.warn('Accept timeout or failed');
       return null;
     }
   }
@@ -100,19 +106,26 @@ class BluetoothService {
       return;
     }
 
+    console.log('📖 Démarrage de la lecture Bluetooth...');
     while (this.connectedDevice) {
       try {
         const message = await this.connectedDevice.read();
         if (message && this.onMessageReceived) {
           try {
-            const parsed = JSON.parse(message.toString());
-            this.onMessageReceived(parsed);
+            // Suppression des retours à la ligne éventuels
+            const cleanMessage = message.toString().trim();
+            if (cleanMessage) {
+              const parsed = JSON.parse(cleanMessage);
+              this.onMessageReceived(parsed);
+            }
           } catch (e) {
-            console.log('Raw message received:', message);
+            console.log('Non-JSON message received:', message);
           }
         }
+        // Petit délai pour ne pas bloquer le thread principal
+        await new Promise(resolve => setTimeout(resolve, 100));
       } catch (err) {
-        console.log('Disconnected or read error');
+        console.log('Bluetooth connection lost');
         this.connectedDevice = null;
         break;
       }

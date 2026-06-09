@@ -42,9 +42,10 @@ export default function LocalWifiMenuScreen(): JSX.Element {
                   title="Partie 1 contre 1"
                   onPress={() =>
                     navigation.navigate(
-                      AuthenticatedScreens.LocalWifiHostScreen,
+                      AuthenticatedScreens.LocalWifiScanScreen,
                       {
                         gameMode: '1v1',
+                        isHost: true,
                       },
                     )
                   }
@@ -55,9 +56,10 @@ export default function LocalWifiMenuScreen(): JSX.Element {
                   variant="bluish"
                   onPress={() =>
                     navigation.navigate(
-                      AuthenticatedScreens.LocalWifiHostScreen,
+                      AuthenticatedScreens.LocalWifiScanScreen,
                       {
                         gameMode: 'tournament',
+                        isHost: true,
                       },
                     )
                   }
@@ -73,9 +75,10 @@ export default function LocalWifiMenuScreen(): JSX.Element {
                   title="Rejoindre une partie 1v1"
                   onPress={() =>
                     navigation.navigate(
-                      AuthenticatedScreens.LocalWifiJoinScreen,
+                      AuthenticatedScreens.LocalWifiScanScreen,
                       {
                         gameMode: '1v1',
+                        isHost: false,
                       },
                     )
                   }
@@ -86,9 +89,10 @@ export default function LocalWifiMenuScreen(): JSX.Element {
                   variant="bluish"
                   onPress={() =>
                     navigation.navigate(
-                      AuthenticatedScreens.LocalWifiJoinScreen,
+                      AuthenticatedScreens.LocalWifiScanScreen,
                       {
                         gameMode: 'tournament',
+                        isHost: false,
                       },
                     )
                   }

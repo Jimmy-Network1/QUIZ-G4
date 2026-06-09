@@ -16,6 +16,7 @@ export enum AuthenticatedScreens {
   LocalWifiMenuScreen = 'LocalWifiMenuScreen',
   LocalWifiHostScreen = 'LocalWifiHostScreen',
   LocalWifiJoinScreen = 'LocalWifiJoinScreen',
+  LocalWifiScanScreen = 'LocalWifiScanScreen',
   LocalGameScreen = 'LocalGameScreen',
   LocalBluetoothScreen = 'LocalBluetoothScreen',
 }
@@ -44,6 +45,7 @@ export type RootStackParamList = {
   [AuthenticatedScreens.LocalWifiMenuScreen]: undefined;
   [AuthenticatedScreens.LocalWifiHostScreen]: {gameMode: '1v1' | 'tournament'};
   [AuthenticatedScreens.LocalWifiJoinScreen]: {gameMode: '1v1' | 'tournament'};
+  [AuthenticatedScreens.LocalWifiScanScreen]: {gameMode: '1v1' | 'tournament'; isHost: boolean};
   [AuthenticatedScreens.LocalGameScreen]: LocalGameScreenParams;
   [AuthenticatedScreens.LocalBluetoothScreen]: undefined;
   [UnauthenticatedScreens.LoginScreen]: undefined;

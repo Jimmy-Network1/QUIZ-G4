@@ -2,9 +2,9 @@ import { Socket } from "socket.io";
 import Room from "../../models/Room";
 
 export const registerRoomHandlers = (socket: Socket) => {
-  socket.on("create_room", (roomId) => {
-    socket.broadcast.emit("new_room_available", roomId);
-    console.log("room created");
+  socket.on("create_room", (roomData) => {
+    socket.broadcast.emit("new_room_available", roomData);
+    console.log("Room created and broadcasted:", roomData.userName);
   });
 
   socket.on("join_room", (roomId) => {

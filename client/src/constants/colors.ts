@@ -4,6 +4,7 @@ export const colorList = {
   neonPink: '#FA2398',
   electricBlue: '#0278FF',
   vibrantCyan: '#00F2FF',
+  vibrantGold: '#FFD700',
   softPink: '#FB79D7',
   glowingYellow: '#FFEA1F',
   darkBackgroundBlue: '#0B0235',

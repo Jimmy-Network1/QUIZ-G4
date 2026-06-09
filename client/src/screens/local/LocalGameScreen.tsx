@@ -81,7 +81,13 @@ export default function LocalGameScreen({route}: {route: Route}): JSX.Element {
     isAnswered,
     handleOptionPress,
     handleTimeElapsed,
-  } = useLocalGameLogic(questions, isHost, gameMode, onGameOver);
+  } = useLocalGameLogic(
+    questions,
+    isHost,
+    gameMode,
+    onGameOver,
+    connectionType,
+  );
 
   const handleLeave = () => {
     LocalP2PService.disconnect();
@@ -209,4 +215,6 @@ const styles = StyleSheet.create({
   },
   footer: {paddingBottom: 30},
   quitButton: {marginHorizontal: 0, height: 50, opacity: 0.8},
+});
+height: 50, opacity: 0.8},
 });

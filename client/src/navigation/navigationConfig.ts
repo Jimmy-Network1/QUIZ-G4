@@ -16,6 +16,7 @@ import {
 import LocalWifiMenuScreen from '../screens/local/LocalWifiMenuScreen';
 import LocalWifiHostScreen from '../screens/local/LocalWifiHostScreen';
 import LocalWifiJoinScreen from '../screens/local/LocalWifiJoinScreen';
+import LocalWifiScanScreen from '../screens/local/LocalWifiScanScreen';
 import LocalGameScreen from '../screens/local/LocalGameScreen';
 import LocalBluetoothScreen from '../screens/local/LocalBluetoothScreen';
 import {
@@ -56,6 +57,10 @@ export const authenticatedScreens = [
   {
     name: AuthenticatedScreens.LocalWifiJoinScreen,
     component: LocalWifiJoinScreen,
+  },
+  {
+    name: AuthenticatedScreens.LocalWifiScanScreen,
+    component: LocalWifiScanScreen,
   },
   {name: AuthenticatedScreens.LocalGameScreen, component: LocalGameScreen},
   {
