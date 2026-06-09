@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GEMINI_API_KEY } from "../config/config";
 
+// Initialisation du SDK Google AI
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || "");
 
 export const generateQuestionsByAI = async (
@@ -8,6 +9,7 @@ export const generateQuestionsByAI = async (
   count: number = 10, 
   fileData?: { data: string; mimeType: string }
 ) => {
+  // Mode Démo si pas de clé API
   if (!GEMINI_API_KEY) {
     console.warn("GEMINI_API_KEY is missing. Returning mock questions.");
     return Array(count).fill(null).map((_, i) => ({
@@ -44,20 +46,21 @@ export const generateQuestionsByAI = async (
 
   const contentParts: any[] = [];
 
-  if (fileData) {
-    if (fileData.data === 'MOCK_AUDIO_BASE64') {
-      console.log("🛠️ Données simulées détectées, retour du mode démo.");
-      return Array(count).fill(null).map((_, i) => ({
-        category: theme || "Démo Vocale",
-        type: "multiple",
-        difficulty: "medium",
-        question: `Question ${i + 1} (Mode Démo) : L'IA a bien reçu ton enregistrement vocal ! Quel est ton objectif ?`,
-        correct_answer: "Réussir mon cours",
-        incorrect_answers: ["Dormir", "Jouer", "Abandonner"],
-        all_answers: ["Réussir mon cours", "Dormir", "Jouer", "Abandonner"].sort(() => Math.random() - 0.5)
-      }));
-    }
+  // Gestion des données simulées pour les tests
+  if (fileData && fileData.data === 'MOCK_AUDIO_BASE64') {
+    console.log("🛠️ Données simulées détectées, retour du mode démo.");
+    return Array(count).fill(null).map((_, i) => ({
+      category: theme || "Démo Vocale",
+      type: "multiple",
+      difficulty: "medium",
+      question: `Question ${i + 1} (Mode Démo) : L'IA a bien reçu ton enregistrement vocal ! Quel est ton objectif ?`,
+      correct_answer: "Réussir mon cours",
+      incorrect_answers: ["Dormir", "Jouer", "Abandonner"],
+      all_answers: ["Réussir mon cours", "Dormir", "Jouer", "Abandonner"].sort(() => Math.random() - 0.5)
+    }));
+  }
 
+  if (fileData) {
     prompt += ` 
     CONTEXTE MULTIMODAL :
     Analyse attentivement le fichier fourni. 
@@ -77,29 +80,34 @@ export const generateQuestionsByAI = async (
   prompt += ` Note : Si tu perçois des noms de participants dans le contexte, n'hésite pas à les intégrer avec humour ou défi dans certaines questions.`;
   contentParts.push(prompt);
 
-  console.log(`🧠 Tentative de génération avec Gemini... (Clé: ${GEMINI_API_KEY.substring(0, 4)}***)`);
-
-  const tryGenerate = async (modelName: string) => {
-    console.log(`📡 Essai avec le modèle: ${modelName}`);
-    const model = genAI.getGenerativeModel({ model: modelName });
-    const result = await model.generateContent(contentParts);
-    const response = await result.response;
-    return response.text();
-  };
+  console.log(`🧠 Tentative avec Clé: ${GEMINI_API_KEY.substring(0, 4)}***`);
 
   try {
-    let text = "";
-    try {
-      text = await tryGenerate("gemini-1.5-flash");
-    } catch (flashError: any) {
-      console.warn("⚠️ Flash 1.5 a échoué, tentative avec Pro 1.0...");
-      text = await tryGenerate("gemini-pro");
-    }
+    // SOLUTION : Utilisation forcée de l'API v1 (Stable) et des noms de modèles exacts
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }, { apiVersion: 'v1' });
+    
+    console.log(`📡 Appel API Gemini (v1)...`);
+    const result = await model.generateContent(contentParts);
+    const response = await result.response;
+    const text = response.text();
     
     const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
     return JSON.parse(cleanedText);
   } catch (error: any) {
-    console.error("❌ ÉCHEC TOTAL IA :", error);
-    throw new Error(`Gemini Error: ${error.message || "Unknown error"}`);
+    console.error("❌ ERREUR GEMINI (Flash):", error.message);
+    
+    // Fallback ultime sur gemini-1.0-pro (Stable)
+    try {
+      console.log("🔄 Tentative de secours avec gemini-1.0-pro (v1)...");
+      const backupModel = genAI.getGenerativeModel({ model: "gemini-1.0-pro" }, { apiVersion: 'v1' });
+      const result = await backupModel.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+      return JSON.parse(cleanedText);
+    } catch (backupError: any) {
+      console.error("❌ ÉCHEC CRITIQUE IA :", backupError.message);
+      throw new Error(`IA Error: ${backupError.message}`);
+    }
   }
 };
